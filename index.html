@@ -117,8 +117,8 @@ td.best{font-weight:700}
 .keypanel a{color:var(--setsuna)}
 .keypanel .err{color:var(--eriri)}
 /* desktop pet */
-.lab{position:relative;margin-top:72px!important}
-.pet{position:absolute;top:-64px;right:14px;width:112px;z-index:3}
+.lab{position:relative;margin-top:118px!important}
+.pet{position:absolute;top:-112px;right:14px;width:112px;z-index:3}
 .pet .stand{display:block;width:100%;aspect-ratio:3/4;padding:0;border:4px solid #fff;border-radius:16px;overflow:hidden;cursor:pointer;background:var(--panel);
   box-shadow:0 0 0 2px var(--c),0 12px 26px rgba(0,0,0,.28);transform-origin:50% 100%;animation:petFloat 3.4s ease-in-out infinite;transition:filter .3s,box-shadow .3s}
 .pet .stand img{width:100%;height:100%;object-fit:cover;display:block}
@@ -147,7 +147,7 @@ td.best{font-weight:700}
 @keyframes petPoke{0%{transform:scale(1)}30%{transform:scale(1.12,.86)}60%{transform:scale(.94,1.08)}100%{transform:scale(1)}}
 @keyframes petFx{from{transform:translate(0,0) scale(.6);opacity:1}to{transform:translate(var(--dx),-80px) scale(1.25);opacity:0}}
 .modes{padding-right:126px}
-@media (max-width:520px){.pet{width:80px;top:-48px;right:10px}.lab{margin-top:56px!important}.modes{padding-right:90px}.modes button{min-width:0}.pet .bub{top:2px}}
+@media (max-width:520px){.pet{width:78px;top:-80px;right:10px}.lab{margin-top:90px!important}.modes{padding-right:88px}.modes button{min-width:0}.pet .bub{top:2px}}
 @media (prefers-reduced-motion: reduce){.pet .stand{animation:none!important}.pet .fx{display:none}}
 .lab{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:16px;margin:20px 0}
 .who{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
@@ -743,7 +743,7 @@ function renderTab(){
     if(!rendered[cur].length)rendered[cur].push({kind:'them',who:cur,text:H[cur].hello});
   }
   rendered[cur].forEach(m=>bubble(m.kind,m.text,m.who));
-  setPet(cur);
+  setPet(cur);buildChips();
   box.placeholder=cur==='party'?'对她们三个说点什么…':'对'+H[cur].name+'说点什么…';
 }
 function buildWho(){
@@ -755,8 +755,15 @@ function buildWho(){
     b.onclick=()=>{if(busy)return;cur=k;[...w.children].forEach(x=>x.setAttribute('aria-pressed',x===b));renderTab()};
     w.appendChild(b);
   });
-  ['今天是我生日！','你觉得自己是败犬吗？','我是不是注定单身','给我讲讲强化学习','你们谁最喜欢我？','唱首歌吧','喵～'].forEach(t=>{
-    const b=document.createElement('button');b.type='button';b.textContent=t;b.onclick=()=>{if(!busy){box.value=t;send()}};$('chips').appendChild(b)});
+}
+const CHIPS={
+  solo:['今天是我生日！','你觉得自己是败犬吗？','我是不是注定单身','给我讲讲强化学习','唱首歌吧','喵～'],
+  party:['你们谁最喜欢我？','你们互相评价一下','给我的新一岁一句祝福','如果我是男主，你们选谁？','一起去卡拉OK吧！','今晚吃火锅，谁请客？'],
+};
+function buildChips(){
+  const c=$('chips');c.textContent='';
+  CHIPS[cur==='party'?'party':'solo'].forEach(t=>{
+    const b=document.createElement('button');b.type='button';b.textContent=t;b.onclick=()=>{if(!busy){box.value=t;send()}};c.appendChild(b)});
 }
 function setBusy(v){busy=v;go.disabled=v;stopBtn.hidden=!(v&&isLive())}
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
@@ -947,15 +954,7 @@ function startFx(){
   })(last);
 }
 
-const LETTER=`便便：
-
-二十四岁生日快乐！
-
-愿今年的实验都收敛，batch 永远够大，投出去的每一篇稿子都能等来一封 Accept。
-
-至于感情上那些 loss，只是还没调到对的 learning rate。三位败犬女主都替你作证：输过的人，往往最懂得怎么好好爱人。而且根据推论 1，好的人永远不会被忘记。
-
-这一篇，谁都拦不住。生日快乐！`;
+const LETTER=`生日快乐！`;
 let blown=false;
 $('cake').onclick=()=>{
   if(blown)return;blown=true;$('cake').classList.add('out');$('hint').textContent='愿望已提交，审稿结果：一定会实现 ✨';
@@ -978,7 +977,7 @@ function showBlessings(){
 }
 function typeLetter(){
   const l=$('letter'),out=$('letterText');l.hidden=false;requestAnimationFrame(()=>l.classList.add('on'));
-  const sig='\n\n—— Anonymous Author（双盲评审，不透露姓名）';
+  const sig='\n—— Anonymous Author（双盲评审，不透露姓名）';
   if(reduce){out.textContent=LETTER+sig;$('caret').hidden=true;return}
   let i=0;const full=LETTER+sig;
   (function tick(){out.textContent=full.slice(0,i);i+=1;if(i<=full.length)setTimeout(tick,full[i-1]==='\n'?120:45);else $('caret').hidden=true})();
