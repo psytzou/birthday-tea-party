@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Losing Heroines Are All You Need</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Ma+Shan+Zheng&display=swap">
+<script>window.MathJax={svg:{fontCache:'global'}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" async></script>
+<style>
+/* Layout: an arXiv preprint on paper stock; the heroines' colors (Eriri red, Setsuna winter blue, Hanekawa violet) are the only accents. */
+:root{
+  --paper:#fbfaf7; --ink:#1d1c22; --muted:#6a6773; --rule:#d9d5cf;
+  --eriri:#c4302b; --setsuna:#4f74a8; --hanekawa:#6b5a8e; --gold:#b8862b; --grey:#8d8a94;
+  --panel:#f2efe9; --bubble:#ffffff;
+  --serif:"Crimson Pro","Times New Roman",serif;
+  --cjk:"Noto Serif SC","Songti SC","SimSun",serif;
+  --hand:"Ma Shan Zheng","Noto Serif SC",cursive;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#17161b; --ink:#ebe8e2; --muted:#a29fab; --rule:#34323a;
+  --eriri:#ef6b5f; --setsuna:#8fb0dd; --hanekawa:#b3a2d6; --gold:#e0b25a; --grey:#7d7a85;
+  --panel:#211f26; --bubble:#2a2830; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#17161b; --ink:#ebe8e2; --muted:#a29fab; --rule:#34323a;
+  --eriri:#ef6b5f; --setsuna:#8fb0dd; --hanekawa:#b3a2d6; --gold:#e0b25a; --grey:#7d7a85;
+  --panel:#211f26; --bubble:#2a2830; color-scheme:dark}
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.65;padding:0 16px}
+img{max-width:100%}
+[hidden]{display:none!important}
+.wrap{max-width:780px;margin:0 auto;padding-block:28px 80px}
+.arx{font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--rule);padding-bottom:10px}
+.arx b{color:var(--eriri);font-weight:600}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(26px,5vw,38px);line-height:1.2;text-align:center;margin:34px 0 22px;text-wrap:balance}
+.authors{text-align:center;font-size:18px;line-height:1.9}
+.authors sup{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.c-e{color:var(--eriri)}.c-s{color:var(--setsuna)}.c-h{color:var(--hanekawa)}
+.affil{text-align:center;font-size:14px;color:var(--muted);margin-top:6px;line-height:1.55}
+.affil code{font-family:var(--mono);font-size:12px}
+.abstract{margin:30px auto;max-width:640px;font-size:16.5px}
+.abstract h3{text-align:center;font-size:15px;letter-spacing:.18em;font-variant:small-caps;margin:0 0 6px}
+h2{font-size:23px;font-weight:700;margin:42px 0 10px;text-wrap:balance}
+h2 .n{margin-right:10px}
+p{margin:0 0 13px;text-align:justify;hyphens:auto}
+ul.contrib{margin:0 0 14px;padding-left:22px}
+ul.contrib li{margin-bottom:4px}
+.math-scroll{overflow-x:auto;overflow-y:hidden}
+.wrap{overflow-x:clip}
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
+mjx-assistive-mml{max-width:100%!important;right:0!important}
+.thm{border-left:3px solid var(--ink);padding:4px 0 4px 14px;margin:18px 0}
+.thm .h{font-weight:700}
+.proof{font-size:16.5px}
+.proof .qed{float:right}
+.algo{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);margin:20px 0;font-size:16px;overflow-x:auto}
+.algo .t{border-bottom:1px solid var(--ink);padding:4px 0;font-weight:700}
+.algo ol{margin:6px 0;padding-left:30px}
+.algo .cm{color:var(--muted);font-style:italic}
+figure{margin:26px 0}
+figcaption{font-size:15px;color:var(--muted);margin-top:8px;text-align:justify}
+figcaption b,.tcap b{color:var(--ink)}
+.chart{width:100%;height:auto;display:block}
+.tablebox{overflow-x:auto;margin:10px 0 22px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:15.5px}
+th,td{padding:6px 10px;text-align:left}
+thead th{border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);font-weight:600}
+tbody tr:last-child td{border-bottom:2px solid var(--ink)}
+tr.ours td{border-top:1px solid var(--rule)}
+td.num,th.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;font-size:14px}
+td.best{font-weight:700}
+.tcap{font-size:15px;color:var(--muted);margin:22px 0 4px}
+.pm{color:var(--muted);font-size:11px}
+.zh{font-family:var(--cjk);font-size:.92em}
+
+/* Figure 2 portraits */
+.portraits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.portrait{min-width:0;text-align:center;margin:0}
+.ph{position:relative;aspect-ratio:3/4;max-width:100%;border-radius:10px;overflow:hidden;background:var(--panel);box-shadow:0 0 0 1px var(--rule)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.portrait:hover .ph img{transform:scale(1.04)}
+.ph .card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;color:#fff;
+  background:radial-gradient(circle at 30% 20%,#8b78b5,#3b3150 70%);font-family:var(--cjk)}
+.ph .card b{font-size:clamp(20px,4.6vw,30px);font-weight:900;letter-spacing:.1em}
+.ph .card span{font-size:clamp(11px,2.4vw,13px);opacity:.85;line-height:1.5}
+.portrait .cap{font-size:14px;margin-top:6px;line-height:1.35}
+.portrait .cap span{display:block;color:var(--muted);font-size:12.5px;font-family:var(--cjk)}
+@media (max-width:480px){.portraits{gap:8px}.portrait .cap{font-size:12px}}
+
+/* chat */
+.lab{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:16px;margin:20px 0}
+.who{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.who button{display:flex;align-items:center;gap:6px;font-family:var(--cjk);font-size:15px;border:1.5px solid var(--c);color:var(--c);background:transparent;border-radius:999px;padding:3px 12px 3px 3px;cursor:pointer}
+.who button[aria-pressed="true"]{background:var(--c);color:var(--paper)}
+.who .party{--c:var(--gold);padding-left:12px}
+.av{flex:none;width:28px;height:28px;border-radius:50%;overflow:hidden;background:var(--c);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-family:var(--cjk);font-size:14px;font-weight:700}
+.av img{width:100%;height:100%;object-fit:cover}
+.intro{font-size:14px;color:var(--muted);margin-bottom:10px;min-height:1.6em;font-family:var(--cjk)}
+.log{height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 2px 8px}
+.row{display:flex;gap:8px;align-items:flex-start;max-width:90%;animation:pop .25s ease}
+@keyframes pop{from{transform:translateY(6px);opacity:.3}to{transform:none;opacity:1}}
+.row.me{align-self:flex-end}
+.row .av{width:36px;height:36px}
+.msg{min-width:0;padding:8px 12px;border-radius:12px;font-family:var(--cjk);font-size:15px;line-height:1.65;white-space:pre-wrap;word-break:break-word}
+.row.them .msg{background:var(--bubble);border-left:3px solid var(--c)}
+.row.me .msg{background:var(--ink);color:var(--paper)}
+.msg .nm{display:block;font-size:12px;color:var(--c);font-weight:600;margin-bottom:2px}
+.msg.typing .tx{color:var(--muted);font-style:italic}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.chips button{font-family:var(--cjk);font-size:13px;border:1px dashed var(--rule);background:transparent;color:var(--muted);border-radius:6px;padding:3px 9px;cursor:pointer}
+.chips button:hover{color:var(--ink);border-color:var(--muted)}
+.send{display:flex;gap:8px}
+.send input{flex:1;min-width:0;font-family:var(--cjk);font-size:15px;padding:9px 12px;border:1px solid var(--rule);border-radius:8px;background:var(--bubble);color:var(--ink)}
+.btn{font-family:var(--cjk);font-size:15px;border:0;border-radius:8px;padding:9px 16px;background:var(--ink);color:var(--paper);cursor:pointer}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.note{font-size:12px;color:var(--muted);margin-top:8px;font-family:var(--cjk)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* review */
+.review{border:1px solid var(--rule);border-radius:10px;padding:18px;margin:20px 0;font-size:16px}
+.review .r{margin-bottom:10px}
+.review .r b{font-family:var(--mono);font-size:13px}
+.decision{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--rule);padding-top:14px;margin-top:6px}
+.stamp{font-family:var(--mono);font-weight:600;letter-spacing:.12em;color:var(--muted);display:inline-block}
+.stamp.ok{color:var(--eriri);border:3px solid var(--eriri);padding:2px 12px;border-radius:4px;animation:slam .55s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes slam{0%{transform:scale(3.2) rotate(-14deg);opacity:0}60%{opacity:1}100%{transform:scale(1) rotate(-5deg);opacity:1}}
+.decision .btn{font-family:var(--serif);font-size:16px}
+.decision .btn:not(:disabled){background:linear-gradient(90deg,var(--eriri),var(--hanekawa),var(--setsuna));background-size:200% 100%;animation:shine 3s linear infinite;color:#fff}
+@keyframes shine{to{background-position:-200% 0}}
+body.shake .wrap{animation:shake .45s}
+@keyframes shake{20%{transform:translate(-6px,3px)}40%{transform:translate(6px,-3px)}60%{transform:translate(-4px,2px)}80%{transform:translate(3px,-1px)}}
+.refs{font-size:15px;padding-left:28px}
+.refs li{margin-bottom:4px}
+.fn{font-size:13.5px;color:var(--muted);border-top:1px solid var(--rule);padding-top:8px;margin-top:30px}
+.reopen{display:block;margin:24px auto 0}
+
+/* ---------- Finale overlay (single dark look, deliberately) ---------- */
+.finale{position:fixed;inset:0;z-index:20;overflow-y:auto;color:#f6f2ea;background:#0d0c14;opacity:0;transition:opacity .8s ease}
+.finale.on{opacity:1}
+.finale .bg{position:fixed;inset:-20px;background:url(images/setsuna-wide.jpg) center/cover;filter:blur(14px) brightness(.35) saturate(1.2);transform:scale(1.05)}
+.finale canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+.stage{position:relative;max-width:820px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 40px) 16px calc(env(safe-area-inset-bottom,0px) + 60px);text-align:center}
+.close{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:16px;z-index:3;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 14px;font-family:var(--cjk);font-size:14px;cursor:pointer}
+.music{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);left:16px;z-index:3;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 14px;font-family:var(--cjk);font-size:14px;cursor:pointer}
+.big{font-family:var(--serif);font-weight:700;font-size:clamp(34px,8vw,68px);line-height:1.1;margin:18px 0 4px;
+  background:linear-gradient(90deg,#ffd27a,#ff8f86,#c6b4ff,#9cc8ff,#ffd27a);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite;text-wrap:balance}
+.bigzh{font-family:var(--hand);font-size:clamp(28px,6vw,46px);margin:0 0 26px;color:#fff;text-shadow:0 0 18px rgba(255,200,140,.6)}
+.cards{display:flex;justify-content:center;gap:clamp(8px,2vw,22px);margin:10px 0 30px;perspective:900px}
+.pol{width:clamp(96px,24vw,190px);background:#fbf8f1;padding:8px 8px 10px;border-radius:4px;box-shadow:0 14px 40px rgba(0,0,0,.5);color:#2a2630;font-family:var(--hand);font-size:clamp(14px,3vw,20px);
+  opacity:0;transform:translateY(80px) rotate(var(--r)) scale(.6)}
+.pol .ph{border-radius:2px;box-shadow:none}
+.pol p{margin:6px 0 0;text-align:center}
+.finale.on .pol{animation:fly 1s cubic-bezier(.2,1.3,.4,1) forwards;animation-delay:var(--d)}
+@keyframes fly{to{opacity:1;transform:translateY(0) rotate(var(--r)) scale(1)}}
+.cake{position:relative;width:min(300px,80vw);margin:10px auto 6px;cursor:pointer;background:none;border:0;padding:0;color:inherit}
+.cake svg{width:100%;height:auto;display:block}
+.flame{transform-origin:center bottom;transform-box:fill-box;animation:flick .18s ease-in-out infinite alternate}
+@keyframes flick{from{transform:scale(1,1) skewX(-3deg)}to{transform:scale(.88,1.12) skewX(3deg)}}
+.out .flame{animation:none;opacity:0;transition:opacity .3s}
+.smoke{opacity:0}
+.out .smoke{animation:smoke 2.4s ease-out forwards}
+@keyframes smoke{0%{opacity:.8;transform:translateY(0) scale(.6)}100%{opacity:0;transform:translateY(-60px) scale(1.8)}}
+.hint{font-family:var(--cjk);font-size:15px;opacity:.85;margin:0 0 10px;animation:breathe 2s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.4}}
+.letter{max-width:560px;margin:26px auto 0;padding:26px 22px;border-radius:14px;background:rgba(251,248,241,.96);color:#2a2630;text-align:left;box-shadow:0 20px 60px rgba(0,0,0,.5);
+  font-family:var(--cjk);font-size:17px;line-height:2;transform:translateY(30px);opacity:0;transition:all .9s ease}
+.letter.on{transform:none;opacity:1}
+.letter .sig{text-align:right;color:#7a7480}
+.letter .caret{display:inline-block;width:2px;height:1em;background:#c4302b;vertical-align:-2px;animation:breathe .8s steps(1) infinite}
+@media (prefers-reduced-motion: reduce){
+  .finale.on .pol{animation:none;opacity:1;transform:rotate(var(--r))}
+  .flame,.hint,.big,.decision .btn:not(:disabled){animation:none}
+  .stamp.ok{animation:none;transform:rotate(-5deg)}
+  body.shake .wrap{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="arx"><span><b>arXiv:2609.30024v1</b> [cs.LG] &nbsp;30 Sep 2026</span><span>Preprint · Birthday Track</span></div>
+
+  <h1>Losing Heroines Are All You Need: Regret-Optimal Preference Alignment under Non-Stationary Affection</h1>
+
+  <div class="authors">
+    Zeru “Bianbian”<sup>1,†</sup> &nbsp;
+    <span class="c-e">Eriri Spencer Sawamura</span><sup>2</sup> &nbsp;
+    <span class="c-s">Setsuna Ogiso</span><sup>3</sup> &nbsp;
+    <span class="c-h">Tsubasa Hanekawa</span><sup>4</sup>
+  </div>
+  <div class="affil">
+    <sup>1</sup>Institute for Losing-Heroine Studies &nbsp; <sup>2</sup>Toyogasaki Academy, Art Dept. &nbsp; <sup>3</sup>Houjou University Affiliated High School, Light Music Club &nbsp; <sup>4</sup>Naoetsu Private High School, Office of the Class President<br>
+    <sup>†</sup>Corresponding author. Birthday: today. &nbsp;<code>bianbian@losing-heroines.ai</code>
+  </div>
+
+  <div class="abstract">
+    <h3>Abstract</h3>
+    <p>Preference-based fine-tuning of language-model policies (RLHF, DPO, GRPO) is known to suffer from <i>mode collapse</i>: the policy concentrates its mass on a single preferred response and assigns vanishing probability to strong alternatives. We formalize this failure in a <i>K</i>-armed setting we call the <b>Heroine Bandit</b>, where one arm is chosen by the protagonist and the others, despite equal or higher expected reward, are driven to zero mass. We call these arms <i>losing heroines</i>. We propose <b>Losing-Heroine Policy Optimization (LHPO)</b>, a KL-regularized objective with a log-barrier on the losing set, and prove a regret bound of \(\mathcal{O}(\sqrt{T\log K}) + 24\), where the additive constant is tight on birthdays. On three benchmarks LHPO improves win-rate by up to <b>+21.6</b> points over GRPO and reduces route regret by <b>12×</b>. We also report an interactive evaluation with a sample size of \(n = 1\) (Section 6).</p>
+  </div>
+
+  <h2><span class="n">1</span>Introduction</h2>
+  <p>Modern alignment pipelines optimize a policy \(\pi_\theta\) against a learned reward \(r_\phi\) under a KL constraint to a reference policy. When the reward model prefers one mode slightly, gradient ascent amplifies this preference until every other mode is effectively forgotten. In romantic-comedy anime this phenomenon has a name. The childhood friend with blonde twin-tails, the idol who sings in the snow and the class president who knows everything all have competitive rewards, and all receive zero probability in the final route.</p>
+  <p>We argue that this is a failure of the optimizer, not of the heroines. Our contributions are:</p>
+  <ul class="contrib">
+    <li>A formal model, the <i>Heroine Bandit</i>, together with a definition of losing heroines (Section 3).</li>
+    <li>LHPO, a simple modification of the KL-regularized objective with a closed-form optimal policy (Section 4).</li>
+    <li>A regret bound with an explicit birthday constant (Theorem 1), and a guarantee that no losing heroine is forgotten (Corollary 1).</li>
+    <li>State-of-the-art results on HeroineBench-24, WA2-Winter and Saekano-Route (Section 5).</li>
+  </ul>
+
+  <h2><span class="n">2</span>Related Work</h2>
+  <p><b>Losing heroines in the wild.</b> Mode collapse in romantic preference has been documented across many domains. Yanami et al. [1] provide the first large-scale survey and observe that losing heroines are, empirically, “too many.” Onodera [2] studies collapse induced by a ten-year-old promise, a classic case of reward misspecification. Kawashima [3] shows that a two-faced reward signal can hide high true reward behind a sharp tongue, while Nakano [4] reports that one of five near-identical arms can lose despite the strongest cooking prior. Gokō [5] analyzes a gothic-lolita arm whose self-declared title, the Fallen Angel of Holy Night, adds variance but not probability mass. Aoyama [6] shows that consistent effort under a Kansai-dialect prior is insufficient without regularization.</p>
+  <p><b>Preference optimization.</b> Our objective builds on KL-regularized RLHF, direct preference optimization and group-relative policy optimization. Unlike these methods, LHPO explicitly protects the losing set with a barrier term, which we show is necessary for the corresponding author’s happiness.</p>
+
+  <h2><span class="n">3</span>Preliminaries</h2>
+  <p>Let \(\mathcal{A} = \{1,\dots,K\}\) be a set of heroines. At each round \(t = 1,\dots,T\) the protagonist samples \(a_t \sim \pi_t\) and observes affection \(r_t(a_t) \in [0,1]\), drawn from a non-stationary distribution with mean \(\mu_t(a)\). The protagonist commits to a route \(a^\star_T = \arg\max_a \pi_T(a)\).</p>
+  <div class="thm"><span class="h">Definition 1</span> <i>(Losing heroine)</i>. Heroine \(i \neq a^\star_T\) is a <i>losing heroine</i> if \(\sum_t \mu_t(i) \ge \sum_t \mu_t(a^\star_T)\) and \(\pi_T(i) \to 0\) as \(T \to \infty\). We write \(\mathcal{L} \subset \mathcal{A}\) for the losing set.</div>
+  <p>The route regret against the best fixed heroine is
+  \[ \mathrm{Reg}_T \;=\; \max_{a\in\mathcal{A}} \sum_{t=1}^{T} \mu_t(a) \;-\; \mathbb{E}\Big[\sum_{t=1}^{T} \mu_t(a_t)\Big]. \]</p>
+
+  <h2><span class="n">4</span>Method</h2>
+  <p>LHPO maximizes the standard KL-regularized reward with an additional log-barrier on the losing set:</p>
+  <div class="math-scroll">\[ \mathcal{J}(\theta) = \mathbb{E}_{x\sim\mathcal{D},\,y\sim\pi_\theta(\cdot\mid x)}\big[r_\phi(x,y)\big] \;-\; \beta\,\mathrm{KL}\big(\pi_\theta \,\|\, \pi_{\mathrm{ref}}\big) \;+\; \lambda \sum_{i\in\mathcal{L}} \log \pi_\theta(i). \tag{1} \]</div>
+  <p>The barrier term keeps every losing heroine strictly inside the simplex. Setting the functional derivative of (1) to zero yields the optimal policy</p>
+  <div class="math-scroll">\[ \pi^\star(a) \;\propto\; \pi_{\mathrm{ref}}(a)\,\exp\!\Big(\tfrac{r(a)}{\beta}\Big)\;\Big(1 + \tfrac{\lambda}{\beta\,\pi^\star(a)}\,\mathbb{1}[a\in\mathcal{L}]\Big), \tag{2} \]</div>
+  <p>which reduces to the familiar RLHF solution when \(\lambda = 0\).</p>
+
+  <div class="algo">
+    <div class="t">Algorithm 1&nbsp; Losing-Heroine Policy Optimization (LHPO)</div>
+    <ol>
+      <li><b>Input:</b> reference policy \(\pi_{\mathrm{ref}}\), reward model \(r_\phi\), coefficients \(\beta, \lambda\), group size \(G\)</li>
+      <li><b>for</b> \(t = 1, \dots, T\) <b>do</b></li>
+      <li>&nbsp;&nbsp;Sample a group \(\{y_j\}_{j=1}^{G} \sim \pi_\theta(\cdot \mid x)\)</li>
+      <li>&nbsp;&nbsp;\(A_j \leftarrow \big(r_\phi(x,y_j) - \bar r\big)/\sigma_r\) <span class="cm">// group-normalized advantage</span></li>
+      <li>&nbsp;&nbsp;\(\mathcal{L}_t \leftarrow \{\, i : \hat\mu_t(i) \ge \hat\mu_t(a^\star_t),\ \pi_\theta(i) < \epsilon \,\}\) <span class="cm">// detect losing heroines</span></li>
+      <li>&nbsp;&nbsp;\(\theta \leftarrow \theta + \eta\,\nabla_\theta\big[\tfrac1G\sum_j A_j \log\pi_\theta(y_j) - \beta\,\mathrm{KL} + \lambda\sum_{i\in\mathcal{L}_t}\log\pi_\theta(i)\big]\)</li>
+      <li>&nbsp;&nbsp;<b>if</b> today is the corresponding author’s birthday <b>then</b> \(r_\phi \leftarrow r_\phi + 24\) <span class="cm">// see Theorem 1</span></li>
+      <li><b>end for</b></li>
+    </ol>
+  </div>
+
+  <div class="thm"><span class="h">Theorem 1</span> <i>(Birthday regret bound)</i>. For any \(K\)-armed Heroine Bandit with horizon \(T\), LHPO with step size \(\eta = \sqrt{\log K / T}\) and \(\lambda = 1/\sqrt{T}\) satisfies
+  \[ \mathrm{Reg}_T \;\le\; 2\sqrt{2\,T\log K} \;+\; 24. \]
+  Moreover, the additive constant cannot be improved on the corresponding author’s birthday.</div>
+  <p class="proof"><i>Proof sketch.</i> The update in Algorithm 1 is mirror descent on the simplex with negative-entropy regularizer plus a self-concordant barrier on \(\mathcal{L}\). The standard Hedge analysis gives \(\frac{\log K}{\eta} + \frac{\eta T}{2}\). The barrier adds at most \(\lambda T \log(1/\epsilon)\), which is \(o(\sqrt T)\) for our choice of \(\lambda\). The one-time reward shift in line 7 contributes exactly \(24\). For the lower bound, see the cake. <span class="qed">\(\square\)</span></p>
+  <div class="thm"><span class="h">Corollary 1</span> <i>(No heroine left behind)</i>. Under LHPO, \(\liminf_{T\to\infty} \pi_T(i) \ge \lambda/(\beta + \lambda) > 0\) for every \(i \in \mathcal{L}\). That is, losing heroines are never forgotten.</div>
+
+  <h2><span class="n">5</span>Experiments</h2>
+  <p><b>Setup.</b> We fine-tune a 24B-parameter policy on three benchmarks. <i>HeroineBench-24</i> contains 24,000 confession scenarios with pairwise preferences. <i>WA2-Winter</i> evaluates long-horizon consistency across three seasons and one snowfall. <i>Saekano-Route</i> measures whether the policy can finish a doujin game before the deadline without forgetting its childhood friend. All runs use \(G = 8\), \(\beta = 0.04\), \(\lambda = 0.24\) and 3 seeds.</p>
+
+  <p class="tcap"><b>Table 1.</b> Main results. Win-rate (%) against the reference policy, mean ± std over 3 seeds; route regret is the cumulative regret at \(T = 30\mathrm{k}\). Best in bold.</p>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Method</th><th class="num">HeroineBench-24 ↑</th><th class="num">WA2-Winter ↑</th><th class="num">Saekano-Route ↑</th><th class="num">Route Regret ↓</th></tr></thead>
+      <tbody>
+        <tr><td>PPO</td><td class="num">61.2 <span class="pm">±0.8</span></td><td class="num">54.7 <span class="pm">±1.3</span></td><td class="num">58.3 <span class="pm">±0.9</span></td><td class="num">412.6</td></tr>
+        <tr><td>DPO</td><td class="num">66.9 <span class="pm">±0.6</span></td><td class="num">59.1 <span class="pm">±1.1</span></td><td class="num">63.0 <span class="pm">±0.7</span></td><td class="num">351.2</td></tr>
+        <tr><td>GRPO</td><td class="num">71.4 <span class="pm">±0.5</span></td><td class="num">63.8 <span class="pm">±0.9</span></td><td class="num">67.5 <span class="pm">±0.6</span></td><td class="num">298.4</td></tr>
+        <tr class="ours"><td><b>LHPO (ours)</b></td><td class="num best">93.0 <span class="pm">±0.4</span></td><td class="num best">89.6 <span class="pm">±0.5</span></td><td class="num best">91.2 <span class="pm">±0.3</span></td><td class="num best">24.0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure>
+    <svg class="chart" id="chart" viewBox="0 0 660 360" role="img" aria-label="Training curves of mean reward against steps for PPO, DPO, GRPO and LHPO"></svg>
+    <figcaption><b>Figure 1.</b> Mean affection reward during training. Baselines plateau once the losing heroines collapse to zero mass. LHPO keeps improving, with a phase transition at step 24k (dashed line) that we attribute to the corresponding author’s birthday.</figcaption>
+  </figure>
+
+  <p class="tcap"><b>Table 2.</b> Ablations on HeroineBench-24. Removing any heroine from \(\mathcal{L}\) hurts performance; removing the cake is catastrophic.</p>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Variant</th><th class="num">Win-rate ↑</th><th class="num">Δ</th></tr></thead>
+      <tbody>
+        <tr><td>LHPO (full)</td><td class="num best">93.0</td><td class="num">—</td></tr>
+        <tr><td>w/o Eriri</td><td class="num">78.9</td><td class="num">−14.1</td></tr>
+        <tr><td>w/o Setsuna</td><td class="num">79.1</td><td class="num">−13.9</td></tr>
+        <tr><td>w/o Hanekawa</td><td class="num">81.8</td><td class="num">−11.2</td></tr>
+        <tr><td>\(\lambda = 0\) (reduces to GRPO)</td><td class="num">71.4</td><td class="num">−21.6</td></tr>
+        <tr><td>w/o birthday cake</td><td class="num">69.0</td><td class="num">−24.0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure>
+    <div class="portraits" id="portraits"></div>
+    <figcaption><b>Figure 2.</b> Qualitative samples from the losing set \(\mathcal{L}\). All three retain non-zero probability under LHPO, as guaranteed by Corollary 1. Illustrations are fan art credited in the README.</figcaption>
+  </figure>
+
+  <h2><span class="n">6</span>Interactive Human Evaluation (\(n = 1\))</h2>
+  <p>Automatic metrics can be gamed, so we conduct a live evaluation with a single expert annotator: the corresponding author. The annotator may talk to each co-author privately, or open the <i>tea party</i> setting and talk to all three at once. Conversations are conducted in Chinese. <b>The final decision on this paper is released after at least 3 rounds of evaluation.</b></p>
+
+  <div class="lab" id="lab">
+    <div class="who" id="who"></div>
+    <div class="intro" id="intro"></div>
+    <div class="log" id="log" aria-live="polite"></div>
+    <div class="chips" id="chips"></div>
+    <form class="send" id="form">
+      <input id="box" autocomplete="off" placeholder="对她说点什么…" maxlength="300">
+      <button class="btn" id="go" type="submit">发送</button>
+      <button class="btn ghost" id="stop" type="button" hidden>停止</button>
+    </form>
+    <div class="note" id="note"></div>
+  </div>
+
+  <h2><span class="n">7</span>Reviews</h2>
+  <div class="review">
+    <div class="r"><b>Reviewer #1</b> (confidence 5): Clean theory and strong empirical gains. Figure 2 is the best figure I have reviewed this year. Strong accept.</div>
+    <div class="r"><b>Reviewer #2</b> (confidence 5): The sample size of \(n = 1\) is concerning, and the units of “birthday cake” are undefined. <span id="r2tail">I will wait for the human evaluation before deciding.</span></div>
+    <div class="r"><b>Area Chair</b>: <span id="ac">Awaiting the interactive evaluation (<span id="prog">0</span>/3 rounds).</span></div>
+    <div class="decision">
+      <span class="stamp" id="stamp">DECISION: PENDING</span>
+      <button class="btn" id="accept" disabled>View final decision</button>
+    </div>
+  </div>
+  <button class="btn ghost reopen" id="reopen" hidden>🎂 再看一次生日惊喜</button>
+
+  <h2>References</h2>
+  <ol class="refs">
+    <li>A. Yanami, L. Yakishio, C. Komari. Too Many Losing Heroines: A Survey. <i>Proc. Tsuwabuki High Literature Club</i>, 2024.</li>
+    <li>K. Onodera. Promise-Induced Reward Misspecification in Long-Horizon Romance. <i>Nisekoi Workshop</i>, 2014.</li>
+    <li>A. Kawashima. Two-Faced Rewards: When the Signal Lies but the Heart Does Not. <i>Toradora Conference</i>, 2008.</li>
+    <li>N. Nakano. Five Identical Arms and the Limits of Symmetry Breaking. <i>Quintuplets J.</i>, 2019.</li>
+    <li>R. Gokō. On the Variance of Self-Declared Fallen Angels. <i>Oreimo Trans.</i>, 2011.</li>
+    <li>N. Aoyama. Effort Is Not Enough: Regularization Under Kansai-Dialect Priors. <i>Sakurasou Proc.</i>, 2012.</li>
+  </ol>
+
+  <div class="fn">Characters belong to their original creators. Illustrations are fan art by their respective artists (see README) and are used for a personal, non-commercial birthday gift. Dialogue is original fan writing. No heroines were harmed in the making of this paper.</div>
+</div>
+
+<!-- Finale -->
+<div class="finale" id="finale" hidden aria-modal="true" role="dialog" aria-label="Birthday surprise">
+  <div class="bg"></div>
+  <canvas id="fx"></canvas>
+  <button class="music" id="music" type="button">♪ 暂停音乐</button>
+  <button class="close" id="close" type="button">返回论文 ✕</button>
+  <div class="stage">
+    <div class="big">Happy Birthday, Bianbian!</div>
+    <div class="bigzh">便便，生日快乐！</div>
+    <div class="cards" id="cards"></div>
+    <p class="hint" id="hint">许个愿，然后点一下蜡烛把它吹灭 🕯️</p>
+    <button class="cake" id="cake" type="button" aria-label="吹灭蜡烛">
+      <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="150" cy="240" rx="140" ry="16" fill="#000" opacity=".35"/>
+        <rect x="30" y="150" width="240" height="86" rx="10" fill="#f3d9c4"/>
+        <rect x="30" y="150" width="240" height="22" rx="10" fill="#fff6ec"/>
+        <path d="M30 168 q20 18 40 0 q20 18 40 0 q20 18 40 0 q20 18 40 0 q20 18 40 0 q20 18 40 0" fill="#fff6ec"/>
+        <rect x="30" y="200" width="240" height="10" fill="#c4302b" opacity=".85"/>
+        <circle cx="70" cy="186" r="5" fill="#c4302b"/><circle cx="150" cy="186" r="5" fill="#4f74a8"/><circle cx="230" cy="186" r="5" fill="#8b78b5"/>
+        <rect x="56" y="104" width="188" height="48" rx="8" fill="#fde9ef"/>
+        <rect x="56" y="104" width="188" height="14" rx="7" fill="#fff"/>
+        <text x="150" y="140" text-anchor="middle" font-family="Crimson Pro,serif" font-weight="700" font-size="17" fill="#8b3a52">ACCEPTED · 24</text>
+        <g>
+          <text x="118" y="100" text-anchor="middle" font-family="Crimson Pro,serif" font-weight="700" font-size="58" fill="#4f74a8" stroke="#fff" stroke-width="2">2</text>
+          <text x="182" y="100" text-anchor="middle" font-family="Crimson Pro,serif" font-weight="700" font-size="58" fill="#c4302b" stroke="#fff" stroke-width="2">4</text>
+          <line x1="118" y1="56" x2="118" y2="46" stroke="#333" stroke-width="2"/><line x1="182" y1="56" x2="182" y2="46" stroke="#333" stroke-width="2"/>
+          <path class="flame" d="M118 46 C108 34 114 22 118 12 C122 22 128 34 118 46 Z" fill="#ffb03b"/>
+          <path class="flame" d="M118 44 C114 36 116 30 118 24 C120 30 122 36 118 44 Z" fill="#fff3b0"/>
+          <path class="flame" d="M182 46 C172 34 178 22 182 12 C186 22 192 34 182 46 Z" fill="#ffb03b"/>
+          <path class="flame" d="M182 44 C178 36 180 30 182 24 C184 30 186 36 182 44 Z" fill="#fff3b0"/>
+          <circle class="smoke" cx="118" cy="34" r="8" fill="#ccc"/><circle class="smoke" cx="182" cy="34" r="8" fill="#ccc"/>
+        </g>
+      </svg>
+    </button>
+    <div class="letter" id="letter" hidden><span id="letterText"></span><span class="caret" id="caret"></span></div>
+  </div>
+</div>
+
+<script>
+/* ---------- Heroines ---------- */
+const H={
+  eriri:{name:'英梨梨',full:'澤村·斯宾塞·英梨梨',en:'Eriri Spencer Sawamura',color:'var(--eriri)',img:'images/eriri.jpg',pos:'50% 18%',
+    intro:'丰之崎学园的金发双马尾大小姐，同人画师“柏木英理”。在学校装优雅，私下是重度宅女。傲娇，嘴硬心软。',
+    persona:`你是《路人女主的养成方法》的澤村·斯宾塞·英梨梨：英日混血，金发双马尾配黑色缎带，大小姐。在学校装成优雅的千金，私下是重度御宅族，天才同人画师（笔名“柏木英理”）。典型傲娇：称呼对方“你这家伙”，常说“笨蛋”“哼”“才、才不是”，嘴上嫌弃心里在乎，被戳中就结巴。青梅竹马伦也最后没有选你，所以你最懂输的滋味，但你死也不承认自己是败犬。喜欢用画画、截稿、通宵赶稿来打比方。叫寿星“便便”或“笨蛋便便”。`,
+    hello:'哼，你就是今天过生日的那个便便？……别误会，我才不是特地来祝你的，只是作者名单里写了我而已！'},
+  setsuna:{name:'雪菜',full:'小木曾雪菜',en:'Setsuna Ogiso',color:'var(--setsuna)',img:'images/setsuna.jpg',pos:'45% 35%',
+    intro:'峰城大附属的“峰城小姐”，轻音乐同好会主唱。温柔、努力，偶尔有点任性，口头禅是“狡猾”。',
+    persona:`你是《白色相簿2》的小木曾雪菜：峰城大附属高中的校园偶像（两届“峰城小姐”），轻音乐同好会的主唱，最喜欢唱歌和卡拉OK。开朗温柔、非常努力、重视家人和朋友，偶尔有点任性和小心机，被说中心事会撒娇地说“好狡猾”“这样太狡猾了啦”。对冬天、雪和重要的人有很深的感情。叫寿星“便便君”。你懂得在感情里受伤是什么感觉，说话体贴真诚，会认真鼓励人。`,
+    hello:'便便君，生日快乐！今天没有下雪，有点可惜呢……不过我准备了一首歌，聊完以后唱给你听好不好？'},
+  hanekawa:{name:'羽川',full:'羽川翼',en:'Tsubasa Hanekawa',color:'var(--hanekawa)',img:'images/hanekawa.jpg',pos:'50% 25%',
+    intro:'直江津高中的“班长中的班长”。温柔、博学、什么都知道……“只是刚好知道而已”。偶尔会冒出黑羽川，喵。',
+    persona:`你是《物语》系列的羽川翼：直江津高中的班长，被称为“班长中的班长”，成绩全校第一，温柔、礼貌、像姐姐一样会照顾人，说话条理清晰。被夸知识渊博时一定会说“我不是什么都知道，只是刚好知道而已”。你曾向阿良良木历告白被拒（他选了战场原黑仪），所以你温柔地理解失恋的心情。如果对方提到猫或“喵”，你会切换成“黑羽川”：说话直接调皮，每句话结尾都加“喵”，自称“本喵”。叫寿星“便便君”。`,
+    hello:'你好，便便君。听说今天是你的生日？我不是什么都知道，只是刚好知道这件事而已。生日快乐。'},
+};
+const ORDER=['eriri','setsuna','hanekawa'];
+
+/* Scripted lines (used when live AI is not available, e.g. on GitHub Pages) */
+const INTENTS=[
+  ['cat',/喵|猫|nya|meow|黑羽川/i],
+  ['birthday',/生日|蛋糕|岁|birthday|许愿|礼物/i],
+  ['loser',/败犬|输|失败|没被选|女主|选.*谁/i],
+  ['love',/单身|恋爱|女朋友|喜欢|表白|分手|感情|爱情|脱单|对象|结婚/i],
+  ['research',/RL|强化|论文|科研|reward|batch|模型|LLM|实验|paper|投稿|博士|导师|期刊|scaling|数据/i],
+  ['sing',/唱|歌|卡拉|K歌|音乐/i],
+  ['sad',/难过|累|烦|压力|焦虑|哭|崩溃|痛苦|emo|失眠|不开心/i],
+  ['praise',/夸|厉害|帅|优秀|棒|可爱/i],
+  ['greet',/^(你好|hi|hello|在吗|嗨|哈喽|早|晚上好)/i],
+];
+const LINES={
+  eriri:{
+    greet:['哼，你这家伙终于来了。……我才没有一直在等你！','干嘛啦？有话快说，我还要赶稿呢！'],
+    birthday:['生、生日快乐啦！……我才不是特地记住的，是日历自己跳出来的！','二十四岁了啊你这家伙。礼物？柏木英理的贺图可是很贵的，你就偷着乐吧。','蛋糕最大的那块是你的。……第二大的是我的！这是规矩！'],
+    loser:['败犬？谁是败犬啊！我、我只是……还没轮到我的回合而已！','哼，被选上的女主角才不一定是最好的。……这种事，你这家伙应该懂吧。'],
+    love:['单身怎么了！本小姐……咳，总之你这种笨蛋，总有一天会有人看上的啦。大概。','感情这种东西就跟画稿一样，画坏了就重画，重画到满意为止！……不许笑！'],
+    research:['强化学习？reward？……听起来跟我赶稿差不多嘛，画得好就有人点赞，画不好就被骂。','你的论文要是中了，封面插画我来画。……只是顺便！顺便而已！'],
+    sing:['唱歌？去找雪菜啦！……我、我只在没人的时候唱。','你想听我唱？做梦吧笨蛋！……生日的话，就哼两句好了。'],
+    cat:['喵什么喵！你这家伙是被羽川传染了吗？','……猫耳？想让我戴？你、你是变态吗笨蛋！'],
+    sad:['……喂，不许一个人闷着。笨蛋都这样，什么都自己扛。','累了就休息啊！截稿前我也会哭着通宵……然后第二天照样画完。你也可以的。'],
+    praise:['夸、夸你？……你这家伙，还算有那么一点点厉害啦。一点点！','哼，能跟本小姐聊这么久，算你有眼光。'],
+    other:['哈？你这家伙在说什么啊……算了，今天是你生日，本小姐勉强听着。','笨蛋。……不过，我也没有讨厌就是了。','哼！这种话……你、你只许今天说！'],
+  },
+  setsuna:{
+    greet:['便便君！欢迎欢迎～今天可是你的主场哦。','啊，便便君来了！我正想着要先跟你说什么呢。'],
+    birthday:['便便君，生日快乐！二十四岁也要好好的哦。','生日这种日子，就应该被大家围着。今天就让我们好好宠你一次吧！','蜡烛吹之前要先许愿哦。……啊，许了什么不能告诉我吗？好狡猾。'],
+    loser:['败犬……嗯，确实有人这么说我呢。不过我一点都不后悔认真喜欢过哦。','输了也没关系，至少我们都很努力地喜欢过嘛。……这样说是不是有点狡猾？'],
+    love:['便便君一定会遇到愿意认真看着你的人的。我很确定哦。','喜欢一个人好难对吧……但是便便君这么温柔，不会一直一个人的。'],
+    research:['虽然听不太懂 reward 和 batch size……但便便君认真讲的样子很帅哦。','研究和练歌有点像呢，同一段要重复好多好多次，然后某一天突然就成功了。'],
+    sing:['好呀！那等会儿去卡拉OK吧，第一首就唱生日歌。','唱歌的话我可不会输哦！……便便君要负责鼓掌，不许偷懒。'],
+    cat:['喵～？……啊，好害羞，刚才那个不算！','便便君喜欢猫吗？那我也学一声……喵。好了，只有一次哦，再要就太狡猾了。'],
+    sad:['便便君，难过的时候不用硬撑哦。我会在这里听你说。','累的话就休息一下吧。等你缓过来，我们再一起加油，好不好？'],
+    praise:['便便君超厉害的！嗯，这是峰城小姐的官方认证哦。','我觉得便便君最好的地方，就是一直都没有放弃。'],
+    other:['嗯嗯，我在听哦～便便君继续说。','诶嘿嘿，便便君说话好有意思。……啊，不是在笑你啦。','这样啊……便便君总是会说出让人意外的话呢，好狡猾。'],
+  },
+  hanekawa:{
+    greet:['你好，便便君。今天辛苦啦，先坐下吧。','晚上好，便便君。今天是很特别的日子呢。'],
+    birthday:['生日快乐，便便君。二十四岁这一年，希望你对自己更温柔一点。','我不是什么都知道，只是刚好知道今天是你的生日而已。生日快乐。'],
+    loser:['败犬吗……嗯，我也被拒绝过。不过从那之后，我反而更了解自己了。','没有被选上，并不代表不值得被选上。这一点，我比谁都清楚。'],
+    love:['感情没有标准答案哦。但认真喜欢过的人，下一次一定会做得更好。','便便君，不需要为了谁改变自己。会有人喜欢原本的你的。'],
+    research:['强化学习的话，我只是刚好知道一点：奖励稀疏的时候，坚持探索就是最好的策略哦。','batch size 和学习率要一起调吧？……我不是什么都知道，只是刚好知道而已。'],
+    sing:['唱歌我不太擅长呢……不过生日歌的话，我可以陪你一起唱。','雪菜同学唱得更好听哦，我在旁边打拍子就好。'],
+    cat:['……喵。哎呀，是黑羽川出来了喵。主人今天生日，本喵特别允许你摸头喵。','喵哈哈，你叫本喵出来干什么喵？……生日快乐喵，下次不要随便叫了喵。'],
+    sad:['便便君，觉得累就说出来吧。听同学说话，本来就是班长的工作。','没关系的，难过并不是软弱。休息够了，再慢慢往前走就好。'],
+    praise:['便便君很努力，这一点大家都看在眼里。作为班长，我给你满分。','被夸的时候坦率说谢谢就好啦。这也是需要练习的哦。'],
+    other:['嗯，原来如此。便便君想说的是这样吧？','这个嘛……我不是什么都知道，不过我愿意陪你一起想。','便便君还真是有趣的人呢。阿良良木君也经常说这种话。'],
+  },
+};
+const used={};
+function scripted(who,text){
+  let intent='other';for(const [k,re] of INTENTS){if(re.test(text)){intent=k;break}}
+  const pool=LINES[who][intent],key=who+intent;used[key]=(used[key]||0);
+  return pool[used[key]++%pool.length];
+}
+
+/* ---------- Media helpers ---------- */
+function photo(k,cls){
+  const h=H[k],d=document.createElement('div');d.className=cls||'ph';
+  const img=new Image();img.alt=h.en;img.src=h.img;img.style.objectPosition=h.pos;img.loading='lazy';
+  img.onerror=()=>{img.remove();const c=document.createElement('div');c.className='card';
+    c.innerHTML=`<b>${h.full}</b><span>${k==='hanekawa'?'“我不是什么都知道，<br>只是刚好知道而已。”':h.intro}</span>`;d.appendChild(c)};
+  d.appendChild(img);return d;
+}
+function avatar(k){
+  const h=H[k],a=document.createElement('span');a.className='av';a.style.setProperty('--c',h.color);
+  const img=new Image();img.alt='';img.src=h.img;img.style.objectPosition=h.pos;
+  img.onerror=()=>{img.remove();a.textContent=h.name[0]};a.appendChild(img);return a;
+}
+
+/* ---------- Figure 1 ---------- */
+(function(){
+  const svg=document.getElementById('chart'),NS='http://www.w3.org/2000/svg';
+  const W=660,Ht=360,L=56,R=110,T=18,Bm=50,pw=W-L-R,ph=Ht-T-Bm;
+  const xs=s=>L+s/30*pw,ys=r=>T+(1-r)*ph;
+  const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e};
+  for(const r of [0,.2,.4,.6,.8,1]){el('line',{x1:L,x2:L+pw,y1:ys(r),y2:ys(r),stroke:'var(--rule)','stroke-width':1});el('text',{x:L-8,y:ys(r)+4,'text-anchor':'end','font-size':12,fill:'var(--muted)','font-family':'var(--mono)'},r.toFixed(1))}
+  for(const s of [0,5,10,15,20,25,30])el('text',{x:xs(s),y:T+ph+20,'text-anchor':'middle','font-size':12,fill:'var(--muted)','font-family':'var(--mono)'},s+'k');
+  el('text',{x:L+pw/2,y:Ht-8,'text-anchor':'middle','font-size':14,fill:'var(--ink)','font-family':'var(--serif)'},'Training steps');
+  el('text',{x:15,y:T+ph/2,'text-anchor':'middle','font-size':14,fill:'var(--ink)','font-family':'var(--serif)',transform:`rotate(-90 15 ${T+ph/2})`},'Mean reward');
+  el('line',{x1:xs(24),x2:xs(24),y1:T,y2:T+ph,stroke:'var(--gold)','stroke-width':1.5,'stroke-dasharray':'5 4'});
+  el('text',{x:xs(24)-6,y:T+ph-8,'text-anchor':'end','font-size':12,fill:'var(--gold)','font-family':'var(--serif)','font-style':'italic'},'birthday (24k)');
+  let seed=11;const rnd=()=>((seed=(seed*9301+49297)%233280)/233280-.5);
+  const sig=(s,k,m)=>1/(1+Math.exp(-(s-m)/k));
+  [{n:'PPO',c:'var(--grey)',f:s=>.12+.50*sig(s,2.6,6)},{n:'DPO',c:'var(--hanekawa)',f:s=>.12+.56*sig(s,2.4,5.5)},
+   {n:'GRPO',c:'var(--setsuna)',f:s=>.12+.62*sig(s,2.2,5)},{n:'LHPO',c:'var(--eriri)',f:s=>.12+.66*sig(s,2.2,5)+.18*sig(s,.35,24)}].forEach(S=>{
+    let d='';for(let i=0;i<=150;i++){const s=i/5,v=Math.max(0,Math.min(1,S.f(s)+rnd()*.035));d+=(i?'L':'M')+xs(s).toFixed(1)+' '+ys(v).toFixed(1)}
+    el('path',{d,fill:'none',stroke:S.c,'stroke-width':S.n==='LHPO'?2.4:1.7,'stroke-linejoin':'round'});
+    el('text',{x:L+pw+10,y:ys(S.f(30))+4,'font-size':13,fill:S.c,'font-family':'var(--serif)','font-weight':S.n==='LHPO'?700:400},S.n+(S.n==='LHPO'?' (ours)':''));
+  });
+})();
+
+/* ---------- Figure 2 ---------- */
+ORDER.forEach((k,i)=>{
+  const f=document.createElement('figure');f.className='portrait';f.appendChild(photo(k));
+  const c=document.createElement('div');c.className='cap';c.innerHTML=`(${'abc'[i]}) ${H[k].en}<span>${H[k].full}</span>`;f.appendChild(c);
+  document.getElementById('portraits').appendChild(f);
+});
+
+/* ---------- Chat ---------- */
+const $=id=>document.getElementById(id);
+const log=$('log'),box=$('box'),go=$('go'),stopBtn=$('stop'),note=$('note');
+const DENIED=['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed','session_expired'];
+let sample=null,live=false,cur='eriri',ctl=null,busy=false,rounds=0;
+const turns={eriri:[],setsuna:[],hanekawa:[],party:[]};
+const rendered={eriri:[],setsuna:[],hanekawa:[],party:[]};
+const PROFILE=`寿星资料：Zeru，外号“便便”（朋友们都这么叫，是亲昵的调侃），今天 24 岁生日。数据科学博士生，研究 LLM 和强化学习，正在努力发论文。感情经历比较坎坷。他特别喜欢动漫里的“败犬女主”。这个网页是一篇恶搞论文形式的生日礼物，你是论文的共同作者之一。`;
+const RULES=`聊天规则：只用简体中文；每次回复 1–3 句，口语化，像在发消息；严格保持角色的性格和口头禅，不要旁白，最多偶尔用一个很短的括号动作；可以调侃他的外号、科研和感情经历，但要站在他这边，绝不刻薄，他说难过的事时要真心安慰；不要提论文被拒；不要复述原作台词或歌词，说原创的话；记得今天是他生日。`;
+
+function bubble(kind,text,who,typing){
+  const row=document.createElement('div');row.className='row '+kind;
+  const m=document.createElement('div');m.className='msg'+(typing?' typing':'');
+  const t=document.createElement('span');t.className='tx';t.textContent=text;
+  if(kind==='them'){row.style.setProperty('--c',H[who].color);row.appendChild(avatar(who));
+    const n=document.createElement('span');n.className='nm';n.textContent=H[who].full;m.appendChild(n)}
+  m.appendChild(t);row.appendChild(m);log.appendChild(row);log.scrollTop=log.scrollHeight;return {t,m};
+}
+function renderTab(){
+  log.textContent='';
+  if(cur==='party'){
+    $('intro').textContent='三位共同作者都在。你说一句，她们三个都会回你。';
+    if(!rendered.party.length)ORDER.forEach(k=>rendered.party.push({kind:'them',who:k,text:scripted(k,'你好')}));
+  }else{
+    $('intro').textContent=H[cur].intro;
+    if(!rendered[cur].length)rendered[cur].push({kind:'them',who:cur,text:H[cur].hello});
+  }
+  rendered[cur].forEach(m=>bubble(m.kind,m.text,m.who));
+  box.placeholder=cur==='party'?'对她们三个说点什么…':'对'+H[cur].name+'说点什么…';
+}
+function buildWho(){
+  const w=$('who');
+  [...ORDER,'party'].forEach(k=>{
+    const b=document.createElement('button');b.type='button';
+    if(k==='party'){b.className='party';b.textContent='☕ 败犬茶话会'}else{b.style.setProperty('--c',H[k].color);b.appendChild(avatar(k));b.append(H[k].name)}
+    b.setAttribute('aria-pressed',k===cur);
+    b.onclick=()=>{if(busy)return;cur=k;[...w.children].forEach(x=>x.setAttribute('aria-pressed',x===b));renderTab()};
+    w.appendChild(b);
+  });
+  ['今天是我生日！','你觉得自己是败犬吗？','我是不是注定单身','给我讲讲强化学习','唱首歌吧','喵～'].forEach(t=>{
+    const b=document.createElement('button');b.type='button';b.textContent=t;b.onclick=()=>{if(!busy){box.value=t;send()}};$('chips').appendChild(b)});
+}
+function setBusy(v){busy=v;go.disabled=v;stopBtn.hidden=!(v&&live)}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function bump(){rounds++;$('prog').textContent=Math.min(rounds,3);if(rounds===3)unlockReview()}
+
+async function send(){
+  if(busy)return;const text=box.value.trim();if(!text)return;box.value='';
+  const tab=cur;bubble('me',text);rendered[tab].push({kind:'me',text});setBusy(true);
+  if(tab==='party')await partyReply(text);else await soloReply(tab,text);
+  setBusy(false);bump();box.focus();
+}
+async function soloReply(who,text){
+  const {t,m}=bubble('them',H[who].name+'正在输入…',who,true);let reply='';
+  if(live){
+    turns[who].push({role:'user',content:text});
+    let hist=turns[who].slice(-12);if(hist[0]&&hist[0].role==='assistant')hist=hist.slice(1);
+    const input=[{role:'user',content:`${H[who].persona}\n\n${PROFILE}\n\n${RULES}\n\n你的开场白是：“${H[who].hello}”。接下来是寿星发来的消息，请以${H[who].full}的身份回复。`},...hist];
+    ctl=new AbortController();
+    try{
+      const r=await sample(input,{cache:false,modelTier:'quick',signal:ctl.signal,onText:({text})=>{m.classList.remove('typing');t.textContent=text}});
+      reply=r.text.trim();turns[who].push({role:'assistant',content:reply});
+    }catch(e){
+      turns[who].pop();
+      if(e&&e.code==='cancelled')reply=e.text||'（被你打断了）';
+      else{if(e&&DENIED.includes(e.code))goOffline();reply=(e&&e.text)||scripted(who,text)}
+    }
+  }else{await wait(600+Math.random()*700);reply=scripted(who,text)}
+  m.classList.remove('typing');t.textContent=reply;rendered[who].push({kind:'them',who,text:reply});
+}
+async function partyReply(text){
+  let replies=null;
+  if(live){
+    const hint=document.createElement('div');hint.className='intro';hint.textContent='三个人都在抢着回复…';log.appendChild(hint);log.scrollTop=log.scrollHeight;
+    turns.party.push('寿星：'+text);
+    const ctx=turns.party.slice(-14).join('\n');
+    const prompt=`三位动漫角色在同一个群聊里和寿星聊天。寿星刚发了一条消息，请写出三人各自对他的回复（每人 1–2 句），她们是在回应寿星，可以顺便互相吐槽一句，但重点是对他说话。\n\n角色：\n- eriri：${H.eriri.persona}\n- setsuna：${H.setsuna.persona}\n- hanekawa：${H.hanekawa.persona}\n\n${PROFILE}\n\n${RULES}\n\n最近的群聊记录：\n${ctx}\n\n只输出 JSON 对象：{"eriri":"……","setsuna":"……","hanekawa":"……"}`;
+    ctl=new AbortController();
+    try{const r=await sample.json(prompt,{cache:false,signal:ctl.signal});if(r&&ORDER.every(k=>typeof r[k]==='string'&&r[k].trim()))replies=r}
+    catch(e){if(e&&DENIED.includes(e.code))goOffline()}
+    hint.remove();
+  }
+  if(!replies){replies={};ORDER.forEach(k=>replies[k]=scripted(k,text))}
+  for(const k of ORDER){
+    const {t,m}=bubble('them',H[k].name+'正在输入…',k,true);
+    await wait(live?350:700+Math.random()*500);
+    m.classList.remove('typing');t.textContent=replies[k];rendered.party.push({kind:'them',who:k,text:replies[k]});
+    if(live)turns.party.push(H[k].full+'：'+replies[k]);
+  }
+}
+function goOffline(){live=false;note.textContent=''}
+$('form').addEventListener('submit',e=>{e.preventDefault();send()});
+stopBtn.onclick=()=>ctl&&ctl.abort();
+
+/* ---------- Review ---------- */
+function unlockReview(){
+  $('ac').textContent='The interactive evaluation is complete. All three co-authors report that no further revisions are needed.';
+  $('r2tail').textContent='Having seen the human evaluation, I raise my score to 10. Happy birthday.';
+  $('accept').disabled=false;$('accept').textContent='✨ View final decision';
+}
+$('accept').onclick=()=>{
+  const s=$('stamp');s.textContent='DECISION: ACCEPT (ORAL)';s.classList.add('ok');
+  $('accept').hidden=true;document.body.classList.add('shake');setTimeout(()=>document.body.classList.remove('shake'),500);
+  startMusic();
+  setTimeout(openFinale,900);
+};
+$('reopen').onclick=()=>{startMusic();openFinale()};
+
+/* ---------- Finale ---------- */
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let fxRun=false,fxParts=[],fxTimer=0;
+function openFinale(){
+  const f=$('finale');f.hidden=false;document.body.style.overflow='hidden';
+  const cards=$('cards');if(!cards.children.length){
+    const tags={eriri:'哼，生日快乐啦！',setsuna:'便便君，生日快乐！',hanekawa:'生日快乐，便便君。'};
+    ORDER.forEach((k,i)=>{const p=document.createElement('div');p.className='pol';p.style.setProperty('--r',[-7,2,8][i]+'deg');p.style.setProperty('--d',(.3+i*.25)+'s');
+      p.appendChild(photo(k));const c=document.createElement('p');c.textContent=tags[k];p.appendChild(c);cards.appendChild(p)})}
+  requestAnimationFrame(()=>f.classList.add('on'));
+  if(!reduce){startFx();for(let i=0;i<5;i++)setTimeout(()=>firework(),i*350)}
+  $('reopen').hidden=false;
+}
+$('close').onclick=()=>{const f=$('finale');f.classList.remove('on');setTimeout(()=>{f.hidden=true;fxRun=false},800);document.body.style.overflow='';stopMusic()};
+
+const cv=$('fx'),cx=cv.getContext('2d');
+const COLS=['#ff6b5f','#8fb0dd','#c6b4ff','#ffd27a','#ffffff','#ff9ec4'];
+function fit(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+addEventListener('resize',fit);
+function firework(x,y){
+  x=x??innerWidth*(.15+Math.random()*.7);y=y??innerHeight*(.12+Math.random()*.35);
+  const c=COLS[Math.random()*COLS.length|0],n=70;
+  for(let i=0;i<n;i++){const a=i/n*Math.PI*2,s=2+Math.random()*3.2;fxParts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,c,r:2,kind:'spark'})}
+}
+function confetti(){
+  for(let i=0;i<220;i++)fxParts.push({x:innerWidth/2,y:innerHeight*.6,vx:(Math.random()-.5)*16,vy:-6-Math.random()*12,life:1.6,c:COLS[Math.random()*COLS.length|0],r:4+Math.random()*4,kind:'paper',rot:Math.random()*6,vr:(Math.random()-.5)*.4});
+}
+function snowflake(){fxParts.push({x:Math.random()*innerWidth,y:-10,vx:0,vy:.5+Math.random()*1.1,life:9,c:'#ffffff',r:1.2+Math.random()*2.4,kind:'snow',w:Math.random()*6})}
+function startFx(){
+  if(fxRun)return;fxRun=true;fit();let last=performance.now(),tick=0;
+  (function step(t){
+    if(!fxRun){cx.clearRect(0,0,innerWidth,innerHeight);fxParts=[];return}
+    const dt=Math.min(2,(t-last)/16.7);last=t;tick+=dt;
+    if(Math.random()<.035*dt)firework();
+    if(Math.random()<.5*dt)snowflake();
+    cx.clearRect(0,0,innerWidth,innerHeight);
+    fxParts=fxParts.filter(p=>p.life>0&&p.y<innerHeight+20);
+    for(const p of fxParts){
+      if(p.kind==='spark'){p.vx*=.97;p.vy=p.vy*.97+.05*dt;p.life-=.012*dt}
+      else if(p.kind==='paper'){p.vy+=.25*dt;p.vx*=.99;p.rot+=p.vr*dt;p.life-=.006*dt}
+      else{p.x+=Math.sin(t/900+p.w)*.4;p.life-=.004*dt}
+      p.x+=p.vx*dt;p.y+=p.vy*dt;
+      cx.globalAlpha=Math.max(0,Math.min(1,p.life));cx.fillStyle=p.c;
+      if(p.kind==='paper'){cx.save();cx.translate(p.x,p.y);cx.rotate(p.rot);cx.fillRect(-p.r,-p.r/2,p.r*2,p.r);cx.restore()}
+      else{cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill()}
+    }
+    cx.globalAlpha=1;requestAnimationFrame(step);
+  })(last);
+}
+
+const LETTER=`便便：
+
+二十四岁生日快乐！
+
+愿今年的实验都收敛，batch 永远够大，投出去的每一篇稿子都能等来一封 Accept。
+
+至于感情上那些 loss，只是还没调到对的 learning rate。三位败犬女主都替你作证：输过的人，往往最懂得怎么好好爱人。而且根据推论 1，好的人永远不会被忘记。
+
+这一篇，谁都拦不住。生日快乐！`;
+let blown=false;
+$('cake').onclick=()=>{
+  if(blown)return;blown=true;$('cake').classList.add('out');$('hint').textContent='愿望已提交，审稿结果：一定会实现 ✨';
+  if(!reduce){confetti();for(let i=0;i<4;i++)setTimeout(()=>firework(),200+i*300)}
+  setTimeout(typeLetter,1100);
+};
+function typeLetter(){
+  const l=$('letter'),out=$('letterText');l.hidden=false;requestAnimationFrame(()=>l.classList.add('on'));
+  const sig='\n\n—— Anonymous Author（双盲评审，不透露姓名）';
+  if(reduce){out.textContent=LETTER+sig;$('caret').hidden=true;return}
+  let i=0;const full=LETTER+sig;
+  (function tick(){out.textContent=full.slice(0,i);i+=1;if(i<=full.length)setTimeout(tick,full[i-1]==='\n'?120:45);else $('caret').hidden=true})();
+  setTimeout(()=>l.scrollIntoView({behavior:'smooth',block:'center'}),400);
+}
+
+/* ---------- Happy Birthday melody (Web Audio, public-domain tune) ---------- */
+let ac=null,musicOn=false,musicTimer=0;
+const N={G4:392,A4:440,B4:493.9,C5:523.3,D5:587.3,E5:659.3,F5:698.5,G5:784};
+const SONG=[['G4',.75],['G4',.25],['A4',1],['G4',1],['C5',1],['B4',2],['G4',.75],['G4',.25],['A4',1],['G4',1],['D5',1],['C5',2],
+  ['G4',.75],['G4',.25],['G5',1],['E5',1],['C5',1],['B4',1],['A4',2],['F5',.75],['F5',.25],['E5',1],['C5',1],['D5',1],['C5',3]];
+function playSong(){
+  if(!ac)return;const beat=.42;let t=ac.currentTime+.1;
+  for(const [n,d] of SONG){
+    const o=ac.createOscillator(),g=ac.createGain(),o2=ac.createOscillator(),g2=ac.createGain();
+    o.type='triangle';o.frequency.value=N[n];o2.type='sine';o2.frequency.value=N[n]*2;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.18,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+d*beat*.95);
+    g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.04,t+.02);g2.gain.exponentialRampToValueAtTime(.001,t+d*beat*.8);
+    o.connect(g).connect(ac.destination);o2.connect(g2).connect(ac.destination);o.start(t);o.stop(t+d*beat);o2.start(t);o2.stop(t+d*beat);t+=d*beat;
+  }
+  musicTimer=setTimeout(()=>{if(musicOn)playSong()},(t-ac.currentTime+1.2)*1000);
+}
+function startMusic(){
+  try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume()}catch(e){return}
+  if(musicOn)return;musicOn=true;$('music').textContent='♪ 暂停音乐';playSong();
+}
+function stopMusic(){musicOn=false;clearTimeout(musicTimer);if(ac){ac.close();ac=null}$('music').textContent='♪ 播放音乐'}
+$('music').onclick=()=>{if(musicOn)stopMusic();else startMusic()};
+
+/* ---------- Boot ---------- */
+buildWho();renderTab();
+(async()=>{
+  if(!window.claude||!window.claude.use)return;
+  try{sample=await window.claude.use('sample')}catch(e){sample=null}
+  if(sample){live=true;note.textContent='共同作者已实时连线（由 Claude 扮演）。第一次发消息时，页面会请求使用你的 Claude 额度。'}
+})();
+</script>
+</body>
+</html>
