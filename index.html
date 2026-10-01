@@ -109,11 +109,12 @@ td.best{font-weight:700}
 .modes button{flex:1;min-width:110px;text-align:center!important;font-family:var(--cjk);font-size:14px;border:1px solid var(--rule);background:var(--bubble);color:var(--muted);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left;line-height:1.4}
 .modes button b{display:block;color:var(--ink);font-size:15px}
 .modes button[aria-pressed="true"]{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
-.keypanel{border:1px dashed var(--gold);border-radius:10px;padding:12px;margin-bottom:12px;font-family:var(--cjk);font-size:14px;display:grid;gap:8px}
+.keypanel{margin-bottom:12px;font-size:14px}
 .keypanel .rowk{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .keypanel small{color:var(--muted);line-height:1.6}
 .keypanel a{color:var(--setsuna)}
-.keypanel .err{color:var(--eriri)}
+.keypanel .err{color:var(--muted);font-family:var(--serif);font-style:italic;font-size:14px}
+.keypanel .err a{color:var(--setsuna)}
 .keypanel .btn{text-decoration:none;color:var(--paper)}
 .keypanel code{font-family:var(--mono);font-size:13px;background:var(--bubble);padding:1px 6px;border-radius:4px}
 /* desktop pet */
@@ -383,11 +384,7 @@ body.shake .wrap{animation:shake .45s}
       <button type="button" id="modeLive" aria-pressed="false"><b>进阶模式</b></button>
     </div>
     <div class="keypanel" id="keypanel" hidden>
-      <div class="rowk">
-        <a class="btn" id="download" href="https://github.com/psytzou/birthday-tea-party/archive/refs/heads/main.zip">下载到本地</a>
-        <span>解压后双击 <code>start.bat</code>（Windows）或 <code>start.command</code>（Mac）</span>
-      </div>
-      <small class="err" id="keyerr"></small>
+      <div class="rowk"><button class="btn" type="button" id="connect">Connect</button><small class="err" id="keyerr"></small></div>
     </div>
     <div class="who" id="who"></div>
     <div class="intro" id="intro"></div>
@@ -680,6 +677,14 @@ async function bridgeUp(){
   try{const r=await fetch(BRIDGE+'/health',{signal:AbortSignal.timeout(2000)});return r.ok}catch(e){return false}
 }
 $('modeScript').onclick=()=>{if(!busy)setMode('script')};
+async function connectBridge(){
+  $('keyerr').textContent='';$('connect').disabled=true;$('connect').textContent='Connecting…';
+  const ok=await bridgeUp();
+  $('connect').disabled=false;$('connect').textContent='Connect';
+  if(ok){backend='bridge';setMode('live')}
+  else $('keyerr').innerHTML='Local runtime not found. See the <a href="https://github.com/psytzou/birthday-tea-party#readme" target="_blank" rel="noopener">supplementary material</a>.';
+}
+$('connect').onclick=connectBridge;
 $('modeLive').onclick=async()=>{
   if(busy)return;
   if(sampleFn)backend='sample';
@@ -696,7 +701,7 @@ async function askBridge(prompt){
 }
 function bridgeFailure(e){
   if(e&&e.name==='AbortError')return;
-  if(e instanceof TypeError){backend=null;setMode('live');$('keyerr').textContent='本地程序已关闭，请重新双击启动文件。';return}
+  if(e instanceof TypeError){backend=null;setMode('live');$('keyerr').textContent='Connection to the local runtime was lost.';return}
   note.textContent='本地 Claude 出了点问题：'+String(e&&e.message||e).slice(0,80);
 }
 const transcript=(list,name)=>list.map(t=>(t.role==='user'?'寿星':name)+'：'+t.content).join('\n');

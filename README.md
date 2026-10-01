@@ -25,13 +25,13 @@ Preference optimization collapses onto one mode and forgets everyone else. We ca
 
 https://psytzou.github.io/birthday-tea-party/
 
-## 进阶模式 (free chat with your own Claude)
+## Supplementary material: running 进阶模式 locally
 
-进阶模式 runs from a local copy and uses the Claude Code on your computer, so no API key is needed.
+进阶模式 (free chat) runs from a local copy and uses the Claude Code on your computer, so no API key is needed.
 
 1. [Download the project](https://github.com/psytzou/birthday-tea-party/archive/refs/heads/main.zip) and unzip it.
 2. Double-click **`start.bat`** (Windows) or **`start.command`** (Mac). The page opens in your browser.
-3. Click **进阶模式**. It connects automatically.
+3. In Section 6, click **进阶模式**, then **Connect** if it does not connect by itself.
 
 Requires Python 3 and [Claude Code](https://claude.com/claude-code) installed and signed in. On a Mac, if the first double-click is blocked, right-click `start.command` and choose **Open**.
 
