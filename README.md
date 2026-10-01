@@ -30,7 +30,7 @@ https://psytzou.github.io/birthday-tea-party/
 2. Double-click **`start.bat`** (Windows) or **`start.command`** (Mac). The page opens in your browser.
 3. In Section 6, click **进阶模式**, then **Connect** if it does not connect by itself.
 
-Requires Python 3 and [Claude Code](https://claude.com/claude-code) installed and signed in. On a Mac, if the first double-click is blocked, right-click `start.command` and choose **Open**.
+Requires Python 3 and [Claude Code](https://claude.com/claude-code). The copy bundled with the Claude desktop app works too, but it must be signed in once on its own: double-click **`login.bat`** (Windows) or **`login.command`** (Mac), type `/login`, finish in the browser, then type `/exit`. On a Mac, if the first double-click is blocked, right-click `start.command` and choose **Open**.
 
 | Method | HeroineBench-24 ↑ | Route Regret ↓ |
 |---|---:|---:|

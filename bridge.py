@@ -32,7 +32,42 @@ ALLOWED_ORIGINS = {
     "https://psytzou.github.io",
 }
 
-CLAUDE = shutil.which("claude")
+def find_claude():
+    """Find the Claude Code CLI: on PATH, from the standalone installer, or bundled with the desktop app."""
+    found = shutil.which("claude")
+    if found:
+        return found
+    home = os.path.expanduser("~")
+    appdata = os.environ.get("APPDATA", "")
+    fixed = [
+        os.path.join(home, ".local", "bin", "claude.exe"),
+        os.path.join(home, ".local", "bin", "claude"),
+        os.path.join(home, ".claude", "local", "claude"),
+        os.path.join(appdata, "npm", "claude.cmd"),
+    ]
+    for path in fixed:
+        if os.path.isabs(path) and os.path.isfile(path):
+            return path
+    # Desktop app bundles: <app data>/Claude/claude-code/<version>/claude(.exe); use the newest.
+    bundles = [
+        (os.path.join(appdata, "Claude", "claude-code"), "claude.exe"),
+        (os.path.join(home, "Library", "Application Support", "Claude", "claude-code"), "claude"),
+        (os.path.join(home, ".config", "Claude", "claude-code"), "claude"),
+    ]
+    for folder, exe in bundles:
+        if not os.path.isdir(folder):
+            continue
+        def version(name):
+            return tuple(int(p) if p.isdigit() else 0 for p in name.split("."))
+        for name in sorted(os.listdir(folder), key=version, reverse=True):
+            path = os.path.join(folder, name, exe)
+            if os.path.isfile(path):
+                return path
+    return None
+
+
+CLAUDE = find_claude()
+NOT_LOGGED_IN = "Claude Code 还没有登录。请双击 login.bat（Windows）或 login.command（Mac），在打开的窗口里输入 /login 完成登录，然后再试。"
 # An empty working directory, so Claude Code does not pick up any project files.
 WORKDIR = tempfile.mkdtemp(prefix="birthday-bridge-")
 
@@ -54,12 +89,23 @@ def run_claude(prompt: str) -> str:
             timeout=240,
         )
         out = (proc.stdout or "").strip()
-        if proc.returncode == 0 and out:
-            try:
-                return str(json.loads(out).get("result", "")).strip()
-            except json.JSONDecodeError:
-                return out
-        last_error = (proc.stderr or out or "").strip()
+        try:
+            data = json.loads(out) if out else None
+        except json.JSONDecodeError:
+            data = None
+        if isinstance(data, dict):
+            result = str(data.get("result", "")).strip()
+            if data.get("is_error") and ("not logged in" in result.lower() or "/login" in result):
+                raise RuntimeError(NOT_LOGGED_IN)
+            if not data.get("is_error") and result:
+                return result
+            last_error = result or (proc.stderr or "").strip()
+        elif proc.returncode == 0 and out:
+            return out
+        else:
+            last_error = (proc.stderr or out or "").strip()
+        if "not logged in" in last_error.lower():
+            raise RuntimeError(NOT_LOGGED_IN)
         if "unknown option" not in last_error.lower():
             break
     raise RuntimeError(last_error[:500] or "claude exited without output")
@@ -132,7 +178,17 @@ def already_running() -> bool:
         return False
 
 
+def login():
+    """Open Claude Code interactively so the user can run /login once."""
+    if not CLAUDE:
+        sys.exit("没有找到 Claude Code。请先安装：https://claude.com/claude-code")
+    print("即将打开 Claude Code。请输入 /login 并按回车，在浏览器里完成登录，然后输入 /exit 退出。\n")
+    subprocess.call([CLAUDE], cwd=WORKDIR)
+
+
 def main():
+    if "--login" in sys.argv:
+        return login()
     if already_running():
         webbrowser.open(URL)
         return

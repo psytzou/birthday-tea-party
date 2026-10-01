@@ -702,7 +702,7 @@ async function askBridge(prompt){
 function bridgeFailure(e){
   if(e&&e.name==='AbortError')return;
   if(e instanceof TypeError){backend=null;setMode('live');$('keyerr').textContent='Connection to the local runtime was lost.';return}
-  note.textContent='本地 Claude 出了点问题：'+String(e&&e.message||e).slice(0,80);
+  note.textContent='本地 Claude 出了点问题：'+String(e&&e.message||e).slice(0,140);
 }
 const transcript=(list,name)=>list.map(t=>(t.role==='user'?'寿星':name)+'：'+t.content).join('\n');
 function parseJSON(text){const a=text.indexOf('{'),b=text.lastIndexOf('}');return a>=0&&b>a?JSON.parse(text.slice(a,b+1)):null}
