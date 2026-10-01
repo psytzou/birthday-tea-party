@@ -25,6 +25,18 @@ Preference optimization collapses onto one mode and forgets everyone else. We ca
 
 https://psytzou.github.io/birthday-tea-party/
 
+## 进阶模式 setup (local Claude, no API key)
+
+Requirements: Python 3.8+ and [Claude Code](https://claude.com/claude-code) installed and signed in.
+
+1. Download [`bridge.py`](bridge.py) (or clone this repo).
+2. Run it and keep the window open:
+   ```bash
+   python bridge.py
+   ```
+3. Open the paper, go to Section 6 and click **进阶模式**. It connects automatically.
+
+The bridge listens only on `127.0.0.1:8765`, accepts requests only from this page, and runs Claude Code in an empty temporary folder with one turn per message. Use Chrome or Edge; if the browser asks whether the page may access devices on your local network, allow it.
 
 | Method | HeroineBench-24 ↑ | Route Regret ↓ |
 |---|---:|---:|

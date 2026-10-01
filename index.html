@@ -111,11 +111,11 @@ td.best{font-weight:700}
 .modes button[aria-pressed="true"]{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
 .keypanel{border:1px dashed var(--gold);border-radius:10px;padding:12px;margin-bottom:12px;font-family:var(--cjk);font-size:14px;display:grid;gap:8px}
 .keypanel .rowk{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.keypanel input[type=password],.keypanel select{flex:1;min-width:0;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--bubble);color:var(--ink);font-family:var(--mono)}
-.keypanel select{flex:none;font-family:var(--cjk)}
 .keypanel small{color:var(--muted);line-height:1.6}
 .keypanel a{color:var(--setsuna)}
 .keypanel .err{color:var(--eriri)}
+.keypanel ol{margin:0;padding-left:20px;line-height:1.8}
+.keypanel code{font-family:var(--mono);font-size:13px;background:var(--bubble);padding:1px 6px;border-radius:4px}
 /* desktop pet */
 .lab{position:relative;margin-top:118px!important}
 .pet{position:absolute;top:-112px;right:14px;width:112px;z-index:3}
@@ -383,18 +383,13 @@ body.shake .wrap{animation:shake .45s}
       <button type="button" id="modeLive" aria-pressed="false"><b>进阶模式</b></button>
     </div>
     <div class="keypanel" id="keypanel" hidden>
-      <div class="rowk">
-        <input type="password" id="apikey" autocomplete="off" placeholder="sk-ant-...（你的 Anthropic API key）" aria-label="Anthropic API key">
-        <select id="model" aria-label="模型">
-          <option value="claude-opus-5-5">Claude Opus 5.5（最聪明）</option>
-          <option value="claude-sonnet-5-5">Claude Sonnet 5.5（更快更省）</option>
-          <option value="claude-haiku-4-5">Claude Haiku 4.5（最快最省）</option>
-        </select>
-        <button class="btn" type="button" id="connect">连接</button>
-      </div>
-      <label><input type="checkbox" id="remember"> 在这台设备上记住 key</label>
-      <small>Key 只保存在你自己的浏览器里，只发送给 Anthropic 官方接口（api.anthropic.com），费用从你自己的账户扣。没有 key？去 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> 创建一个。</small>
-      <small class="err" id="keyerr"></small>
+      <div>进阶模式会连接你电脑上的 Claude Code，不需要 API key。</div>
+      <ol>
+        <li>下载 <a href="https://raw.githubusercontent.com/psytzou/birthday-tea-party/main/bridge.py" target="_blank" rel="noopener">bridge.py</a>（需要已安装并登录 Claude Code）</li>
+        <li>在终端运行 <code>python bridge.py</code>，保持窗口打开</li>
+        <li>点下面的按钮</li>
+      </ol>
+      <div class="rowk"><button class="btn" type="button" id="connect">连接本地 Claude</button><small class="err" id="keyerr"></small></div>
     </div>
     <div class="who" id="who"></div>
     <div class="intro" id="intro"></div>
@@ -672,58 +667,50 @@ const RULES=`【聊天规则】
 8. 记得今天是他的生日。`;
 
 /* Two modes: 'script' uses lines.js; 'live' uses Claude, through the Claude artifact runtime
-   when the page is opened as an artifact, otherwise through the viewer's own API key. */
-let mode='script',backend=null,sampleFn=null,Anthropic=null,client=null,model='claude-opus-5-5',ctl=null,curStream=null;
-const KEY_STORE='zeru-birthday-claude-key',MODEL_STORE='zeru-birthday-claude-model';
-const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}};
+   when the page is opened as an artifact, otherwise through bridge.py running on the viewer's
+   computer, which passes prompts to their local Claude Code. */
+let mode='script',backend=null,sampleFn=null,ctl=null;
+const BRIDGE='http://127.0.0.1:8765';
 const isLive=()=>mode==='live'&&!!backend;
 
 function setMode(m){
   mode=m;$('modeScript').setAttribute('aria-pressed',m==='script');$('modeLive').setAttribute('aria-pressed',m==='live');
-  $('keypanel').hidden=!(m==='live'&&backend!=='sample'&&!client);
-  note.textContent=(m==='live'&&client)?'已连接 · '+$('model').selectedOptions[0].text:'';
+  $('keypanel').hidden=!(m==='live'&&!backend);
+  note.textContent=(m==='live'&&backend==='bridge')?'已连接 · 本地 Claude':'';
+}
+async function bridgeUp(){
+  try{const r=await fetch(BRIDGE+'/health',{signal:AbortSignal.timeout(2000)});return r.ok}catch(e){return false}
+}
+async function connectBridge(){
+  $('keyerr').textContent='';$('connect').disabled=true;$('connect').textContent='连接中…';
+  const ok=await bridgeUp();
+  $('connect').disabled=false;$('connect').textContent='连接本地 Claude';
+  if(ok){backend='bridge';setMode('live')}
+  else $('keyerr').textContent='没有找到 bridge.py。请确认它正在运行，然后再试一次。';
 }
 $('modeScript').onclick=()=>{if(!busy)setMode('script')};
-$('modeLive').onclick=()=>{
+$('modeLive').onclick=async()=>{
   if(busy)return;
   if(sampleFn)backend='sample';
-  else{const k=store.get(KEY_STORE);if(k&&!$('apikey').value){$('apikey').value=k;$('remember').checked=true}
-    const sm=store.get(MODEL_STORE);if(sm)$('model').value=sm}
   setMode('live');
+  if(!backend&&await bridgeUp()){backend='bridge';setMode('live')}
 };
-$('connect').onclick=async()=>{
-  const key=$('apikey').value.trim();$('keyerr').textContent='';
-  if(!/^sk-ant-/.test(key)){$('keyerr').textContent='Key 的格式不对，应该以 sk-ant- 开头。';return}
-  $('connect').disabled=true;$('connect').textContent='连接中…';
-  try{
-    if(!Anthropic){const mod=await import('https://cdn.jsdelivr.net/npm/@anthropic-ai/sdk/+esm');Anthropic=mod.default||mod.Anthropic}
-    client=new Anthropic({apiKey:key,dangerouslyAllowBrowser:true});
-    model=$('model').value;backend='api';
-    store.set(KEY_STORE,$('remember').checked?key:null);store.set(MODEL_STORE,$('remember').checked?model:null);
-    setMode('live');
-  }catch(e){$('keyerr').textContent='加载 Claude SDK 失败，请检查网络后再试。'}
-  finally{$('connect').disabled=false;$('connect').textContent='连接'}
-};
-$('model').onchange=()=>{model=$('model').value;if(client)setMode('live')};
+$('connect').onclick=connectBridge;
 
-/* Request shape for the Claude API: low effort keeps chat replies quick; Opus/Sonnet get
-   server-side refusal fallbacks (Haiku 4.5 does not support them). */
-function apiParams(system,messages,maxTokens,format){
-  const p={model,max_tokens:maxTokens,system,messages},oc={};
-  if(model!=='claude-haiku-4-5'){oc.effort='low';p.betas=['server-side-fallback-2026-07-01'];p.fallbacks='default'}
-  if(format)oc.format=format;
-  if(Object.keys(oc).length)p.output_config=oc;
-  return p;
+async function askBridge(prompt){
+  ctl=new AbortController();
+  const r=await fetch(BRIDGE+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt}),signal:ctl.signal});
+  const data=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(data.error||('bridge error '+r.status));
+  return String(data.text||'').trim();
 }
-const apiFor=p=>p.betas?client.beta.messages:client.messages;
-const textOf=msg=>msg.content.filter(b=>b.type==='text').map(b=>b.text).join('').trim();
-function apiFailure(e){
-  if(Anthropic&&(e instanceof Anthropic.AuthenticationError||e instanceof Anthropic.PermissionDeniedError)){
-    client=null;backend=null;store.set(KEY_STORE,null);setMode('live');$('keyerr').textContent='这个 API key 无效或没有权限，请检查后重新连接。';return}
-  if(Anthropic&&e instanceof Anthropic.RateLimitError){note.textContent='发得太快啦，等几秒再试。';return}
-  if(Anthropic&&e instanceof Anthropic.APIConnectionError){note.textContent='连不上 Claude，请检查网络。';return}
-  note.textContent='Claude 暂时出了点问题。';
+function bridgeFailure(e){
+  if(e&&e.name==='AbortError')return;
+  if(e instanceof TypeError){backend=null;setMode('live');$('keyerr').textContent='和 bridge.py 的连接断开了，请确认它还在运行。';return}
+  note.textContent='本地 Claude 出了点问题：'+String(e&&e.message||e).slice(0,80);
 }
+const transcript=(list,name)=>list.map(t=>(t.role==='user'?'寿星':name)+'：'+t.content).join('\n');
+function parseJSON(text){const a=text.indexOf('{'),b=text.lastIndexOf('}');return a>=0&&b>a?JSON.parse(text.slice(a,b+1)):null}
 
 function bubble(kind,text,who,typing){
   const row=document.createElement('div');row.className='row '+kind;
@@ -789,17 +776,15 @@ async function soloReply(who,text){
         const r=await sampleFn([{role:'user',content:sys},...hist],{cache:false,modelTier:'quick',signal:ctl.signal,onText:({text})=>show(text)});
         reply=r.text.trim();
       }else{
-        const p=apiParams(sys,hist,1024);let acc='';
-        curStream=apiFor(p).stream(p);curStream.on('text',d=>{acc+=d;show(acc)});
-        const msg=await curStream.finalMessage();
-        reply=msg.stop_reason==='refusal'?null:(textOf(msg)||null);
+        const prompt=`${sys}\n\n【聊天记录】\n${transcript(hist,H[who].full)}\n\n请以${H[who].full}的身份，回复寿星的最后一条消息。只输出回复本身，不要加名字前缀或引号。`;
+        reply=await askBridge(prompt)||null;
       }
     }catch(e){
-      const cancelled=(e&&e.code==='cancelled')||(Anthropic&&e instanceof Anthropic.APIUserAbortError);
+      const cancelled=(e&&e.code==='cancelled')||(e&&e.name==='AbortError');
       if(cancelled)reply=m.classList.contains('typing')?'（被你打断了）':t.textContent;
       else if(backend==='sample'){if(e&&DENIED.includes(e.code)){backend=null;setMode('script')}}
-      else apiFailure(e);
-    }finally{curStream=null;ctl=null}
+      else bridgeFailure(e);
+    }finally{ctl=null}
     if(reply)turns[who].push({role:'assistant',content:reply});else turns[who].pop();
   }else await wait(600+Math.random()*700);
   if(!reply)reply=scripted(who,text);
@@ -820,14 +805,11 @@ async function partyReply(text){
         ctl=new AbortController();
         const r=await sampleFn.json(sys+'\n\n'+ask,{cache:false,signal:ctl.signal});if(ok(r))replies=r;
       }else{
-        const schema={type:'object',properties:{eriri:{type:'string'},setsuna:{type:'string'},hanekawa:{type:'string'}},required:ORDER,additionalProperties:false};
-        const p=apiParams(sys,[{role:'user',content:ask}],1500,{type:'json_schema',schema});
-        const msg=await apiFor(p).create(p);
-        if(msg.stop_reason!=='refusal'){const r=JSON.parse(textOf(msg));if(ok(r))replies=r}
+        const r=parseJSON(await askBridge(sys+'\n\n'+ask));if(ok(r))replies=r;
       }
     }catch(e){
       if(backend==='sample'){if(e&&DENIED.includes(e.code)){backend=null;setMode('script')}}
-      else if(!(e instanceof SyntaxError))apiFailure(e);
+      else if(!(e instanceof SyntaxError))bridgeFailure(e);
     }finally{ctl=null}
     hint.remove();
   }
@@ -841,7 +823,7 @@ async function partyReply(text){
   }
 }
 $('form').addEventListener('submit',e=>{e.preventDefault();send()});
-stopBtn.onclick=()=>{if(ctl)ctl.abort();if(curStream)curStream.abort()};
+stopBtn.onclick=()=>{if(ctl)ctl.abort()};
 
 /* ---------- Desktop pet ---------- */
 const pet=$('pet'),petImg=$('petImg');let petWho=null,petTimer=0,petMood='',lastAct=Date.now();
