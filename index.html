@@ -697,6 +697,7 @@ async function askBridge(prompt){
   const r=await fetch(BRIDGE+'/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt}),signal:ctl.signal});
   const data=await r.json().catch(()=>({}));
   if(!r.ok)throw new Error(data.error||('bridge error '+r.status));
+  note.textContent='已连接 · 本地 Claude';
   return String(data.text||'').trim();
 }
 function bridgeFailure(e){
