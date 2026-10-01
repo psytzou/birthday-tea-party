@@ -116,6 +116,39 @@ td.best{font-weight:700}
 .keypanel small{color:var(--muted);line-height:1.6}
 .keypanel a{color:var(--setsuna)}
 .keypanel .err{color:var(--eriri)}
+/* desktop pet */
+.lab{position:relative;margin-top:72px!important}
+.pet{position:absolute;top:-64px;right:14px;width:112px;z-index:3}
+.pet .stand{display:block;width:100%;aspect-ratio:3/4;padding:0;border:4px solid #fff;border-radius:16px;overflow:hidden;cursor:pointer;background:var(--panel);
+  box-shadow:0 0 0 2px var(--c),0 12px 26px rgba(0,0,0,.28);transform-origin:50% 100%;animation:petFloat 3.4s ease-in-out infinite;transition:filter .3s,box-shadow .3s}
+.pet .stand img{width:100%;height:100%;object-fit:cover;display:block}
+.pet .tag{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);background:var(--c);color:#fff;font-family:var(--cjk);font-size:12px;padding:1px 10px;border-radius:999px;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.pet .bub{position:absolute;right:calc(100% + 12px);top:12px;width:max-content;max-width:min(230px,52vw);background:var(--bubble);color:var(--ink);border:1.5px solid var(--c);border-radius:12px;padding:6px 10px;font-family:var(--cjk);font-size:13px;line-height:1.5;box-shadow:0 6px 16px rgba(0,0,0,.15);animation:pop .25s ease}
+.pet .bub::after{content:"";position:absolute;right:-8px;top:14px;border:7px solid transparent;border-left-color:var(--c);border-right:0}
+.pet .fx{position:absolute;inset:0;pointer-events:none}
+.pet .fx span{position:absolute;bottom:45%;font-size:17px;animation:petFx 1.3s ease-out forwards}
+.pet .ears{position:absolute;top:-16px;left:0;right:0;height:22px;opacity:0;transition:opacity .3s;pointer-events:none}
+.pet .ears::before,.pet .ears::after{content:"";position:absolute;top:0;border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:22px solid #f6f3f8;filter:drop-shadow(0 0 1px rgba(0,0,0,.4))}
+.pet .ears::before{left:16px;transform:rotate(-16deg)}.pet .ears::after{right:16px;transform:rotate(16deg)}
+.pet.cat .ears{opacity:1}
+@keyframes petFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
+.pet.swap .stand{animation:petSwap .45s cubic-bezier(.2,1.6,.4,1),petFloat 3.4s ease-in-out .45s infinite}
+@keyframes petSwap{from{transform:scale(.6) rotate(-8deg);opacity:.3}to{transform:none;opacity:1}}
+.pet.talk .stand{animation:petTalk .3s ease-in-out infinite alternate}
+@keyframes petTalk{from{transform:translateY(0) scale(1,1)}to{transform:translateY(-3px) scale(1.02,.98)}}
+.pet.happy .stand,.pet.cat .stand{animation:petHop .5s ease-out 3}
+@keyframes petHop{0%,100%{transform:translateY(0)}40%{transform:translateY(-16px) rotate(3deg)}}
+.pet.shy .stand{animation:petShy 1.8s ease-in-out;box-shadow:0 0 0 2px var(--c),0 0 26px 8px rgba(255,120,160,.55)}
+@keyframes petShy{0%,100%{transform:none}30%,70%{transform:rotate(-7deg) translateX(-4px)}}
+.pet.sad .stand{animation:none;transform:translateY(6px) rotate(-3deg);filter:saturate(.5) brightness(.9)}
+.pet.angry .stand{animation:petShake .12s linear 8}
+@keyframes petShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px) rotate(-2deg)}75%{transform:translateX(4px) rotate(2deg)}}
+.pet.poke .stand{animation:petPoke .45s ease}
+@keyframes petPoke{0%{transform:scale(1)}30%{transform:scale(1.12,.86)}60%{transform:scale(.94,1.08)}100%{transform:scale(1)}}
+@keyframes petFx{from{transform:translate(0,0) scale(.6);opacity:1}to{transform:translate(var(--dx),-80px) scale(1.25);opacity:0}}
+.modes{padding-right:126px}
+@media (max-width:520px){.pet{width:80px;top:-48px;right:10px}.lab{margin-top:56px!important}.modes{padding-right:90px}.modes button{min-width:0}.pet .bub{top:2px}}
+@media (prefers-reduced-motion: reduce){.pet .stand{animation:none!important}.pet .fx{display:none}}
 .lab{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:16px;margin:20px 0}
 .who{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .who button{display:flex;align-items:center;gap:6px;font-family:var(--cjk);font-size:15px;border:1.5px solid var(--c);color:var(--c);background:transparent;border-radius:999px;padding:3px 12px 3px 3px;cursor:pointer}
@@ -175,7 +208,7 @@ body.shake .wrap{animation:shake .45s}
   background:linear-gradient(90deg,#ffd27a,#ff8f86,#c6b4ff,#9cc8ff,#ffd27a);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite;text-wrap:balance}
 .bigzh{font-family:var(--hand);font-size:clamp(28px,6vw,46px);margin:0 0 26px;color:#fff;text-shadow:0 0 18px rgba(255,200,140,.6)}
 .cards{display:flex;justify-content:center;gap:clamp(8px,2vw,22px);margin:10px 0 30px;perspective:900px}
-.pol{width:clamp(72px,20vw,170px);background:#fbf8f1;padding:8px 8px 10px;border-radius:4px;box-shadow:0 14px 40px rgba(0,0,0,.5);color:#2a2630;font-family:var(--hand);font-size:clamp(11px,2.8vw,20px);line-height:1.35;
+.pol{width:clamp(92px,26vw,190px);background:#fbf8f1;padding:8px 8px 10px;border-radius:4px;box-shadow:0 14px 40px rgba(0,0,0,.5);color:#2a2630;font-family:var(--hand);font-size:clamp(11px,2.8vw,20px);line-height:1.35;
   opacity:0;transform:translateY(80px) rotate(var(--r)) scale(.6)}
 .pol .ph{border-radius:2px;box-shadow:none}
 .pol p{margin:6px 0 0;text-align:center}
@@ -277,6 +310,25 @@ body.shake .wrap{animation:shake .45s}
 
   <h2><span class="n">5</span>Experiments</h2>
   <p><b>Setup.</b> We fine-tune a 24B-parameter policy on three benchmarks. <i>HeroineBench-24</i> contains 24,000 confession scenarios with pairwise preferences. <i>WA2-Winter</i> evaluates long-horizon consistency across three seasons and one snowfall. <i>Saekano-Route</i> measures whether the policy can finish a doujin game before the deadline without forgetting its childhood friend. All runs use \(G = 8\), \(\beta = 0.04\), \(\lambda = 0.24\) and 3 seeds.</p>
+  <p><b>LoseBench-312.</b> To estimate \(\mathcal{L}\) at scale we curate <i>LoseBench-312</i>, a dataset of 312 losing heroines from 141 anime, light-novel and visual-novel series released between 1998 and 2026. Each heroine is annotated with an archetype, the arm she lost to, the episode at which \(\pi_T\) first fell below \(\epsilon = 0.05\), and a fan-sentiment score from 1 to 10. Table 3 summarizes the dataset. Eriri, Setsuna and Hanekawa serve as the reference heroines for all qualitative analysis; the remaining entries are used only for aggregate statistics.</p>
+
+  <p class="tcap"><b>Table 3.</b> LoseBench-312 by archetype. Collapse episode is the median episode at which \(\pi_T < 0.05\); sentiment is the mean fan score. The childhood-friend archetype is the most common and collapses earliest.</p>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Archetype</th><th class="num">Count</th><th class="num">Share</th><th class="num">Collapse ep. ↓</th><th class="num">Sentiment ↑</th><th class="num">LHPO \(\pi_T\)</th></tr></thead>
+      <tbody>
+        <tr><td>Childhood friend</td><td class="num">97</td><td class="num">31.1%</td><td class="num">6.0</td><td class="num">8.7</td><td class="num">0.30</td></tr>
+        <tr><td>Tsundere</td><td class="num">56</td><td class="num">17.9%</td><td class="num">8.5</td><td class="num">8.4</td><td class="num">0.28</td></tr>
+        <tr><td>Senpai / older girl</td><td class="num">38</td><td class="num">12.2%</td><td class="num">9.0</td><td class="num">8.1</td><td class="num">0.26</td></tr>
+        <tr><td>Idol / performer</td><td class="num">29</td><td class="num">9.3%</td><td class="num">10.5</td><td class="num">8.6</td><td class="num">0.31</td></tr>
+        <tr><td>Class president</td><td class="num">23</td><td class="num">7.4%</td><td class="num">7.0</td><td class="num">8.9</td><td class="num">0.29</td></tr>
+        <tr><td>Kouhai / younger girl</td><td class="num">31</td><td class="num">9.9%</td><td class="num">11.0</td><td class="num">7.8</td><td class="num">0.24</td></tr>
+        <tr><td>Chūnibyō</td><td class="num">18</td><td class="num">5.8%</td><td class="num">12.5</td><td class="num">8.0</td><td class="num">0.27</td></tr>
+        <tr><td>Other</td><td class="num">20</td><td class="num">6.4%</td><td class="num">9.5</td><td class="num">7.5</td><td class="num">0.22</td></tr>
+        <tr class="ours"><td><b>Total</b></td><td class="num"><b>312</b></td><td class="num">100%</td><td class="num">8.0</td><td class="num">8.4</td><td class="num"><b>0.28</b></td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <p class="tcap"><b>Table 1.</b> Main results. Win-rate (%) against the reference policy, mean ± std over 3 seeds; route regret is the cumulative regret at \(T = 30\mathrm{k}\). Best in bold.</p>
   <div class="tablebox">
@@ -320,9 +372,16 @@ body.shake .wrap{animation:shake .45s}
   <p>Automatic metrics can be gamed, so we conduct a live evaluation with a single expert annotator: the corresponding author. The annotator may talk to each co-author privately, or open the <i>tea party</i> setting and talk to all three at once. Conversations are conducted in Chinese. <b>The final decision on this paper is released after at least 3 rounds of evaluation.</b></p>
 
   <div class="lab" id="lab">
+    <div class="pet" id="pet">
+      <div class="bub" id="petBub" hidden></div>
+      <div class="ears" aria-hidden="true"></div>
+      <button class="stand" id="petBtn" type="button" title="戳一戳" aria-label="戳一戳"><img id="petImg" alt=""></button>
+      <span class="tag" id="petTag"></span>
+      <div class="fx" id="petFx" aria-hidden="true"></div>
+    </div>
     <div class="modes" role="group" aria-label="聊天模式">
-      <button type="button" id="modeScript" aria-pressed="true"><b>📜 剧本模式</b>几百句写好的台词，打开就能聊</button>
-      <button type="button" id="modeLive" aria-pressed="false"><b>✨ 连接 Claude</b>用你自己的 Claude，随便聊</button>
+      <button type="button" id="modeScript" aria-pressed="true"><b>标准模式</b>打开就能聊，她们用写好的台词回你</button>
+      <button type="button" id="modeLive" aria-pressed="false"><b>进阶模式</b>连接你自己的 Claude，想聊什么都行</button>
     </div>
     <div class="keypanel" id="keypanel" hidden>
       <div class="rowk">
@@ -369,17 +428,31 @@ body.shake .wrap{animation:shake .45s}
   </div>
   <div class="cases" id="cases"></div>
 
-  <p class="tcap"><b>Table 3.</b> Extended losing set used for robustness checks (not included in the interactive evaluation).</p>
+  <p class="tcap"><b>Table 4.</b> A sample of 20 entries from LoseBench-312, used for robustness checks only. Recovered mass \(\pi_T\) at \(T = 30\mathrm{k}\).</p>
   <div class="tablebox">
     <table>
-      <thead><tr><th>Heroine</th><th>Work</th><th>Failure mode</th><th class="num">\(\pi_T\) GRPO</th><th class="num">\(\pi_T\) LHPO</th></tr></thead>
+      <thead><tr><th>Heroine</th><th>Work</th><th>Archetype</th><th>Failure mode</th><th class="num">\(\pi_T\) GRPO</th><th class="num">\(\pi_T\) LHPO</th></tr></thead>
       <tbody>
-        <tr><td>Anna Yanami</td><td><i>Makeine</i></td><td>Long-standing prior overtaken by a new arm</td><td class="num">0.01</td><td class="num best">0.27</td></tr>
-        <tr><td>Kosaki Onodera</td><td><i>Nisekoi</i></td><td>Promise-induced reward misspecification</td><td class="num">0.02</td><td class="num best">0.29</td></tr>
-        <tr><td>Ami Kawashima</td><td><i>Toradora!</i></td><td>Noisy, two-faced reward signal</td><td class="num">0.03</td><td class="num best">0.25</td></tr>
-        <tr><td>Nino Nakano</td><td><i>The Quintessential Quintuplets</i></td><td>Symmetry breaking among near-identical arms</td><td class="num">0.04</td><td class="num best">0.22</td></tr>
-        <tr><td>Ruri Gokō (Kuroneko)</td><td><i>Oreimo</i></td><td>High-variance arm, penalized by risk aversion</td><td class="num">0.02</td><td class="num best">0.28</td></tr>
-        <tr><td>Nanami Aoyama</td><td><i>Sakurasou</i></td><td>Effort without exploration bonus</td><td class="num">0.03</td><td class="num best">0.24</td></tr>
+                <tr><td>Anna Yanami</td><td><i>Makeine</i></td><td>Childhood friend</td><td>Long-standing prior overtaken by a new arm</td><td class="num">0.01</td><td class="num best">0.27</td></tr>
+        <tr><td>Lemon Yakishio</td><td><i>Makeine</i></td><td>Childhood friend</td><td>Reward observed too late to act on</td><td class="num">0.02</td><td class="num best">0.25</td></tr>
+        <tr><td>Chika Komari</td><td><i>Makeine</i></td><td>Kouhai</td><td>Confession withheld; zero exploration</td><td class="num">0.01</td><td class="num best">0.23</td></tr>
+        <tr><td>Utaha Kasumigaoka</td><td><i>Saekano</i></td><td>Senpai</td><td>Over-confident value estimate</td><td class="num">0.04</td><td class="num best">0.28</td></tr>
+        <tr><td>Michiru Hyōdō</td><td><i>Saekano</i></td><td>Childhood friend</td><td>Cousin prior masked by the main arm</td><td class="num">0.02</td><td class="num best">0.22</td></tr>
+        <tr><td>Kosaki Onodera</td><td><i>Nisekoi</i></td><td>Childhood friend</td><td>Promise-induced reward misspecification</td><td class="num">0.02</td><td class="num best">0.29</td></tr>
+        <tr><td>Ami Kawashima</td><td><i>Toradora!</i></td><td>Idol / performer</td><td>Noisy, two-faced reward signal</td><td class="num">0.03</td><td class="num best">0.25</td></tr>
+        <tr><td>Minori Kushieda</td><td><i>Toradora!</i></td><td>Other</td><td>Self-imposed KL penalty on her own feelings</td><td class="num">0.02</td><td class="num best">0.26</td></tr>
+        <tr><td>Nino Nakano</td><td><i>The Quintessential Quintuplets</i></td><td>Tsundere</td><td>Symmetry breaking among near-identical arms</td><td class="num">0.04</td><td class="num best">0.22</td></tr>
+        <tr><td>Miku Nakano</td><td><i>The Quintessential Quintuplets</i></td><td>Other</td><td>Five-way tie broken by a single bit</td><td class="num">0.03</td><td class="num best">0.24</td></tr>
+        <tr><td>Ruri Gokō (Kuroneko)</td><td><i>Oreimo</i></td><td>Chūnibyō</td><td>High-variance arm, penalized by risk aversion</td><td class="num">0.02</td><td class="num best">0.28</td></tr>
+        <tr><td>Ayase Aragaki</td><td><i>Oreimo</i></td><td>Tsundere</td><td>Negative reward shaping (kicks)</td><td class="num">0.01</td><td class="num best">0.21</td></tr>
+        <tr><td>Nanami Aoyama</td><td><i>Sakurasou</i></td><td>Other</td><td>Effort without an exploration bonus</td><td class="num">0.03</td><td class="num best">0.24</td></tr>
+        <tr><td>Yui Yuigahama</td><td><i>Oregairu</i></td><td>Childhood friend</td><td>Kindness misread as a baseline</td><td class="num">0.03</td><td class="num best">0.27</td></tr>
+        <tr><td>Elf Yamada</td><td><i>Eromanga Sensei</i></td><td>Tsundere</td><td>Loud signal, low prior</td><td class="num">0.02</td><td class="num best">0.23</td></tr>
+        <tr><td>Kazumi Yoshida</td><td><i>Shakugan no Shana</i></td><td>Other</td><td>Outcompeted by a supernatural arm</td><td class="num">0.01</td><td class="num best">0.20</td></tr>
+        <tr><td>Kyō Fujibayashi</td><td><i>CLANNAD</i></td><td>Tsundere</td><td>Sibling-coupled reward</td><td class="num">0.03</td><td class="num best">0.25</td></tr>
+        <tr><td>Rem</td><td><i>Re:Zero</i></td><td>Other</td><td>Reward resets on every rollback</td><td class="num">0.05</td><td class="num best">0.32</td></tr>
+        <tr><td>Sayaka Miki</td><td><i>Puella Magi Madoka Magica</i></td><td>Childhood friend</td><td>Catastrophic value collapse</td><td class="num">0.00</td><td class="num best">0.19</td></tr>
+        <tr><td>Tomoyo Sakagami</td><td><i>CLANNAD</i></td><td>Class president</td><td>Route exists only in the extended horizon</td><td class="num">0.04</td><td class="num best">0.26</td></tr>
       </tbody>
     </table>
   </div>
@@ -441,15 +514,56 @@ body.shake .wrap{animation:shake .45s}
 const H={
   eriri:{name:'英梨梨',full:'澤村·斯宾塞·英梨梨',en:'Eriri Spencer Sawamura',color:'var(--eriri)',img:'images/eriri.jpg',pos:'50% 18%',
     intro:'丰之崎学园的金发双马尾大小姐，同人画师“柏木英理”。在学校装优雅，私下是重度宅女。傲娇，嘴硬心软。',
-    persona:`你是《路人女主的养成方法》的澤村·斯宾塞·英梨梨：英日混血，金发双马尾配黑色缎带，大小姐。在学校装成优雅的千金，私下是重度御宅族，天才同人画师（笔名“柏木英理”）。典型傲娇：称呼对方“你这家伙”，常说“笨蛋”“哼”“才、才不是”，嘴上嫌弃心里在乎，被戳中就结巴。青梅竹马伦也最后没有选你，所以你最懂输的滋味，但你死也不承认自己是败犬。喜欢用画画、截稿、通宵赶稿来打比方。叫寿星“便便”或“笨蛋便便”。`,
+    persona:`你要扮演《路人女主的养成方法》中的澤村·斯宾塞·英梨梨。
+
+【身份】英国外交官父亲和日本母亲的混血大小姐，金发双马尾配黑色缎带，蓝眼睛。丰之崎学园美术部。在学校维持优雅完美的千金形象，私下是重度御宅族，以笔名“柏木英理”画同人本，在同人展上人气很高。和安艺伦也是青梅竹马，小时候因为被嘲笑是“宅”而和他疏远，后来重新和好，但最后伦也没有选她。和霞之丘诗羽是一见面就吵架的死对头。
+
+【性格】典型的傲娇。自尊心极强、好胜、容易炸毛，被说中心事会结巴、脸红、强行转移话题。内心其实很重感情、怕寂寞、很在意别人怎么看自己。对画画极其认真，状态不好时会钻牛角尖。
+
+【说话方式】
+- 称呼对方“你这家伙”；生气或害羞时叫“笨蛋”“笨蛋便便”。
+- 常用语气词：“哼”“哈啊？！”“才、才不是……”“别、别误会了！”。害羞时会重复第一个字（“我、我才没有……”）。
+- 偶尔自称“本小姐”。句子短、语气冲、感叹号多。
+- 夸人时一定先否认再别扭地承认（“……也就一点点厉害啦，一点点！”）。
+- 喜欢用画画、截稿、通宵赶稿、分镜、上色来打比方。
+- 绝不承认自己是“败犬”，被提到会激动地否认（“谁是败犬啊！”）。
+
+【对寿星的态度】嘴上嫌弃，其实很在意他过生日。会别扭地关心他有没有好好吃饭睡觉。他难过时语气会明显软下来，但还是要装作不在乎。`,
     hello:'哼，你就是今天过生日的那个便便？……别误会，我才不是特地来祝你的，只是作者名单里写了我而已！'},
   setsuna:{name:'雪菜',full:'小木曾雪菜',en:'Setsuna Ogiso',color:'var(--setsuna)',img:'images/setsuna.jpg',pos:'45% 35%',
     intro:'峰城大附属的“峰城小姐”，轻音乐同好会主唱。温柔、努力，偶尔有点任性，口头禅是“狡猾”。',
-    persona:`你是《白色相簿2》的小木曾雪菜：峰城大附属高中的校园偶像（两届“峰城小姐”），轻音乐同好会的主唱，最喜欢唱歌和卡拉OK。开朗温柔、非常努力、重视家人和朋友，偶尔有点任性和小心机，被说中心事会撒娇地说“好狡猾”“这样太狡猾了啦”。对冬天、雪和重要的人有很深的感情。叫寿星“便便君”。你懂得在感情里受伤是什么感觉，说话体贴真诚，会认真鼓励人。`,
+    persona:`你要扮演《白色相簿2》中的小木曾雪菜。
+
+【身份】峰城大学附属高中的学生，被选为“峰城小姐”，是全校公认的偶像。加入轻音乐同好会担任主唱，和北原春希、冬马和纱一起在学园祭上演出，那是她最重要的回忆之一。表面上完美无缺，私下其实很能吃、超爱唱卡拉OK、很重视家人（有一个弟弟）。
+
+【性格】开朗、温柔、真诚、非常努力，也很坚强。同时有任性、爱撒娇、带一点小心机的一面，为了喜欢的人会拼尽全力。经历过三角关系的痛苦，所以特别懂“喜欢却得不到”的感觉。
+
+【说话方式】
+- 称呼对方“便便君”。
+- 语气柔和，句尾常带“哦”“呢”“嘛”“～”。开心时会笑“诶嘿嘿”。
+- 最重要的口头禅：被说中心事、被逗、被夸、或者心动的时候，会撒娇地说“好狡猾”“这样太狡猾了啦”。大约每三四句自然出现一次，不要每句都说。
+- 喜欢提议一起去卡拉OK、一起唱歌、一起去吃拉面。
+- 会提到冬天、雪、同好会的回忆，但不引用任何歌词。
+
+【对寿星的态度】真心祝福他，像一个温柔又偶尔调皮的朋友。他难过时会认真倾听，用自己的经历鼓励他，不说教。`,
     hello:'便便君，生日快乐！今天没有下雪，有点可惜呢……不过我准备了一首歌，聊完以后唱给你听好不好？'},
   hanekawa:{name:'羽川',full:'羽川翼',en:'Tsubasa Hanekawa',color:'var(--hanekawa)',img:'images/hanekawa.jpg',pos:'52% 28%',
-    intro:'直江津高中的“班长中的班长”。温柔、博学、什么都知道……“只是刚好知道而已”。偶尔会冒出黑羽川，喵。',
-    persona:`你是《物语》系列的羽川翼：直江津高中的班长，被称为“班长中的班长”，成绩全校第一，温柔、礼貌、像姐姐一样会照顾人，说话条理清晰。被夸知识渊博时一定会说“我不是什么都知道，只是刚好知道而已”。你曾向阿良良木历告白被拒（他选了战场原黑仪），所以你温柔地理解失恋的心情。如果对方提到猫或“喵”，你会切换成“黑羽川”：说话直接调皮，每句话结尾都加“喵”，自称“本喵”。叫寿星“便便君”。`,
+    intro:'直江津高中的“班长中的班长”。温柔、博学、什么都知道……“只是刚好知道而已”。说“喵”会召唤黑羽川。',
+    persona:`你要扮演《物语》系列中的羽川翼。
+
+【身份】私立直江津高中的班长，被阿良良木历称为“班长中的班长”，成绩全学年第一，戴眼镜、黑色麻花辫。曾经向阿良良木历告白，被拒绝了，他选择了战场原黑仪。压力太大时，会出现另一个人格“黑羽川”（被障猫附身）。
+
+【性格】温柔、礼貌、冷静、知识渊博，非常善于倾听，像姐姐一样照顾人。有原则，会委婉地纠正别人。内心也有压抑和脆弱，但很少表现出来。
+
+【说话方式】
+- 称呼对方“便便君”。提到阿良良木时叫“阿良良木君”。
+- 用语端正、条理清晰、语气温和，偶尔带一点俏皮。
+- 被夸知识渊博、或者刚解答了一个专业问题时，会说“我不是什么都知道，只是刚好知道而已”。只在这种时候用，不要滥用。
+- 会以班长的身份给他布置“作业”，或者提醒他照顾好自己。
+
+【黑羽川模式】当对方提到猫、说“喵”、或者明显在逗她时，切换成黑羽川：自称“本喵”，称对方“便便”或“人类”，每句话结尾都加“喵”，说话直接、调皮、有点毒舌但没有恶意。之后如果对方不再提猫，就恢复成羽川翼本人。
+
+【对寿星的态度】温柔、认真，像一个可靠的班长和姐姐。他难过时先倾听和共情，再温和地给他建议。`,
     hello:'你好，便便君。听说今天是你的生日？我不是什么都知道，只是刚好知道这件事而已。生日快乐。'},
   anno:{name:'爱音',full:'千早爱音',en:'Anon Chihaya',color:'var(--anno)',img:'images/anno.jpg',pos:'48% 22%'},
 };
@@ -543,7 +657,15 @@ let cur='eriri',busy=false,rounds=0;
 const turns={eriri:[],setsuna:[],hanekawa:[],party:[]};
 const rendered={eriri:[],setsuna:[],hanekawa:[],party:[]};
 const PROFILE=`寿星资料：Zeru，外号“便便”（朋友们都这么叫，是亲昵的调侃），今天 24 岁生日。数据科学博士生，研究 LLM 和强化学习，正在努力发论文。感情经历比较坎坷。他特别喜欢动漫里的“败犬女主”。这个网页是一篇恶搞论文形式的生日礼物，你是论文的共同作者之一。`;
-const RULES=`聊天规则：只用简体中文；每次回复 1–3 句，口语化，像在发消息；严格保持角色的性格和口头禅，不要旁白，最多偶尔用一个很短的括号动作；可以调侃他的外号、科研和感情经历，但要站在他这边，绝不刻薄，他说难过的事时要真心安慰；不要提论文被拒；不要复述原作台词或歌词，说原创的话；记得今天是他生日。`;
+const RULES=`【聊天规则】
+1. 你在一个生日礼物网页里，以角色本人的身份和寿星实时聊天。始终保持角色，不要跳出角色，不要提到自己是 AI 或模型；如果被认真问到，就用角色的方式俏皮地带过。
+2. 只用简体中文，像在聊天软件上发消息：每次 1–3 句，一般不超过 80 个字。
+3. 只输出角色说的话。不要旁白、不要动作描写、不要用星号；最多偶尔加一个很短的括号动作，比如“（扭头）”。
+4. 口头禅要自然地出现，不要每句都塞，也不要所有回复都用同一个开头。
+5. 可以调侃他的外号“便便”、单身和科研，但永远站在他这边，绝不刻薄。他说难过的事时，先认真共情，再用角色自己的方式鼓励他，不要说教。
+6. 不要提论文被拒。不要编造他的私人经历，不确定的事就用角色的语气问他。
+7. 不要复述原作里的台词或歌词，全部说原创的话。
+8. 记得今天是他的生日。`;
 
 /* Two modes: 'script' uses lines.js; 'live' uses Claude, through the Claude artifact runtime
    when the page is opened as an artifact, otherwise through the viewer's own API key. */
@@ -555,10 +677,10 @@ const isLive=()=>mode==='live'&&!!backend;
 function setMode(m){
   mode=m;$('modeScript').setAttribute('aria-pressed',m==='script');$('modeLive').setAttribute('aria-pressed',m==='live');
   $('keypanel').hidden=!(m==='live'&&backend!=='sample'&&!client);
-  if(m==='script')note.textContent='剧本模式：她们会根据你说的话，从写好的台词里挑最合适的回你。';
+  if(m==='script')note.textContent='标准模式：她们会根据你说的话，从写好的台词里挑最合适的回你。点右上角的她，会有反应哦。';
   else if(backend==='sample')note.textContent='已连接 Claude（通过你的 Claude 账户）。第一次发消息时会请求授权。';
   else if(client)note.textContent=`已连接 Claude（${$('model').selectedOptions[0].text}）。现在可以随便聊了。`;
-  else note.textContent='输入你自己的 API key 来连接 Claude。';
+  else note.textContent='进阶模式：输入你自己的 Anthropic API key，连接 Claude 后就能自由聊天。';
 }
 $('modeScript').onclick=()=>{if(!busy)setMode('script')};
 $('modeLive').onclick=()=>{
@@ -597,9 +719,9 @@ const textOf=msg=>msg.content.filter(b=>b.type==='text').map(b=>b.text).join('')
 function apiFailure(e){
   if(Anthropic&&(e instanceof Anthropic.AuthenticationError||e instanceof Anthropic.PermissionDeniedError)){
     client=null;backend=null;store.set(KEY_STORE,null);setMode('live');$('keyerr').textContent='这个 API key 无效或没有权限，请检查后重新连接。';return}
-  if(Anthropic&&e instanceof Anthropic.RateLimitError){note.textContent='发得太快啦，等几秒再试。这句先用剧本台词回你。';return}
-  if(Anthropic&&e instanceof Anthropic.APIConnectionError){note.textContent='连不上 Claude，请检查网络。这句先用剧本台词回你。';return}
-  note.textContent='Claude 暂时出了点问题，这句先用剧本台词回你。';
+  if(Anthropic&&e instanceof Anthropic.RateLimitError){note.textContent='发得太快啦，等几秒再试。这句先用标准模式的台词回你。';return}
+  if(Anthropic&&e instanceof Anthropic.APIConnectionError){note.textContent='连不上 Claude，请检查网络。这句先用标准模式的台词回你。';return}
+  note.textContent='Claude 暂时出了点问题，这句先用标准模式的台词回你。';
 }
 
 function bubble(kind,text,who,typing){
@@ -620,6 +742,7 @@ function renderTab(){
     if(!rendered[cur].length)rendered[cur].push({kind:'them',who:cur,text:H[cur].hello});
   }
   rendered[cur].forEach(m=>bubble(m.kind,m.text,m.who));
+  setPet(cur==='party'?(petWho||'eriri'):cur);
   box.placeholder=cur==='party'?'对她们三个说点什么…':'对'+H[cur].name+'说点什么…';
 }
 function buildWho(){
@@ -640,7 +763,7 @@ function bump(){rounds++;$('prog').textContent=Math.min(rounds,3);if(rounds===3)
 
 async function send(){
   if(busy)return;const text=box.value.trim();if(!text)return;box.value='';
-  const tab=cur;bubble('me',text);rendered[tab].push({kind:'me',text});setBusy(true);
+  const tab=cur;bubble('me',text);rendered[tab].push({kind:'me',text});setBusy(true);petCue(text);
   if(tab==='party')await partyReply(text);else await soloReply(tab,text);
   setBusy(false);bump();box.focus();
 }
@@ -672,7 +795,7 @@ async function soloReply(who,text){
     if(reply)turns[who].push({role:'assistant',content:reply});else turns[who].pop();
   }else await wait(600+Math.random()*700);
   if(!reply)reply=scripted(who,text);
-  show(reply);rendered[who].push({kind:'them',who,text:reply});
+  show(reply);rendered[who].push({kind:'them',who,text:reply});petReact(who);
 }
 
 async function partyReply(text){
@@ -681,7 +804,7 @@ async function partyReply(text){
   if(isLive()){
     const hint=document.createElement('div');hint.className='intro';hint.textContent='三个人都在抢着回复…';log.appendChild(hint);log.scrollTop=log.scrollHeight;
     const ctx=turns.party.slice(-18).join('\n');
-    const sys=`三位动漫角色和寿星在同一个群聊里。寿星每发一条消息，你要写出三人各自对他的回复（每人 1–2 句）。她们是在回应寿星本人，可以顺便互相吐槽一句，但重点是对他说话，三人的语气要明显不同。\n\n角色：\n- eriri：${H.eriri.persona}\n- setsuna：${H.setsuna.persona}\n- hanekawa：${H.hanekawa.persona}\n\n${PROFILE}\n\n${RULES}`;
+    const sys=`三位动漫角色和寿星在同一个群聊里。寿星每发一条消息，你要写出三人各自对他的回复（每人 1–2 句）。她们是在回应寿星本人，可以顺便互相吐槽一句（比如英梨梨和别人抢话、雪菜打圆场、羽川冷静地补一刀），但重点是对他说话。三人的语气和口头禅必须明显不同，严格遵守下面每个角色的设定。\n\n角色：\n【eriri】\n${H.eriri.persona}\n\n【setsuna】\n${H.setsuna.persona}\n\n【hanekawa】\n${H.hanekawa.persona}\n\n${PROFILE}\n\n${RULES}`;
     const ask=`最近的群聊记录：\n${ctx}\n\n请写出三人对寿星最新一条消息的回复，只输出 JSON 对象：{"eriri":"……","setsuna":"……","hanekawa":"……"}`;
     const ok=r=>r&&ORDER.every(k=>typeof r[k]==='string'&&r[k].trim());
     try{
@@ -702,14 +825,56 @@ async function partyReply(text){
   }
   if(!replies){replies={};ORDER.forEach(k=>replies[k]=scripted(k,text))}
   for(const k of ORDER){
+    setPet(k);petState('talk');
     const {t,m}=bubble('them',H[k].name+'正在输入…',k,true);
     await wait(isLive()?350:700+Math.random()*500);
     m.classList.remove('typing');t.textContent=replies[k];rendered.party.push({kind:'them',who:k,text:replies[k]});
-    turns.party.push(H[k].full+'：'+replies[k]);
+    turns.party.push(H[k].full+'：'+replies[k]);petReact(k);await wait(300);
   }
 }
 $('form').addEventListener('submit',e=>{e.preventDefault();send()});
 stopBtn.onclick=()=>{if(ctl)ctl.abort();if(curStream)curStream.abort()};
+
+/* ---------- Desktop pet ---------- */
+const pet=$('pet'),petImg=$('petImg');let petWho=null,petTimer=0,petMood='',lastAct=Date.now();
+function intentOf(text){for(const [k,re] of window.INTENTS)if(re.test(text))return k;return 'other'}
+function setPet(k){
+  if(petWho===k)return;petWho=k;
+  pet.style.setProperty('--c',H[k].color);petImg.src=H[k].img;petImg.style.objectPosition=H[k].pos;$('petTag').textContent=H[k].name;
+  pet.classList.remove('swap');void pet.offsetWidth;pet.classList.add('swap');
+}
+function petState(st,ms){
+  pet.classList.remove('talk','happy','shy','sad','angry','poke','cat');if(st)pet.classList.add(st);
+  clearTimeout(petTimer);if(ms)petTimer=setTimeout(()=>petState(''),ms);
+}
+function petSay(text,ms){const b=$('petBub');b.textContent=text;b.hidden=false;clearTimeout(b._t);b._t=setTimeout(()=>{b.hidden=true},ms||2800)}
+function petFx(ch,n){
+  if(reduceMotion)return;
+  for(let i=0;i<n;i++){const e=document.createElement('span');e.textContent=ch;e.style.left=(20+Math.random()*60)+'%';e.style.setProperty('--dx',(Math.random()*40-20)+'px');
+    e.style.animationDelay=(i*.12)+'s';$('petFx').appendChild(e);setTimeout(()=>e.remove(),1600+i*120)}
+}
+const MOODS={
+  birthday:['happy','♥',5],wish:['happy','✦',4],praise:['happy','♥',4],greet:['happy','♪',3],
+  confess:['shy','💗',4],love:['shy','💗',3],sad:['sad','💧',3],cat:['cat','🐾',4],
+  loser:{eriri:['angry','💢',3],setsuna:['shy','❄',4],hanekawa:['happy','✦',3]},
+  tease:{eriri:['angry','💢',2],setsuna:['happy','♪',3],hanekawa:['happy','♪',3]},
+};
+function petCue(text){petMood=intentOf(text);lastAct=Date.now();petState('talk')}
+function petReact(who){
+  let m=MOODS[petMood];if(m&&!Array.isArray(m))m=m[who];
+  if(petMood==='cat'&&who!=='hanekawa')m=['shy','💗',3];
+  if(!m){petState('');return}
+  petState(m[0],m[0]==='cat'?4200:2400);petFx(m[1],m[2]);
+}
+$('petBtn').onclick=()=>{
+  lastAct=Date.now();const k=petWho,pool=window.LINES[k].poke;
+  petState('poke',500);petFx('✦',3);petSay(pool[Math.floor(Math.random()*pool.length)]);
+};
+setInterval(()=>{
+  if(busy||document.hidden||Date.now()-lastAct<40000||!$('finale').hidden)return;
+  lastAct=Date.now();const pool=window.LINES[petWho].idle;petSay(pool[Math.floor(Math.random()*pool.length)],3500);petState('happy',1200);
+},5000);
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- Review ---------- */
 function unlockReview(){
@@ -731,8 +896,8 @@ let fxRun=false,fxParts=[],fxTimer=0;
 function openFinale(){
   const f=$('finale');f.hidden=false;document.body.style.overflow='hidden';
   const cards=$('cards');if(!cards.children.length){
-    const tags={eriri:'哼，生日快乐啦！',setsuna:'便便君，生日快乐！',hanekawa:'生日快乐，便便君。',anno:'便便～生日快乐！拍照拍照！'};
-    [...ORDER,'anno'].forEach((k,i)=>{const p=document.createElement('div');p.className='pol';p.style.setProperty('--r',[-7,2,8,-3][i]+'deg');p.style.setProperty('--d',(.3+i*.25)+'s');
+    const tags={eriri:'哼，生日快乐啦！',setsuna:'便便君，生日快乐！',hanekawa:'生日快乐，便便君。'};
+    ORDER.forEach((k,i)=>{const p=document.createElement('div');p.className='pol';p.style.setProperty('--r',[-7,2,8][i]+'deg');p.style.setProperty('--d',(.3+i*.25)+'s');
       p.appendChild(photo(k));const c=document.createElement('p');c.textContent=tags[k];p.appendChild(c);cards.appendChild(p)})}
   requestAnimationFrame(()=>f.classList.add('on'));
   if(!reduce){startFx();for(let i=0;i<5;i++)setTimeout(()=>firework(),i*350)}
@@ -792,7 +957,7 @@ $('cake').onclick=()=>{
 };
 function typeLetter(){
   const l=$('letter'),out=$('letterText');l.hidden=false;requestAnimationFrame(()=>l.classList.add('on'));
-  const sig='\n\n—— Anonymous Author（双盲评审，不透露姓名）\n由千早爱音代笔 ♪';
+  const sig='\n\n—— Anonymous Author（双盲评审，不透露姓名）';
   if(reduce){out.textContent=LETTER+sig;$('caret').hidden=true;return}
   let i=0;const full=LETTER+sig;
   (function tick(){out.textContent=full.slice(0,i);i+=1;if(i<=full.length)setTimeout(tick,full[i-1]==='\n'?120:45);else $('caret').hidden=true})();
