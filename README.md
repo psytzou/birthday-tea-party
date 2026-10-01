@@ -23,24 +23,8 @@ Preference optimization collapses onto one mode and forgets everyone else. We ca
 
 ## How to read the paper
 
-**Option 1 (recommended):** open the GitHub Pages link for this repo.
+https://psytzou.github.io/birthday-tea-party/
 
-**Option 2:** clone and open locally.
-
-```bash
-git clone <this-repo-url>
-```
-
-Then open `index.html` in any browser. An internet connection is needed for fonts and math rendering.
-
-## Reproducing the results
-
-1. Read the paper.
-2. Complete **at least 3 rounds** of the interactive human evaluation in Section 6. You can talk to each reference heroine alone, or open **☕ 败犬茶话会** to talk to all three at once.
-   - **标准模式** works out of the box, using pre-written lines (`lines.js`).
-   - **进阶模式** lets you chat freely with your own Anthropic API key. The key stays in your browser and is sent only to `api.anthropic.com`.
-3. Wait for Reviewer #2 (Kazusa Touma).
-4. Click the final decision. Turn your sound on.
 
 | Method | HeroineBench-24 ↑ | Route Regret ↓ |
 |---|---:|---:|
