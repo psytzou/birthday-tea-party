@@ -31,18 +31,7 @@ https://psytzou.github.io/birthday-tea-party/
 | GRPO | 71.4 | 298.4 |
 | **LHPO (ours)** | **93.0** | **24.0** |
 
-## Citation
 
-```bibtex
-@article{chihaya2026losing,
-  title   = {Losing Heroines Are All You Need: Regret-Optimal Preference
-             Alignment under Non-Stationary Affection},
-  author  = {Chihaya, Anon},
-  journal = {Birthday Track},
-  year    = {2026},
-  note    = {Dedicated to Zeru on his 24th birthday}
-}
-```
 
 ## Credits
 
