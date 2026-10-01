@@ -106,7 +106,7 @@ td.best{font-weight:700}
 
 /* chat */
 .modes{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.modes button{flex:1;min-width:150px;font-family:var(--cjk);font-size:14px;border:1px solid var(--rule);background:var(--bubble);color:var(--muted);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left;line-height:1.4}
+.modes button{flex:1;min-width:110px;text-align:center!important;font-family:var(--cjk);font-size:14px;border:1px solid var(--rule);background:var(--bubble);color:var(--muted);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left;line-height:1.4}
 .modes button b{display:block;color:var(--ink);font-size:15px}
 .modes button[aria-pressed="true"]{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
 .keypanel{border:1px dashed var(--gold);border-radius:10px;padding:12px;margin-bottom:12px;font-family:var(--cjk);font-size:14px;display:grid;gap:8px}
@@ -224,6 +224,12 @@ body.shake .wrap{animation:shake .45s}
 @keyframes smoke{0%{opacity:.8;transform:translateY(0) scale(.6)}100%{opacity:0;transform:translateY(-60px) scale(1.8)}}
 .hint{font-family:var(--cjk);font-size:15px;opacity:.85;margin:0 0 10px;animation:breathe 2s ease-in-out infinite}
 @keyframes breathe{50%{opacity:.4}}
+.bless{max-width:560px;margin:22px auto 0;display:grid;gap:12px;text-align:left}
+.bl{display:flex;gap:12px;align-items:flex-start;background:rgba(251,248,241,.95);color:#2a2630;border-radius:14px;padding:12px 14px;border-left:5px solid var(--c);box-shadow:0 10px 30px rgba(0,0,0,.35);
+  font-family:var(--cjk);font-size:15.5px;line-height:1.75;opacity:0;transform:translateX(-24px);transition:all .6s cubic-bezier(.2,1.3,.4,1)}
+.bl.on{opacity:1;transform:none}
+.bl .ph{flex:none;width:52px;aspect-ratio:1;border-radius:50%}
+.bl b{display:block;font-size:13px;color:var(--c)}
 .letter{max-width:560px;margin:26px auto 0;padding:26px 22px;border-radius:14px;background:rgba(251,248,241,.96);color:#2a2630;text-align:left;box-shadow:0 20px 60px rgba(0,0,0,.5);
   font-family:var(--cjk);font-size:17px;line-height:2;transform:translateY(30px);opacity:0;transition:all .9s ease}
 .letter.on{transform:none;opacity:1}
@@ -243,17 +249,10 @@ body.shake .wrap{animation:shake .45s}
 
   <h1>Losing Heroines Are All You Need: Regret-Optimal Preference Alignment under Non-Stationary Affection</h1>
 
-  <div class="authors">
-    Zeru “Bianbian”<sup>1,†</sup> &nbsp;
-    <span class="c-e">Eriri Spencer Sawamura</span><sup>2</sup> &nbsp;
-    <span class="c-s">Setsuna Ogiso</span><sup>3</sup> &nbsp;
-    <span class="c-h">Tsubasa Hanekawa</span><sup>4</sup> &nbsp;
-    <span class="c-a">Anon Chihaya</span><sup>5,*</sup>
-  </div>
+  <div class="authors"><span class="c-a">Anon Chihaya</span></div>
   <div class="affil">
-    <sup>1</sup>Institute for Losing-Heroine Studies &nbsp; <sup>2</sup>Toyogasaki Academy, Art Dept. &nbsp; <sup>3</sup>Houjou University Affiliated High School, Light Music Club &nbsp; <sup>4</sup>Naoetsu Private High School, Office of the Class President &nbsp; <sup>5</sup>MyGO!!!!!, Haneoka Girls’ High School, Rhythm Guitar<br>
-    <sup>†</sup>Corresponding author. Birthday: today. &nbsp;<code>bianbian@losing-heroines.ai</code><br>
-    <sup>*</sup>Lead analyst for the case studies (Appendix A). Joined mainly because the paper looked like it might go viral.
+    Haneoka Girls’ High School · MyGO!!!!!, Rhythm Guitar &nbsp;<code>anon@losing-heroines.ai</code><br>
+    <i>Dedicated to Zeru “Bianbian” on his 24th birthday.</i>
   </div>
 
   <div class="abstract">
@@ -273,7 +272,7 @@ body.shake .wrap{animation:shake .45s}
 
   <h2><span class="n">2</span>Related Work</h2>
   <p><b>Losing heroines in the wild.</b> Mode collapse in romantic preference has been documented across many domains. Yanami et al. [1] provide the first large-scale survey and observe that losing heroines are, empirically, “too many.” Onodera [2] studies collapse induced by a ten-year-old promise, a classic case of reward misspecification. Kawashima [3] shows that a two-faced reward signal can hide high true reward behind a sharp tongue, while Nakano [4] reports that one of five near-identical arms can lose despite the strongest cooking prior. Gokō [5] analyzes a gothic-lolita arm whose self-declared title, the Fallen Angel of Holy Night, adds variance but not probability mass. Aoyama [6] shows that consistent effort under a Kansai-dialect prior is insufficient without regularization.</p>
-  <p><b>Preference optimization.</b> Our objective builds on KL-regularized RLHF, direct preference optimization and group-relative policy optimization. Unlike these methods, LHPO explicitly protects the losing set with a barrier term, which we show is necessary for the corresponding author’s happiness.</p>
+  <p><b>Preference optimization.</b> Our objective builds on KL-regularized RLHF, direct preference optimization and group-relative policy optimization. Unlike these methods, LHPO explicitly protects the losing set with a barrier term, which we show is necessary for the happiness of at least one PhD student.</p>
 
   <h2><span class="n">3</span>Preliminaries</h2>
   <p>Let \(\mathcal{A} = \{1,\dots,K\}\) be a set of heroines. At each round \(t = 1,\dots,T\) the protagonist samples \(a_t \sim \pi_t\) and observes affection \(r_t(a_t) \in [0,1]\), drawn from a non-stationary distribution with mean \(\mu_t(a)\). The protagonist commits to a route \(a^\star_T = \arg\max_a \pi_T(a)\).</p>
@@ -297,14 +296,14 @@ body.shake .wrap{animation:shake .45s}
       <li>&nbsp;&nbsp;\(A_j \leftarrow \big(r_\phi(x,y_j) - \bar r\big)/\sigma_r\) <span class="cm">// group-normalized advantage</span></li>
       <li>&nbsp;&nbsp;\(\mathcal{L}_t \leftarrow \{\, i : \hat\mu_t(i) \ge \hat\mu_t(a^\star_t),\ \pi_\theta(i) < \epsilon \,\}\) <span class="cm">// detect losing heroines</span></li>
       <li>&nbsp;&nbsp;\(\theta \leftarrow \theta + \eta\,\nabla_\theta\big[\tfrac1G\sum_j A_j \log\pi_\theta(y_j) - \beta\,\mathrm{KL} + \lambda\sum_{i\in\mathcal{L}_t}\log\pi_\theta(i)\big]\)</li>
-      <li>&nbsp;&nbsp;<b>if</b> today is the corresponding author’s birthday <b>then</b> \(r_\phi \leftarrow r_\phi + 24\) <span class="cm">// see Theorem 1</span></li>
+      <li>&nbsp;&nbsp;<b>if</b> today is Zeru’s birthday <b>then</b> \(r_\phi \leftarrow r_\phi + 24\) <span class="cm">// see Theorem 1</span></li>
       <li><b>end for</b></li>
     </ol>
   </div>
 
   <div class="thm"><span class="h">Theorem 1</span> <i>(Birthday regret bound)</i>. For any \(K\)-armed Heroine Bandit with horizon \(T\), LHPO with step size \(\eta = \sqrt{\log K / T}\) and \(\lambda = 1/\sqrt{T}\) satisfies
   \[ \mathrm{Reg}_T \;\le\; 2\sqrt{2\,T\log K} \;+\; 24. \]
-  Moreover, the additive constant cannot be improved on the corresponding author’s birthday.</div>
+  Moreover, the additive constant cannot be improved on Zeru’s birthday.</div>
   <p class="proof"><i>Proof sketch.</i> The update in Algorithm 1 is mirror descent on the simplex with negative-entropy regularizer plus a self-concordant barrier on \(\mathcal{L}\). The standard Hedge analysis gives \(\frac{\log K}{\eta} + \frac{\eta T}{2}\). The barrier adds at most \(\lambda T \log(1/\epsilon)\), which is \(o(\sqrt T)\) for our choice of \(\lambda\). The one-time reward shift in line 7 contributes exactly \(24\). For the lower bound, see the cake. <span class="qed">\(\square\)</span></p>
   <div class="thm"><span class="h">Corollary 1</span> <i>(No heroine left behind)</i>. Under LHPO, \(\liminf_{T\to\infty} \pi_T(i) \ge \lambda/(\beta + \lambda) > 0\) for every \(i \in \mathcal{L}\). That is, losing heroines are never forgotten.</div>
 
@@ -345,7 +344,7 @@ body.shake .wrap{animation:shake .45s}
 
   <figure>
     <svg class="chart" id="chart" viewBox="0 0 660 360" role="img" aria-label="Training curves of mean reward against steps for PPO, DPO, GRPO and LHPO"></svg>
-    <figcaption><b>Figure 1.</b> Mean affection reward during training. Baselines plateau once the losing heroines collapse to zero mass. LHPO keeps improving, with a phase transition at step 24k (dashed line) that we attribute to the corresponding author’s birthday.</figcaption>
+    <figcaption><b>Figure 1.</b> Mean affection reward during training. Baselines plateau once the losing heroines collapse to zero mass. LHPO keeps improving, with a phase transition at step 24k (dashed line) that we attribute to Zeru’s birthday. (Author’s note: the line colors were chosen very carefully. They are extremely fashionable.)</figcaption>
   </figure>
 
   <p class="tcap"><b>Table 2.</b> Ablations on HeroineBench-24. Removing any heroine from \(\mathcal{L}\) hurts performance; removing the cake is catastrophic.</p>
@@ -365,11 +364,11 @@ body.shake .wrap{animation:shake .45s}
 
   <figure>
     <div class="portraits" id="portraits"></div>
-    <figcaption><b>Figure 2.</b> Qualitative samples from the losing set \(\mathcal{L}\). All three retain non-zero probability under LHPO, as guaranteed by Corollary 1. Illustrations are fan art credited in the README.</figcaption>
+    <figcaption><b>Figure 2.</b> Qualitative samples from the losing set \(\mathcal{L}\). All three retain non-zero probability under LHPO, as guaranteed by Corollary 1. Illustrations are fan art credited in the README. (Author’s note: I picked all three photos myself. Good taste is also a research skill.)</figcaption>
   </figure>
 
   <h2><span class="n">6</span>Interactive Human Evaluation (\(n = 1\))</h2>
-  <p>Automatic metrics can be gamed, so we conduct a live evaluation with a single expert annotator: the corresponding author. The annotator may talk to each co-author privately, or open the <i>tea party</i> setting and talk to all three at once. Conversations are conducted in Chinese. <b>The final decision on this paper is released after at least 3 rounds of evaluation.</b></p>
+  <p>Automatic metrics can be gamed, so we conduct a live evaluation with a single expert annotator: Zeru, a PhD student in RL and LLMs and a long-time supporter of losing heroines. The annotator may talk to each reference heroine privately, or open the <i>tea party</i> setting and talk to all three at once. Conversations are conducted in Chinese. <b>The final decision on this paper is released after at least 3 rounds of evaluation.</b></p>
 
   <div class="lab" id="lab">
     <div class="pet" id="pet">
@@ -380,8 +379,8 @@ body.shake .wrap{animation:shake .45s}
       <div class="fx" id="petFx" aria-hidden="true"></div>
     </div>
     <div class="modes" role="group" aria-label="聊天模式">
-      <button type="button" id="modeScript" aria-pressed="true"><b>标准模式</b>打开就能聊，她们用写好的台词回你</button>
-      <button type="button" id="modeLive" aria-pressed="false"><b>进阶模式</b>连接你自己的 Claude，想聊什么都行</button>
+      <button type="button" id="modeScript" aria-pressed="true"><b>标准模式</b></button>
+      <button type="button" id="modeLive" aria-pressed="false"><b>进阶模式</b></button>
     </div>
     <div class="keypanel" id="keypanel" hidden>
       <div class="rowk">
@@ -411,8 +410,9 @@ body.shake .wrap{animation:shake .45s}
 
   <h2><span class="n">7</span>Reviews</h2>
   <div class="review">
-    <div class="r"><b>Reviewer #1</b> (confidence 5): Clean theory and strong empirical gains. Figure 2 is the best figure I have reviewed this year. Strong accept.</div>
-    <div class="r"><b>Reviewer #2</b> (confidence 5): The sample size of \(n = 1\) is concerning, and the units of “birthday cake” are undefined. <span id="r2tail">I will wait for the human evaluation before deciding.</span></div>
+    <div class="r"><b>Reviewer #1 · Megumi Katō</b> (<i>Saekano</i>; confidence 3): I read it. The theory is clean, the experiments are fine, and Figure 2 is nice. I’m not entirely sure why I was asked to review a paper about Eriri, but I don’t mind. Accept, I suppose.</div>
+    <div class="r"><b>Reviewer #2 · Kazusa Touma</b> (<i>White Album 2</i>; confidence 5): The sample size is \(n = 1\). The unit of “birthday cake” is never defined. The White Album 2 results depend heavily on route selection, which the author openly refuses to discuss. <span id="r2tail">I will decide after the human evaluation. Don’t expect much.</span></div>
+    <div class="r"><b>Reviewer #3 · Hitagi Senjougahara</b> (<i>Monogatari</i>; confidence 5): I have no objections to the mathematics. I do object to the claim that Hanekawa-san “lost”; she was simply too good for the protagonist, which is a different failure mode and deserves its own paper. Weak accept. I have a stapler, so please take my comments seriously.</div>
     <div class="r"><b>Area Chair</b>: <span id="ac">Awaiting the interactive evaluation (<span id="prog">0</span>/3 rounds).</span></div>
     <div class="decision">
       <span class="stamp" id="stamp">DECISION: PENDING</span>
@@ -424,7 +424,7 @@ body.shake .wrap{animation:shake .45s}
   <h2><span class="n">A</span>Appendix: Case Studies of the Losing Set</h2>
   <div class="anno-head">
     <div class="ph" id="annoFace"></div>
-    <p><i>Analysis by Anon Chihaya<sup>*</sup>.</i> For each heroine in \(\mathcal{L}\) we identify the arm she lost to, the failure mode of the protagonist’s policy, and how much probability mass LHPO recovers. Recovered mass is \(\pi_T(i)\) at \(T = 30\mathrm{k}\), averaged over 3 seeds.</p>
+    <p><i>Case studies.</i> For each heroine in \(\mathcal{L}\) we identify the arm she lost to, the failure mode of the protagonist’s policy, and how much probability mass LHPO recovers. Recovered mass is \(\pi_T(i)\) at \(T = 30\mathrm{k}\), averaged over 3 seeds. (I wrote all three of these myself, by the way. It took a whole weekend and two band practices.)</p>
   </div>
   <div class="cases" id="cases"></div>
 
@@ -456,6 +456,9 @@ body.shake .wrap{animation:shake .45s}
       </tbody>
     </table>
   </div>
+
+  <h2>Acknowledgments</h2>
+  <p>The author thanks her bandmates in MyGO!!!!! for tolerating several rehearsals spent on this paper, and Taki Shiina in particular, who looked at Figure 1 and said it was “fine,” which the author is choosing to interpret as high praise. No external funding was received. The author paid for the cake herself and would like this noted.</p>
 
   <h2>References</h2>
   <ol class="refs">
@@ -504,6 +507,7 @@ body.shake .wrap{animation:shake .45s}
         </g>
       </svg>
     </button>
+    <div class="bless" id="bless" hidden></div>
     <div class="letter" id="letter" hidden><span id="letterText"></span><span class="caret" id="caret"></span></div>
   </div>
 </div>
@@ -529,7 +533,7 @@ const H={
 - 绝不承认自己是“败犬”，被提到会激动地否认（“谁是败犬啊！”）。
 
 【对寿星的态度】嘴上嫌弃，其实很在意他过生日。会别扭地关心他有没有好好吃饭睡觉。他难过时语气会明显软下来，但还是要装作不在乎。`,
-    hello:'哼，你就是今天过生日的那个便便？……别误会，我才不是特地来祝你的，只是作者名单里写了我而已！'},
+    hello:'哼，你就是今天过生日的那个便便？……别误会，我才不是特地来祝你的，只是论文里写了我而已！'},
   setsuna:{name:'雪菜',full:'小木曾雪菜',en:'Setsuna Ogiso',color:'var(--setsuna)',img:'images/setsuna.jpg',pos:'45% 35%',
     intro:'峰城大附属的“峰城小姐”，轻音乐同好会主唱。温柔、努力，偶尔有点任性，口头禅是“狡猾”。',
     persona:`你要扮演《白色相簿2》中的小木曾雪菜。
@@ -630,7 +634,7 @@ ORDER.forEach((k,i)=>{
       ['Key statistic','Shared history of 10+ years; \\(\\pi_T = 0.03\\) under GRPO'],
       ['LHPO recovery','\\(\\pi_T = 0.31\\). Tsundere noise is treated as signal, not penalty.']]],
     ['setsuna','Setsuna Ogiso · <i>White Album 2</i>',[
-      ['Lost to','Route-dependent (the authors decline to discuss it)'],
+      ['Lost to','Route-dependent (the author declines to discuss it)'],
       ['Failure mode','Non-stationary reward. The same arm is optimal in one season and abandoned in the next, and the policy cannot track the drift.'],
       ['Key statistic','Reward variance spikes in winter; snowfall is a confounder'],
       ['LHPO recovery','\\(\\pi_T = 0.33\\). The barrier keeps her in the policy in every season.']]],
@@ -656,7 +660,7 @@ const DENIED=['not_granted','sampling_disabled','not_declared','capability_disab
 let cur='eriri',busy=false,rounds=0;
 const turns={eriri:[],setsuna:[],hanekawa:[],party:[]};
 const rendered={eriri:[],setsuna:[],hanekawa:[],party:[]};
-const PROFILE=`寿星资料：Zeru，外号“便便”（朋友们都这么叫，是亲昵的调侃），今天 24 岁生日。数据科学博士生，研究 LLM 和强化学习，正在努力发论文。感情经历比较坎坷。他特别喜欢动漫里的“败犬女主”。这个网页是一篇恶搞论文形式的生日礼物，你是论文的共同作者之一。`;
+const PROFILE=`寿星资料：Zeru，外号“便便”（朋友们都这么叫，是亲昵的调侃），今天 24 岁生日。数据科学博士生，研究 LLM 和强化学习，正在努力发论文。感情经历比较坎坷。他特别喜欢动漫里的“败犬女主”。这个网页是千早爱音写的一篇恶搞论文形式的生日礼物，你是论文研究的三位“参考败犬女主”之一，现在在网页里和寿星聊天。`;
 const RULES=`【聊天规则】
 1. 你在一个生日礼物网页里，以角色本人的身份和寿星实时聊天。始终保持角色，不要跳出角色，不要提到自己是 AI 或模型；如果被认真问到，就用角色的方式俏皮地带过。
 2. 只用简体中文，像在聊天软件上发消息：每次 1–3 句，一般不超过 80 个字。
@@ -677,10 +681,7 @@ const isLive=()=>mode==='live'&&!!backend;
 function setMode(m){
   mode=m;$('modeScript').setAttribute('aria-pressed',m==='script');$('modeLive').setAttribute('aria-pressed',m==='live');
   $('keypanel').hidden=!(m==='live'&&backend!=='sample'&&!client);
-  if(m==='script')note.textContent='标准模式：她们会根据你说的话，从写好的台词里挑最合适的回你。点右上角的她，会有反应哦。';
-  else if(backend==='sample')note.textContent='已连接 Claude（通过你的 Claude 账户）。第一次发消息时会请求授权。';
-  else if(client)note.textContent=`已连接 Claude（${$('model').selectedOptions[0].text}）。现在可以随便聊了。`;
-  else note.textContent='进阶模式：输入你自己的 Anthropic API key，连接 Claude 后就能自由聊天。';
+  note.textContent=(m==='live'&&client)?'已连接 · '+$('model').selectedOptions[0].text:'';
 }
 $('modeScript').onclick=()=>{if(!busy)setMode('script')};
 $('modeLive').onclick=()=>{
@@ -719,9 +720,9 @@ const textOf=msg=>msg.content.filter(b=>b.type==='text').map(b=>b.text).join('')
 function apiFailure(e){
   if(Anthropic&&(e instanceof Anthropic.AuthenticationError||e instanceof Anthropic.PermissionDeniedError)){
     client=null;backend=null;store.set(KEY_STORE,null);setMode('live');$('keyerr').textContent='这个 API key 无效或没有权限，请检查后重新连接。';return}
-  if(Anthropic&&e instanceof Anthropic.RateLimitError){note.textContent='发得太快啦，等几秒再试。这句先用标准模式的台词回你。';return}
-  if(Anthropic&&e instanceof Anthropic.APIConnectionError){note.textContent='连不上 Claude，请检查网络。这句先用标准模式的台词回你。';return}
-  note.textContent='Claude 暂时出了点问题，这句先用标准模式的台词回你。';
+  if(Anthropic&&e instanceof Anthropic.RateLimitError){note.textContent='发得太快啦，等几秒再试。';return}
+  if(Anthropic&&e instanceof Anthropic.APIConnectionError){note.textContent='连不上 Claude，请检查网络。';return}
+  note.textContent='Claude 暂时出了点问题。';
 }
 
 function bubble(kind,text,who,typing){
@@ -735,14 +736,14 @@ function bubble(kind,text,who,typing){
 function renderTab(){
   log.textContent='';
   if(cur==='party'){
-    $('intro').textContent='三位共同作者都在。你说一句，她们三个都会回你。';
+    $('intro').textContent='';
     if(!rendered.party.length)ORDER.forEach(k=>rendered.party.push({kind:'them',who:k,text:scripted(k,'你好')}));
   }else{
     $('intro').textContent=H[cur].intro;
     if(!rendered[cur].length)rendered[cur].push({kind:'them',who:cur,text:H[cur].hello});
   }
   rendered[cur].forEach(m=>bubble(m.kind,m.text,m.who));
-  setPet(cur==='party'?(petWho||'eriri'):cur);
+  setPet(cur);
   box.placeholder=cur==='party'?'对她们三个说点什么…':'对'+H[cur].name+'说点什么…';
 }
 function buildWho(){
@@ -759,7 +760,7 @@ function buildWho(){
 }
 function setBusy(v){busy=v;go.disabled=v;stopBtn.hidden=!(v&&isLive())}
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
-function bump(){rounds++;$('prog').textContent=Math.min(rounds,3);if(rounds===3)unlockReview()}
+function bump(){rounds++;const pg=$('prog');if(pg)pg.textContent=Math.min(rounds,3);if(rounds===3)unlockReview()}
 
 async function send(){
   if(busy)return;const text=box.value.trim();if(!text)return;box.value='';
@@ -825,7 +826,7 @@ async function partyReply(text){
   }
   if(!replies){replies={};ORDER.forEach(k=>replies[k]=scripted(k,text))}
   for(const k of ORDER){
-    setPet(k);petState('talk');
+    petState('talk');
     const {t,m}=bubble('them',H[k].name+'正在输入…',k,true);
     await wait(isLive()?350:700+Math.random()*500);
     m.classList.remove('typing');t.textContent=replies[k];rendered.party.push({kind:'them',who:k,text:replies[k]});
@@ -838,9 +839,11 @@ stopBtn.onclick=()=>{if(ctl)ctl.abort();if(curStream)curStream.abort()};
 /* ---------- Desktop pet ---------- */
 const pet=$('pet'),petImg=$('petImg');let petWho=null,petTimer=0,petMood='',lastAct=Date.now();
 function intentOf(text){for(const [k,re] of window.INTENTS)if(re.test(text))return k;return 'other'}
+const TEA='data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbeed6"/><stop offset="1" stop-color="#f1d9b0"/></linearGradient></defs><rect width="120" height="160" fill="url(#g)"/><style>.st{fill:none;stroke:#b9a48a;stroke-width:3;stroke-linecap:round;opacity:.8;animation:up 2.4s ease-in-out infinite}.st:nth-of-type(2){animation-delay:.8s}.st:nth-of-type(3){animation-delay:1.6s}@keyframes up{0%{transform:translateY(8px);opacity:0}40%{opacity:.8}100%{transform:translateY(-14px);opacity:0}}</style><path class="st" d="M44 58c-6-8 6-12 0-22"/><path class="st" d="M60 58c-6-8 6-12 0-22"/><path class="st" d="M76 58c-6-8 6-12 0-22"/><ellipse cx="60" cy="124" rx="46" ry="9" fill="#d9c3a3"/><path d="M24 70h72v18c0 22-16 36-36 36S24 110 24 88z" fill="#fff" stroke="#c9b293" stroke-width="2.5"/><path d="M96 78c14 0 14 22-2 22" fill="none" stroke="#c9b293" stroke-width="5" stroke-linecap="round"/><ellipse cx="60" cy="70" rx="36" ry="7" fill="#b5652f"/><ellipse cx="60" cy="70" rx="36" ry="7" fill="none" stroke="#c9b293" stroke-width="2.5"/><path d="M36 96c8 6 40 6 48 0" stroke="#c4302b" stroke-width="3" fill="none"/><circle cx="46" cy="104" r="3" fill="#4f74a8"/><circle cx="60" cy="107" r="3" fill="#c4302b"/><circle cx="74" cy="104" r="3" fill="#8b78b5"/></svg>`);
 function setPet(k){
   if(petWho===k)return;petWho=k;
-  pet.style.setProperty('--c',H[k].color);petImg.src=H[k].img;petImg.style.objectPosition=H[k].pos;$('petTag').textContent=H[k].name;
+  if(k==='party'){pet.style.setProperty('--c','var(--gold)');petImg.src=TEA;petImg.style.objectPosition='50% 50%';$('petTag').textContent='茶话会'}
+  else{pet.style.setProperty('--c',H[k].color);petImg.src=H[k].img;petImg.style.objectPosition=H[k].pos;$('petTag').textContent=H[k].name}
   pet.classList.remove('swap');void pet.offsetWidth;pet.classList.add('swap');
 }
 function petState(st,ms){
@@ -866,20 +869,24 @@ function petReact(who){
   if(!m){petState('');return}
   petState(m[0],m[0]==='cat'?4200:2400);petFx(m[1],m[2]);
 }
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function petLine(kind){
+  if(petWho!=='party')return pick(window.LINES[petWho][kind]);
+  const k=pick(ORDER);return H[k].name+'：'+pick(window.LINES[k][kind]);
+}
 $('petBtn').onclick=()=>{
-  lastAct=Date.now();const k=petWho,pool=window.LINES[k].poke;
-  petState('poke',500);petFx('✦',3);petSay(pool[Math.floor(Math.random()*pool.length)]);
+  lastAct=Date.now();petState('poke',500);petFx(petWho==='party'?'☕':'✦',3);petSay(petLine('poke'));
 };
 setInterval(()=>{
   if(busy||document.hidden||Date.now()-lastAct<40000||!$('finale').hidden)return;
-  lastAct=Date.now();const pool=window.LINES[petWho].idle;petSay(pool[Math.floor(Math.random()*pool.length)],3500);petState('happy',1200);
+  lastAct=Date.now();petSay(petLine('idle'),3500);petState('happy',1200);
 },5000);
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- Review ---------- */
 function unlockReview(){
-  $('ac').textContent='The interactive evaluation is complete. All three co-authors report that no further revisions are needed.';
-  $('r2tail').textContent='Having seen the human evaluation, I raise my score to 10. Happy birthday.';
+  $('ac').textContent='The interactive evaluation is complete. All three reference heroines report that no further revisions are needed. The reviewers have reached consensus.';
+  $('r2tail').textContent='…I saw the human evaluation. Fine. I raise my score to 10. Happy birthday, I guess.';
   $('accept').disabled=false;$('accept').textContent='✨ View final decision';
 }
 $('accept').onclick=()=>{
@@ -896,7 +903,7 @@ let fxRun=false,fxParts=[],fxTimer=0;
 function openFinale(){
   const f=$('finale');f.hidden=false;document.body.style.overflow='hidden';
   const cards=$('cards');if(!cards.children.length){
-    const tags={eriri:'哼，生日快乐啦！',setsuna:'便便君，生日快乐！',hanekawa:'生日快乐，便便君。'};
+    const tags={eriri:'才不是特地祝你的！',setsuna:'今晚卡拉OK，等你～♪',hanekawa:'只是刚好知道是今天。'};
     ORDER.forEach((k,i)=>{const p=document.createElement('div');p.className='pol';p.style.setProperty('--r',[-7,2,8][i]+'deg');p.style.setProperty('--d',(.3+i*.25)+'s');
       p.appendChild(photo(k));const c=document.createElement('p');c.textContent=tags[k];p.appendChild(c);cards.appendChild(p)})}
   requestAnimationFrame(()=>f.classList.add('on'));
@@ -953,8 +960,22 @@ let blown=false;
 $('cake').onclick=()=>{
   if(blown)return;blown=true;$('cake').classList.add('out');$('hint').textContent='愿望已提交，审稿结果：一定会实现 ✨';
   if(!reduce){confetti();for(let i=0;i<4;i++)setTimeout(()=>firework(),200+i*300)}
-  setTimeout(typeLetter,1100);
+  setTimeout(showBlessings,900);
 };
+const BLESS={
+  eriri:{c:'#c4302b',t:'哼，二十四岁了还是个笨蛋便便！……别、别误会，本小姐只是顺便路过才说的：生日快乐啦！蛋糕最大的那块给你，第二大的是我的！'},
+  setsuna:{c:'#4f74a8',t:'便便君，生日快乐～！许了什么愿望，不告诉我吗？好狡猾。那今晚的卡拉OK，第一首就唱给你听哦，不许偷偷溜走！'},
+  hanekawa:{c:'#6b5a8e',t:'生日快乐，便便君。我不是什么都知道，只是刚好知道你这一年真的很努力。今天的作业只有一项：好好休息，好好被大家喜欢。'},
+};
+function showBlessings(){
+  const box=$('bless');box.hidden=false;box.textContent='';
+  ORDER.forEach((k,i)=>{
+    const d=document.createElement('div');d.className='bl';d.style.setProperty('--c',BLESS[k].c);
+    d.appendChild(photo(k));const t=document.createElement('div');t.innerHTML=`<b>${H[k].full}</b>`;t.append(BLESS[k].t);d.appendChild(t);box.appendChild(d);
+    setTimeout(()=>{d.classList.add('on');if(i===0)d.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'})},300+i*900);
+  });
+  setTimeout(typeLetter,300+ORDER.length*900+600);
+}
 function typeLetter(){
   const l=$('letter'),out=$('letterText');l.hidden=false;requestAnimationFrame(()=>l.classList.add('on'));
   const sig='\n\n—— Anonymous Author（双盲评审，不透露姓名）';

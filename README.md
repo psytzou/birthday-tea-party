@@ -4,7 +4,9 @@
 
 ### Regret-Optimal Preference Alignment under Non-Stationary Affection
 
-**Zeru “Bianbian”**<sup>†</sup> · Eriri Spencer Sawamura · Setsuna Ogiso · Tsubasa Hanekawa · Anon Chihaya<sup>*</sup>
+**Anon Chihaya** · Haneoka Girls’ High School · MyGO!!!!!
+
+*Dedicated to Zeru “Bianbian” on his 24th birthday.*
 
 ![arXiv](https://img.shields.io/badge/arXiv-2609.30024-b31b1b)
 ![Venue](https://img.shields.io/badge/Birthday%20Track-Accepted%20(Oral)-c4302b)
@@ -34,10 +36,10 @@ Then open `index.html` in any browser. An internet connection is needed for font
 ## Reproducing the results
 
 1. Read the paper.
-2. Complete **at least 3 rounds** of the interactive human evaluation in Section 6. You can talk to each co-author alone, or open **☕ 败犬茶话会** to talk to all three at once.
-   - **📜 剧本模式** works out of the box, using a few hundred pre-written lines (`lines.js`).
-   - **✨ 连接 Claude** lets you chat freely with your own Anthropic API key. The key stays in your browser and is sent only to `api.anthropic.com`.
-3. Wait for Reviewer #2.
+2. Complete **at least 3 rounds** of the interactive human evaluation in Section 6. You can talk to each reference heroine alone, or open **☕ 败犬茶话会** to talk to all three at once.
+   - **标准模式** works out of the box, using pre-written lines (`lines.js`).
+   - **进阶模式** lets you chat freely with your own Anthropic API key. The key stays in your browser and is sent only to `api.anthropic.com`.
+3. Wait for Reviewer #2 (Kazusa Touma).
 4. Click the final decision. Turn your sound on.
 
 | Method | HeroineBench-24 ↑ | Route Regret ↓ |
@@ -48,14 +50,13 @@ Then open `index.html` in any browser. An internet connection is needed for font
 ## Citation
 
 ```bibtex
-@article{bianbian2026losing,
+@article{chihaya2026losing,
   title   = {Losing Heroines Are All You Need: Regret-Optimal Preference
              Alignment under Non-Stationary Affection},
-  author  = {Bianbian, Zeru and Sawamura, Eriri Spencer and Ogiso, Setsuna
-             and Hanekawa, Tsubasa},
+  author  = {Chihaya, Anon},
   journal = {Birthday Track},
   year    = {2026},
-  note    = {Happy 24th birthday}
+  note    = {Dedicated to Zeru on his 24th birthday}
 }
 ```
 
