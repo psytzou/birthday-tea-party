@@ -114,7 +114,7 @@ td.best{font-weight:700}
 .keypanel small{color:var(--muted);line-height:1.6}
 .keypanel a{color:var(--setsuna)}
 .keypanel .err{color:var(--eriri)}
-.keypanel ol{margin:0;padding-left:20px;line-height:1.8}
+.keypanel .btn{text-decoration:none;color:var(--paper)}
 .keypanel code{font-family:var(--mono);font-size:13px;background:var(--bubble);padding:1px 6px;border-radius:4px}
 /* desktop pet */
 .lab{position:relative;margin-top:118px!important}
@@ -383,13 +383,11 @@ body.shake .wrap{animation:shake .45s}
       <button type="button" id="modeLive" aria-pressed="false"><b>进阶模式</b></button>
     </div>
     <div class="keypanel" id="keypanel" hidden>
-      <div>进阶模式会连接你电脑上的 Claude Code，不需要 API key。</div>
-      <ol>
-        <li>下载 <a href="https://raw.githubusercontent.com/psytzou/birthday-tea-party/main/bridge.py" target="_blank" rel="noopener">bridge.py</a>（需要已安装并登录 Claude Code）</li>
-        <li>在终端运行 <code>python bridge.py</code>，保持窗口打开</li>
-        <li>点下面的按钮</li>
-      </ol>
-      <div class="rowk"><button class="btn" type="button" id="connect">连接本地 Claude</button><small class="err" id="keyerr"></small></div>
+      <div class="rowk">
+        <a class="btn" id="download" href="https://github.com/psytzou/birthday-tea-party/archive/refs/heads/main.zip">下载到本地</a>
+        <span>解压后双击 <code>start.bat</code>（Windows）或 <code>start.command</code>（Mac）</span>
+      </div>
+      <small class="err" id="keyerr"></small>
     </div>
     <div class="who" id="who"></div>
     <div class="intro" id="intro"></div>
@@ -670,7 +668,7 @@ const RULES=`【聊天规则】
    when the page is opened as an artifact, otherwise through bridge.py running on the viewer's
    computer, which passes prompts to their local Claude Code. */
 let mode='script',backend=null,sampleFn=null,ctl=null;
-const BRIDGE='http://127.0.0.1:8765';
+const BRIDGE=location.port==='8765'&&/^(127\.0\.0\.1|localhost)$/.test(location.hostname)?'':'http://127.0.0.1:8765';
 const isLive=()=>mode==='live'&&!!backend;
 
 function setMode(m){
@@ -681,21 +679,13 @@ function setMode(m){
 async function bridgeUp(){
   try{const r=await fetch(BRIDGE+'/health',{signal:AbortSignal.timeout(2000)});return r.ok}catch(e){return false}
 }
-async function connectBridge(){
-  $('keyerr').textContent='';$('connect').disabled=true;$('connect').textContent='连接中…';
-  const ok=await bridgeUp();
-  $('connect').disabled=false;$('connect').textContent='连接本地 Claude';
-  if(ok){backend='bridge';setMode('live')}
-  else $('keyerr').textContent='没有找到 bridge.py。请确认它正在运行，然后再试一次。';
-}
 $('modeScript').onclick=()=>{if(!busy)setMode('script')};
 $('modeLive').onclick=async()=>{
   if(busy)return;
   if(sampleFn)backend='sample';
+  else if(!backend&&await bridgeUp())backend='bridge';
   setMode('live');
-  if(!backend&&await bridgeUp()){backend='bridge';setMode('live')}
 };
-$('connect').onclick=connectBridge;
 
 async function askBridge(prompt){
   ctl=new AbortController();
@@ -706,7 +696,7 @@ async function askBridge(prompt){
 }
 function bridgeFailure(e){
   if(e&&e.name==='AbortError')return;
-  if(e instanceof TypeError){backend=null;setMode('live');$('keyerr').textContent='和 bridge.py 的连接断开了，请确认它还在运行。';return}
+  if(e instanceof TypeError){backend=null;setMode('live');$('keyerr').textContent='本地程序已关闭，请重新双击启动文件。';return}
   note.textContent='本地 Claude 出了点问题：'+String(e&&e.message||e).slice(0,80);
 }
 const transcript=(list,name)=>list.map(t=>(t.role==='user'?'寿星':name)+'：'+t.content).join('\n');
