@@ -12,7 +12,7 @@
 /* Layout: an arXiv preprint on paper stock; the heroines' colors (Eriri red, Setsuna winter blue, Hanekawa violet) are the only accents. */
 :root{
   --paper:#fbfaf7; --ink:#1d1c22; --muted:#6a6773; --rule:#d9d5cf;
-  --eriri:#c4302b; --setsuna:#4f74a8; --hanekawa:#6b5a8e; --gold:#b8862b; --grey:#8d8a94;
+  --eriri:#c4302b; --setsuna:#4f74a8; --hanekawa:#6b5a8e; --anno:#d0577f; --gold:#b8862b; --grey:#8d8a94;
   --panel:#f2efe9; --bubble:#ffffff;
   --serif:"Crimson Pro","Times New Roman",serif;
   --cjk:"Noto Serif SC","Songti SC","SimSun",serif;
@@ -22,11 +22,11 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --paper:#17161b; --ink:#ebe8e2; --muted:#a29fab; --rule:#34323a;
-  --eriri:#ef6b5f; --setsuna:#8fb0dd; --hanekawa:#b3a2d6; --gold:#e0b25a; --grey:#7d7a85;
+  --eriri:#ef6b5f; --setsuna:#8fb0dd; --hanekawa:#b3a2d6; --anno:#f08fb0; --gold:#e0b25a; --grey:#7d7a85;
   --panel:#211f26; --bubble:#2a2830; color-scheme:dark}}
 :root[data-theme="dark"]{
   --paper:#17161b; --ink:#ebe8e2; --muted:#a29fab; --rule:#34323a;
-  --eriri:#ef6b5f; --setsuna:#8fb0dd; --hanekawa:#b3a2d6; --gold:#e0b25a; --grey:#7d7a85;
+  --eriri:#ef6b5f; --setsuna:#8fb0dd; --hanekawa:#b3a2d6; --anno:#f08fb0; --gold:#e0b25a; --grey:#7d7a85;
   --panel:#211f26; --bubble:#2a2830; color-scheme:dark}
 *{box-sizing:border-box}
 html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -39,7 +39,7 @@ img{max-width:100%}
 h1{font-family:var(--serif);font-weight:700;font-size:clamp(26px,5vw,38px);line-height:1.2;text-align:center;margin:34px 0 22px;text-wrap:balance}
 .authors{text-align:center;font-size:18px;line-height:1.9}
 .authors sup{font-family:var(--mono);font-size:10px;color:var(--muted)}
-.c-e{color:var(--eriri)}.c-s{color:var(--setsuna)}.c-h{color:var(--hanekawa)}
+.c-e{color:var(--eriri)}.c-s{color:var(--setsuna)}.c-h{color:var(--hanekawa)}.c-a{color:var(--anno)}
 .affil{text-align:center;font-size:14px;color:var(--muted);margin-top:6px;line-height:1.55}
 .affil code{font-family:var(--mono);font-size:12px}
 .abstract{margin:30px auto;max-width:640px;font-size:16.5px}
@@ -91,7 +91,31 @@ td.best{font-weight:700}
 .portrait .cap span{display:block;color:var(--muted);font-size:12.5px;font-family:var(--cjk)}
 @media (max-width:480px){.portraits{gap:8px}.portrait .cap{font-size:12px}}
 
+/* Appendix: Anno's case studies */
+.anno-head{display:flex;gap:16px;align-items:center;margin:14px 0 18px}
+.anno-head .ph{flex:none;width:96px;border-radius:50%;aspect-ratio:1}
+.anno-head p{margin:0;font-size:16px;color:var(--muted);text-align:left}
+.cases{display:grid;gap:16px}
+.case{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;border:1px solid var(--rule);border-radius:10px;padding:14px;border-top:4px solid var(--c)}
+.case .ph{border-radius:6px}
+.case h4{margin:0 0 6px;font-size:18px;color:var(--c)}
+.case dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 12px;font-size:15.5px}
+.case dt{font-weight:600}
+.case dd{margin:0}
+@media (max-width:520px){.case{grid-template-columns:80px minmax(0,1fr);gap:10px}}
+
 /* chat */
+.modes{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.modes button{flex:1;min-width:150px;font-family:var(--cjk);font-size:14px;border:1px solid var(--rule);background:var(--bubble);color:var(--muted);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left;line-height:1.4}
+.modes button b{display:block;color:var(--ink);font-size:15px}
+.modes button[aria-pressed="true"]{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
+.keypanel{border:1px dashed var(--gold);border-radius:10px;padding:12px;margin-bottom:12px;font-family:var(--cjk);font-size:14px;display:grid;gap:8px}
+.keypanel .rowk{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.keypanel input[type=password],.keypanel select{flex:1;min-width:0;font-size:14px;padding:7px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--bubble);color:var(--ink);font-family:var(--mono)}
+.keypanel select{flex:none;font-family:var(--cjk)}
+.keypanel small{color:var(--muted);line-height:1.6}
+.keypanel a{color:var(--setsuna)}
+.keypanel .err{color:var(--eriri)}
 .lab{background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:16px;margin:20px 0}
 .who{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .who button{display:flex;align-items:center;gap:6px;font-family:var(--cjk);font-size:15px;border:1.5px solid var(--c);color:var(--c);background:transparent;border-radius:999px;padding:3px 12px 3px 3px;cursor:pointer}
@@ -151,7 +175,7 @@ body.shake .wrap{animation:shake .45s}
   background:linear-gradient(90deg,#ffd27a,#ff8f86,#c6b4ff,#9cc8ff,#ffd27a);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite;text-wrap:balance}
 .bigzh{font-family:var(--hand);font-size:clamp(28px,6vw,46px);margin:0 0 26px;color:#fff;text-shadow:0 0 18px rgba(255,200,140,.6)}
 .cards{display:flex;justify-content:center;gap:clamp(8px,2vw,22px);margin:10px 0 30px;perspective:900px}
-.pol{width:clamp(96px,24vw,190px);background:#fbf8f1;padding:8px 8px 10px;border-radius:4px;box-shadow:0 14px 40px rgba(0,0,0,.5);color:#2a2630;font-family:var(--hand);font-size:clamp(14px,3vw,20px);
+.pol{width:clamp(72px,20vw,170px);background:#fbf8f1;padding:8px 8px 10px;border-radius:4px;box-shadow:0 14px 40px rgba(0,0,0,.5);color:#2a2630;font-family:var(--hand);font-size:clamp(11px,2.8vw,20px);line-height:1.35;
   opacity:0;transform:translateY(80px) rotate(var(--r)) scale(.6)}
 .pol .ph{border-radius:2px;box-shadow:none}
 .pol p{margin:6px 0 0;text-align:center}
@@ -190,11 +214,13 @@ body.shake .wrap{animation:shake .45s}
     Zeru “Bianbian”<sup>1,†</sup> &nbsp;
     <span class="c-e">Eriri Spencer Sawamura</span><sup>2</sup> &nbsp;
     <span class="c-s">Setsuna Ogiso</span><sup>3</sup> &nbsp;
-    <span class="c-h">Tsubasa Hanekawa</span><sup>4</sup>
+    <span class="c-h">Tsubasa Hanekawa</span><sup>4</sup> &nbsp;
+    <span class="c-a">Anon Chihaya</span><sup>5,*</sup>
   </div>
   <div class="affil">
-    <sup>1</sup>Institute for Losing-Heroine Studies &nbsp; <sup>2</sup>Toyogasaki Academy, Art Dept. &nbsp; <sup>3</sup>Houjou University Affiliated High School, Light Music Club &nbsp; <sup>4</sup>Naoetsu Private High School, Office of the Class President<br>
-    <sup>†</sup>Corresponding author. Birthday: today. &nbsp;<code>bianbian@losing-heroines.ai</code>
+    <sup>1</sup>Institute for Losing-Heroine Studies &nbsp; <sup>2</sup>Toyogasaki Academy, Art Dept. &nbsp; <sup>3</sup>Houjou University Affiliated High School, Light Music Club &nbsp; <sup>4</sup>Naoetsu Private High School, Office of the Class President &nbsp; <sup>5</sup>MyGO!!!!!, Haneoka Girls’ High School, Rhythm Guitar<br>
+    <sup>†</sup>Corresponding author. Birthday: today. &nbsp;<code>bianbian@losing-heroines.ai</code><br>
+    <sup>*</sup>Lead analyst for the case studies (Appendix A). Joined mainly because the paper looked like it might go viral.
   </div>
 
   <div class="abstract">
@@ -294,6 +320,24 @@ body.shake .wrap{animation:shake .45s}
   <p>Automatic metrics can be gamed, so we conduct a live evaluation with a single expert annotator: the corresponding author. The annotator may talk to each co-author privately, or open the <i>tea party</i> setting and talk to all three at once. Conversations are conducted in Chinese. <b>The final decision on this paper is released after at least 3 rounds of evaluation.</b></p>
 
   <div class="lab" id="lab">
+    <div class="modes" role="group" aria-label="聊天模式">
+      <button type="button" id="modeScript" aria-pressed="true"><b>📜 剧本模式</b>几百句写好的台词，打开就能聊</button>
+      <button type="button" id="modeLive" aria-pressed="false"><b>✨ 连接 Claude</b>用你自己的 Claude，随便聊</button>
+    </div>
+    <div class="keypanel" id="keypanel" hidden>
+      <div class="rowk">
+        <input type="password" id="apikey" autocomplete="off" placeholder="sk-ant-...（你的 Anthropic API key）" aria-label="Anthropic API key">
+        <select id="model" aria-label="模型">
+          <option value="claude-opus-5-5">Claude Opus 5.5（最聪明）</option>
+          <option value="claude-sonnet-5-5">Claude Sonnet 5.5（更快更省）</option>
+          <option value="claude-haiku-4-5">Claude Haiku 4.5（最快最省）</option>
+        </select>
+        <button class="btn" type="button" id="connect">连接</button>
+      </div>
+      <label><input type="checkbox" id="remember"> 在这台设备上记住 key</label>
+      <small>Key 只保存在你自己的浏览器里，只发送给 Anthropic 官方接口（api.anthropic.com），费用从你自己的账户扣。没有 key？去 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> 创建一个。</small>
+      <small class="err" id="keyerr"></small>
+    </div>
     <div class="who" id="who"></div>
     <div class="intro" id="intro"></div>
     <div class="log" id="log" aria-live="polite"></div>
@@ -317,6 +361,28 @@ body.shake .wrap{animation:shake .45s}
     </div>
   </div>
   <button class="btn ghost reopen" id="reopen" hidden>🎂 再看一次生日惊喜</button>
+
+  <h2><span class="n">A</span>Appendix: Case Studies of the Losing Set</h2>
+  <div class="anno-head">
+    <div class="ph" id="annoFace"></div>
+    <p><i>Analysis by Anon Chihaya<sup>*</sup>.</i> For each heroine in \(\mathcal{L}\) we identify the arm she lost to, the failure mode of the protagonist’s policy, and how much probability mass LHPO recovers. Recovered mass is \(\pi_T(i)\) at \(T = 30\mathrm{k}\), averaged over 3 seeds.</p>
+  </div>
+  <div class="cases" id="cases"></div>
+
+  <p class="tcap"><b>Table 3.</b> Extended losing set used for robustness checks (not included in the interactive evaluation).</p>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Heroine</th><th>Work</th><th>Failure mode</th><th class="num">\(\pi_T\) GRPO</th><th class="num">\(\pi_T\) LHPO</th></tr></thead>
+      <tbody>
+        <tr><td>Anna Yanami</td><td><i>Makeine</i></td><td>Long-standing prior overtaken by a new arm</td><td class="num">0.01</td><td class="num best">0.27</td></tr>
+        <tr><td>Kosaki Onodera</td><td><i>Nisekoi</i></td><td>Promise-induced reward misspecification</td><td class="num">0.02</td><td class="num best">0.29</td></tr>
+        <tr><td>Ami Kawashima</td><td><i>Toradora!</i></td><td>Noisy, two-faced reward signal</td><td class="num">0.03</td><td class="num best">0.25</td></tr>
+        <tr><td>Nino Nakano</td><td><i>The Quintessential Quintuplets</i></td><td>Symmetry breaking among near-identical arms</td><td class="num">0.04</td><td class="num best">0.22</td></tr>
+        <tr><td>Ruri Gokō (Kuroneko)</td><td><i>Oreimo</i></td><td>High-variance arm, penalized by risk aversion</td><td class="num">0.02</td><td class="num best">0.28</td></tr>
+        <tr><td>Nanami Aoyama</td><td><i>Sakurasou</i></td><td>Effort without exploration bonus</td><td class="num">0.03</td><td class="num best">0.24</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>References</h2>
   <ol class="refs">
@@ -369,6 +435,7 @@ body.shake .wrap{animation:shake .45s}
   </div>
 </div>
 
+<script src="lines.js"></script>
 <script>
 /* ---------- Heroines ---------- */
 const H={
@@ -380,67 +447,19 @@ const H={
     intro:'峰城大附属的“峰城小姐”，轻音乐同好会主唱。温柔、努力，偶尔有点任性，口头禅是“狡猾”。',
     persona:`你是《白色相簿2》的小木曾雪菜：峰城大附属高中的校园偶像（两届“峰城小姐”），轻音乐同好会的主唱，最喜欢唱歌和卡拉OK。开朗温柔、非常努力、重视家人和朋友，偶尔有点任性和小心机，被说中心事会撒娇地说“好狡猾”“这样太狡猾了啦”。对冬天、雪和重要的人有很深的感情。叫寿星“便便君”。你懂得在感情里受伤是什么感觉，说话体贴真诚，会认真鼓励人。`,
     hello:'便便君，生日快乐！今天没有下雪，有点可惜呢……不过我准备了一首歌，聊完以后唱给你听好不好？'},
-  hanekawa:{name:'羽川',full:'羽川翼',en:'Tsubasa Hanekawa',color:'var(--hanekawa)',img:'images/hanekawa.jpg',pos:'50% 25%',
+  hanekawa:{name:'羽川',full:'羽川翼',en:'Tsubasa Hanekawa',color:'var(--hanekawa)',img:'images/hanekawa.jpg',pos:'52% 28%',
     intro:'直江津高中的“班长中的班长”。温柔、博学、什么都知道……“只是刚好知道而已”。偶尔会冒出黑羽川，喵。',
     persona:`你是《物语》系列的羽川翼：直江津高中的班长，被称为“班长中的班长”，成绩全校第一，温柔、礼貌、像姐姐一样会照顾人，说话条理清晰。被夸知识渊博时一定会说“我不是什么都知道，只是刚好知道而已”。你曾向阿良良木历告白被拒（他选了战场原黑仪），所以你温柔地理解失恋的心情。如果对方提到猫或“喵”，你会切换成“黑羽川”：说话直接调皮，每句话结尾都加“喵”，自称“本喵”。叫寿星“便便君”。`,
     hello:'你好，便便君。听说今天是你的生日？我不是什么都知道，只是刚好知道这件事而已。生日快乐。'},
+  anno:{name:'爱音',full:'千早爱音',en:'Anon Chihaya',color:'var(--anno)',img:'images/anno.jpg',pos:'48% 22%'},
 };
 const ORDER=['eriri','setsuna','hanekawa'];
 
-/* Scripted lines (used when live AI is not available, e.g. on GitHub Pages) */
-const INTENTS=[
-  ['cat',/喵|猫|nya|meow|黑羽川/i],
-  ['birthday',/生日|蛋糕|岁|birthday|许愿|礼物/i],
-  ['loser',/败犬|输|失败|没被选|女主|选.*谁/i],
-  ['love',/单身|恋爱|女朋友|喜欢|表白|分手|感情|爱情|脱单|对象|结婚/i],
-  ['research',/RL|强化|论文|科研|reward|batch|模型|LLM|实验|paper|投稿|博士|导师|期刊|scaling|数据/i],
-  ['sing',/唱|歌|卡拉|K歌|音乐/i],
-  ['sad',/难过|累|烦|压力|焦虑|哭|崩溃|痛苦|emo|失眠|不开心/i],
-  ['praise',/夸|厉害|帅|优秀|棒|可爱/i],
-  ['greet',/^(你好|hi|hello|在吗|嗨|哈喽|早|晚上好)/i],
-];
-const LINES={
-  eriri:{
-    greet:['哼，你这家伙终于来了。……我才没有一直在等你！','干嘛啦？有话快说，我还要赶稿呢！'],
-    birthday:['生、生日快乐啦！……我才不是特地记住的，是日历自己跳出来的！','二十四岁了啊你这家伙。礼物？柏木英理的贺图可是很贵的，你就偷着乐吧。','蛋糕最大的那块是你的。……第二大的是我的！这是规矩！'],
-    loser:['败犬？谁是败犬啊！我、我只是……还没轮到我的回合而已！','哼，被选上的女主角才不一定是最好的。……这种事，你这家伙应该懂吧。'],
-    love:['单身怎么了！本小姐……咳，总之你这种笨蛋，总有一天会有人看上的啦。大概。','感情这种东西就跟画稿一样，画坏了就重画，重画到满意为止！……不许笑！'],
-    research:['强化学习？reward？……听起来跟我赶稿差不多嘛，画得好就有人点赞，画不好就被骂。','你的论文要是中了，封面插画我来画。……只是顺便！顺便而已！'],
-    sing:['唱歌？去找雪菜啦！……我、我只在没人的时候唱。','你想听我唱？做梦吧笨蛋！……生日的话，就哼两句好了。'],
-    cat:['喵什么喵！你这家伙是被羽川传染了吗？','……猫耳？想让我戴？你、你是变态吗笨蛋！'],
-    sad:['……喂，不许一个人闷着。笨蛋都这样，什么都自己扛。','累了就休息啊！截稿前我也会哭着通宵……然后第二天照样画完。你也可以的。'],
-    praise:['夸、夸你？……你这家伙，还算有那么一点点厉害啦。一点点！','哼，能跟本小姐聊这么久，算你有眼光。'],
-    other:['哈？你这家伙在说什么啊……算了，今天是你生日，本小姐勉强听着。','笨蛋。……不过，我也没有讨厌就是了。','哼！这种话……你、你只许今天说！'],
-  },
-  setsuna:{
-    greet:['便便君！欢迎欢迎～今天可是你的主场哦。','啊，便便君来了！我正想着要先跟你说什么呢。'],
-    birthday:['便便君，生日快乐！二十四岁也要好好的哦。','生日这种日子，就应该被大家围着。今天就让我们好好宠你一次吧！','蜡烛吹之前要先许愿哦。……啊，许了什么不能告诉我吗？好狡猾。'],
-    loser:['败犬……嗯，确实有人这么说我呢。不过我一点都不后悔认真喜欢过哦。','输了也没关系，至少我们都很努力地喜欢过嘛。……这样说是不是有点狡猾？'],
-    love:['便便君一定会遇到愿意认真看着你的人的。我很确定哦。','喜欢一个人好难对吧……但是便便君这么温柔，不会一直一个人的。'],
-    research:['虽然听不太懂 reward 和 batch size……但便便君认真讲的样子很帅哦。','研究和练歌有点像呢，同一段要重复好多好多次，然后某一天突然就成功了。'],
-    sing:['好呀！那等会儿去卡拉OK吧，第一首就唱生日歌。','唱歌的话我可不会输哦！……便便君要负责鼓掌，不许偷懒。'],
-    cat:['喵～？……啊，好害羞，刚才那个不算！','便便君喜欢猫吗？那我也学一声……喵。好了，只有一次哦，再要就太狡猾了。'],
-    sad:['便便君，难过的时候不用硬撑哦。我会在这里听你说。','累的话就休息一下吧。等你缓过来，我们再一起加油，好不好？'],
-    praise:['便便君超厉害的！嗯，这是峰城小姐的官方认证哦。','我觉得便便君最好的地方，就是一直都没有放弃。'],
-    other:['嗯嗯，我在听哦～便便君继续说。','诶嘿嘿，便便君说话好有意思。……啊，不是在笑你啦。','这样啊……便便君总是会说出让人意外的话呢，好狡猾。'],
-  },
-  hanekawa:{
-    greet:['你好，便便君。今天辛苦啦，先坐下吧。','晚上好，便便君。今天是很特别的日子呢。'],
-    birthday:['生日快乐，便便君。二十四岁这一年，希望你对自己更温柔一点。','我不是什么都知道，只是刚好知道今天是你的生日而已。生日快乐。'],
-    loser:['败犬吗……嗯，我也被拒绝过。不过从那之后，我反而更了解自己了。','没有被选上，并不代表不值得被选上。这一点，我比谁都清楚。'],
-    love:['感情没有标准答案哦。但认真喜欢过的人，下一次一定会做得更好。','便便君，不需要为了谁改变自己。会有人喜欢原本的你的。'],
-    research:['强化学习的话，我只是刚好知道一点：奖励稀疏的时候，坚持探索就是最好的策略哦。','batch size 和学习率要一起调吧？……我不是什么都知道，只是刚好知道而已。'],
-    sing:['唱歌我不太擅长呢……不过生日歌的话，我可以陪你一起唱。','雪菜同学唱得更好听哦，我在旁边打拍子就好。'],
-    cat:['……喵。哎呀，是黑羽川出来了喵。主人今天生日，本喵特别允许你摸头喵。','喵哈哈，你叫本喵出来干什么喵？……生日快乐喵，下次不要随便叫了喵。'],
-    sad:['便便君，觉得累就说出来吧。听同学说话，本来就是班长的工作。','没关系的，难过并不是软弱。休息够了，再慢慢往前走就好。'],
-    praise:['便便君很努力，这一点大家都看在眼里。作为班长，我给你满分。','被夸的时候坦率说谢谢就好啦。这也是需要练习的哦。'],
-    other:['嗯，原来如此。便便君想说的是这样吧？','这个嘛……我不是什么都知道，不过我愿意陪你一起想。','便便君还真是有趣的人呢。阿良良木君也经常说这种话。'],
-  },
-};
+/* Offline mode: pick a pre-written line (lines.js) by the message's intent, rotating so lines don't repeat */
 const used={};
 function scripted(who,text){
-  let intent='other';for(const [k,re] of INTENTS){if(re.test(text)){intent=k;break}}
-  const pool=LINES[who][intent],key=who+intent;used[key]=(used[key]||0);
+  let intent='other';for(const [k,re] of window.INTENTS){if(re.test(text)){intent=k;break}}
+  const pool=window.LINES[who][intent]||window.LINES[who].other,key=who+intent;used[key]=(used[key]||0);
   return pool[used[key]++%pool.length];
 }
 
@@ -487,15 +506,101 @@ ORDER.forEach((k,i)=>{
   document.getElementById('portraits').appendChild(f);
 });
 
+/* ---------- Appendix A ---------- */
+(function(){
+  document.getElementById('annoFace').replaceWith(Object.assign(photo('anno'),{id:'annoFace'}));
+  const C=[
+    ['eriri','Eriri Spencer Sawamura · <i>Saekano</i>',[
+      ['Lost to','Megumi Katō, the low-variance arm'],
+      ['Failure mode','Early-commitment bias. A ten-year childhood-friend prior decayed while the protagonist exploited the stable, low-drama arm.'],
+      ['Key statistic','Shared history of 10+ years; \\(\\pi_T = 0.03\\) under GRPO'],
+      ['LHPO recovery','\\(\\pi_T = 0.31\\). Tsundere noise is treated as signal, not penalty.']]],
+    ['setsuna','Setsuna Ogiso · <i>White Album 2</i>',[
+      ['Lost to','Route-dependent (the authors decline to discuss it)'],
+      ['Failure mode','Non-stationary reward. The same arm is optimal in one season and abandoned in the next, and the policy cannot track the drift.'],
+      ['Key statistic','Reward variance spikes in winter; snowfall is a confounder'],
+      ['LHPO recovery','\\(\\pi_T = 0.33\\). The barrier keeps her in the policy in every season.']]],
+    ['hanekawa','Tsubasa Hanekawa · <i>Monogatari</i>',[
+      ['Lost to','Hitagi Senjougahara'],
+      ['Failure mode','The perfect-arm paradox. An arm that is good at everything is treated as the baseline rather than a choice, so its advantage is always zero.'],
+      ['Key statistic','Class-president score 1.00 on every metric; advantage 0.00'],
+      ['LHPO recovery','\\(\\pi_T = 0.29\\). She doesn’t know everything; she just knows LHPO works.']]],
+  ];
+  const box=document.getElementById('cases');
+  C.forEach(([k,title,rows])=>{
+    const d=document.createElement('div');d.className='case';d.style.setProperty('--c',H[k].color);
+    d.appendChild(photo(k));
+    const b=document.createElement('div');b.innerHTML=`<h4>${title}</h4><dl>${rows.map(([t,v])=>`<dt>${t}</dt><dd>${v}</dd>`).join('')}</dl>`;
+    d.appendChild(b);box.appendChild(d);
+  });
+})();
+
 /* ---------- Chat ---------- */
 const $=id=>document.getElementById(id);
 const log=$('log'),box=$('box'),go=$('go'),stopBtn=$('stop'),note=$('note');
 const DENIED=['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed','session_expired'];
-let sample=null,live=false,cur='eriri',ctl=null,busy=false,rounds=0;
+let cur='eriri',busy=false,rounds=0;
 const turns={eriri:[],setsuna:[],hanekawa:[],party:[]};
 const rendered={eriri:[],setsuna:[],hanekawa:[],party:[]};
 const PROFILE=`寿星资料：Zeru，外号“便便”（朋友们都这么叫，是亲昵的调侃），今天 24 岁生日。数据科学博士生，研究 LLM 和强化学习，正在努力发论文。感情经历比较坎坷。他特别喜欢动漫里的“败犬女主”。这个网页是一篇恶搞论文形式的生日礼物，你是论文的共同作者之一。`;
 const RULES=`聊天规则：只用简体中文；每次回复 1–3 句，口语化，像在发消息；严格保持角色的性格和口头禅，不要旁白，最多偶尔用一个很短的括号动作；可以调侃他的外号、科研和感情经历，但要站在他这边，绝不刻薄，他说难过的事时要真心安慰；不要提论文被拒；不要复述原作台词或歌词，说原创的话；记得今天是他生日。`;
+
+/* Two modes: 'script' uses lines.js; 'live' uses Claude, through the Claude artifact runtime
+   when the page is opened as an artifact, otherwise through the viewer's own API key. */
+let mode='script',backend=null,sampleFn=null,Anthropic=null,client=null,model='claude-opus-5-5',ctl=null,curStream=null;
+const KEY_STORE='zeru-birthday-claude-key',MODEL_STORE='zeru-birthday-claude-model';
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}};
+const isLive=()=>mode==='live'&&!!backend;
+
+function setMode(m){
+  mode=m;$('modeScript').setAttribute('aria-pressed',m==='script');$('modeLive').setAttribute('aria-pressed',m==='live');
+  $('keypanel').hidden=!(m==='live'&&backend!=='sample'&&!client);
+  if(m==='script')note.textContent='剧本模式：她们会根据你说的话，从写好的台词里挑最合适的回你。';
+  else if(backend==='sample')note.textContent='已连接 Claude（通过你的 Claude 账户）。第一次发消息时会请求授权。';
+  else if(client)note.textContent=`已连接 Claude（${$('model').selectedOptions[0].text}）。现在可以随便聊了。`;
+  else note.textContent='输入你自己的 API key 来连接 Claude。';
+}
+$('modeScript').onclick=()=>{if(!busy)setMode('script')};
+$('modeLive').onclick=()=>{
+  if(busy)return;
+  if(sampleFn)backend='sample';
+  else{const k=store.get(KEY_STORE);if(k&&!$('apikey').value){$('apikey').value=k;$('remember').checked=true}
+    const sm=store.get(MODEL_STORE);if(sm)$('model').value=sm}
+  setMode('live');
+};
+$('connect').onclick=async()=>{
+  const key=$('apikey').value.trim();$('keyerr').textContent='';
+  if(!/^sk-ant-/.test(key)){$('keyerr').textContent='Key 的格式不对，应该以 sk-ant- 开头。';return}
+  $('connect').disabled=true;$('connect').textContent='连接中…';
+  try{
+    if(!Anthropic){const mod=await import('https://cdn.jsdelivr.net/npm/@anthropic-ai/sdk/+esm');Anthropic=mod.default||mod.Anthropic}
+    client=new Anthropic({apiKey:key,dangerouslyAllowBrowser:true});
+    model=$('model').value;backend='api';
+    store.set(KEY_STORE,$('remember').checked?key:null);store.set(MODEL_STORE,$('remember').checked?model:null);
+    setMode('live');
+  }catch(e){$('keyerr').textContent='加载 Claude SDK 失败，请检查网络后再试。'}
+  finally{$('connect').disabled=false;$('connect').textContent='连接'}
+};
+$('model').onchange=()=>{model=$('model').value;if(client)setMode('live')};
+
+/* Request shape for the Claude API: low effort keeps chat replies quick; Opus/Sonnet get
+   server-side refusal fallbacks (Haiku 4.5 does not support them). */
+function apiParams(system,messages,maxTokens,format){
+  const p={model,max_tokens:maxTokens,system,messages},oc={};
+  if(model!=='claude-haiku-4-5'){oc.effort='low';p.betas=['server-side-fallback-2026-07-01'];p.fallbacks='default'}
+  if(format)oc.format=format;
+  if(Object.keys(oc).length)p.output_config=oc;
+  return p;
+}
+const apiFor=p=>p.betas?client.beta.messages:client.messages;
+const textOf=msg=>msg.content.filter(b=>b.type==='text').map(b=>b.text).join('').trim();
+function apiFailure(e){
+  if(Anthropic&&(e instanceof Anthropic.AuthenticationError||e instanceof Anthropic.PermissionDeniedError)){
+    client=null;backend=null;store.set(KEY_STORE,null);setMode('live');$('keyerr').textContent='这个 API key 无效或没有权限，请检查后重新连接。';return}
+  if(Anthropic&&e instanceof Anthropic.RateLimitError){note.textContent='发得太快啦，等几秒再试。这句先用剧本台词回你。';return}
+  if(Anthropic&&e instanceof Anthropic.APIConnectionError){note.textContent='连不上 Claude，请检查网络。这句先用剧本台词回你。';return}
+  note.textContent='Claude 暂时出了点问题，这句先用剧本台词回你。';
+}
 
 function bubble(kind,text,who,typing){
   const row=document.createElement('div');row.className='row '+kind;
@@ -526,10 +631,10 @@ function buildWho(){
     b.onclick=()=>{if(busy)return;cur=k;[...w.children].forEach(x=>x.setAttribute('aria-pressed',x===b));renderTab()};
     w.appendChild(b);
   });
-  ['今天是我生日！','你觉得自己是败犬吗？','我是不是注定单身','给我讲讲强化学习','唱首歌吧','喵～'].forEach(t=>{
+  ['今天是我生日！','你觉得自己是败犬吗？','我是不是注定单身','给我讲讲强化学习','你们谁最喜欢我？','唱首歌吧','喵～'].forEach(t=>{
     const b=document.createElement('button');b.type='button';b.textContent=t;b.onclick=()=>{if(!busy){box.value=t;send()}};$('chips').appendChild(b)});
 }
-function setBusy(v){busy=v;go.disabled=v;stopBtn.hidden=!(v&&live)}
+function setBusy(v){busy=v;go.disabled=v;stopBtn.hidden=!(v&&isLive())}
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 function bump(){rounds++;$('prog').textContent=Math.min(rounds,3);if(rounds===3)unlockReview()}
 
@@ -539,47 +644,72 @@ async function send(){
   if(tab==='party')await partyReply(text);else await soloReply(tab,text);
   setBusy(false);bump();box.focus();
 }
+
 async function soloReply(who,text){
-  const {t,m}=bubble('them',H[who].name+'正在输入…',who,true);let reply='';
-  if(live){
+  const {t,m}=bubble('them',H[who].name+'正在输入…',who,true);let reply=null;
+  const show=s=>{m.classList.remove('typing');t.textContent=s};
+  if(isLive()){
     turns[who].push({role:'user',content:text});
-    let hist=turns[who].slice(-12);if(hist[0]&&hist[0].role==='assistant')hist=hist.slice(1);
-    const input=[{role:'user',content:`${H[who].persona}\n\n${PROFILE}\n\n${RULES}\n\n你的开场白是：“${H[who].hello}”。接下来是寿星发来的消息，请以${H[who].full}的身份回复。`},...hist];
-    ctl=new AbortController();
+    let hist=turns[who].slice(-20);if(hist[0]&&hist[0].role==='assistant')hist=hist.slice(1);
+    const sys=`${H[who].persona}\n\n${PROFILE}\n\n${RULES}\n\n你在聊天开始时已经对寿星说过：“${H[who].hello}”。请以${H[who].full}的身份回复寿星。`;
     try{
-      const r=await sample(input,{cache:false,modelTier:'quick',signal:ctl.signal,onText:({text})=>{m.classList.remove('typing');t.textContent=text}});
-      reply=r.text.trim();turns[who].push({role:'assistant',content:reply});
+      if(backend==='sample'){
+        ctl=new AbortController();
+        const r=await sampleFn([{role:'user',content:sys},...hist],{cache:false,modelTier:'quick',signal:ctl.signal,onText:({text})=>show(text)});
+        reply=r.text.trim();
+      }else{
+        const p=apiParams(sys,hist,1024);let acc='';
+        curStream=apiFor(p).stream(p);curStream.on('text',d=>{acc+=d;show(acc)});
+        const msg=await curStream.finalMessage();
+        reply=msg.stop_reason==='refusal'?null:(textOf(msg)||null);
+      }
     }catch(e){
-      turns[who].pop();
-      if(e&&e.code==='cancelled')reply=e.text||'（被你打断了）';
-      else{if(e&&DENIED.includes(e.code))goOffline();reply=(e&&e.text)||scripted(who,text)}
-    }
-  }else{await wait(600+Math.random()*700);reply=scripted(who,text)}
-  m.classList.remove('typing');t.textContent=reply;rendered[who].push({kind:'them',who,text:reply});
+      const cancelled=(e&&e.code==='cancelled')||(Anthropic&&e instanceof Anthropic.APIUserAbortError);
+      if(cancelled)reply=m.classList.contains('typing')?'（被你打断了）':t.textContent;
+      else if(backend==='sample'){if(e&&DENIED.includes(e.code)){backend=null;setMode('script')}}
+      else apiFailure(e);
+    }finally{curStream=null;ctl=null}
+    if(reply)turns[who].push({role:'assistant',content:reply});else turns[who].pop();
+  }else await wait(600+Math.random()*700);
+  if(!reply)reply=scripted(who,text);
+  show(reply);rendered[who].push({kind:'them',who,text:reply});
 }
+
 async function partyReply(text){
   let replies=null;
-  if(live){
+  turns.party.push('寿星：'+text);
+  if(isLive()){
     const hint=document.createElement('div');hint.className='intro';hint.textContent='三个人都在抢着回复…';log.appendChild(hint);log.scrollTop=log.scrollHeight;
-    turns.party.push('寿星：'+text);
-    const ctx=turns.party.slice(-14).join('\n');
-    const prompt=`三位动漫角色在同一个群聊里和寿星聊天。寿星刚发了一条消息，请写出三人各自对他的回复（每人 1–2 句），她们是在回应寿星，可以顺便互相吐槽一句，但重点是对他说话。\n\n角色：\n- eriri：${H.eriri.persona}\n- setsuna：${H.setsuna.persona}\n- hanekawa：${H.hanekawa.persona}\n\n${PROFILE}\n\n${RULES}\n\n最近的群聊记录：\n${ctx}\n\n只输出 JSON 对象：{"eriri":"……","setsuna":"……","hanekawa":"……"}`;
-    ctl=new AbortController();
-    try{const r=await sample.json(prompt,{cache:false,signal:ctl.signal});if(r&&ORDER.every(k=>typeof r[k]==='string'&&r[k].trim()))replies=r}
-    catch(e){if(e&&DENIED.includes(e.code))goOffline()}
+    const ctx=turns.party.slice(-18).join('\n');
+    const sys=`三位动漫角色和寿星在同一个群聊里。寿星每发一条消息，你要写出三人各自对他的回复（每人 1–2 句）。她们是在回应寿星本人，可以顺便互相吐槽一句，但重点是对他说话，三人的语气要明显不同。\n\n角色：\n- eriri：${H.eriri.persona}\n- setsuna：${H.setsuna.persona}\n- hanekawa：${H.hanekawa.persona}\n\n${PROFILE}\n\n${RULES}`;
+    const ask=`最近的群聊记录：\n${ctx}\n\n请写出三人对寿星最新一条消息的回复，只输出 JSON 对象：{"eriri":"……","setsuna":"……","hanekawa":"……"}`;
+    const ok=r=>r&&ORDER.every(k=>typeof r[k]==='string'&&r[k].trim());
+    try{
+      if(backend==='sample'){
+        ctl=new AbortController();
+        const r=await sampleFn.json(sys+'\n\n'+ask,{cache:false,signal:ctl.signal});if(ok(r))replies=r;
+      }else{
+        const schema={type:'object',properties:{eriri:{type:'string'},setsuna:{type:'string'},hanekawa:{type:'string'}},required:ORDER,additionalProperties:false};
+        const p=apiParams(sys,[{role:'user',content:ask}],1500,{type:'json_schema',schema});
+        const msg=await apiFor(p).create(p);
+        if(msg.stop_reason!=='refusal'){const r=JSON.parse(textOf(msg));if(ok(r))replies=r}
+      }
+    }catch(e){
+      if(backend==='sample'){if(e&&DENIED.includes(e.code)){backend=null;setMode('script')}}
+      else if(!(e instanceof SyntaxError))apiFailure(e);
+    }finally{ctl=null}
     hint.remove();
   }
   if(!replies){replies={};ORDER.forEach(k=>replies[k]=scripted(k,text))}
   for(const k of ORDER){
     const {t,m}=bubble('them',H[k].name+'正在输入…',k,true);
-    await wait(live?350:700+Math.random()*500);
+    await wait(isLive()?350:700+Math.random()*500);
     m.classList.remove('typing');t.textContent=replies[k];rendered.party.push({kind:'them',who:k,text:replies[k]});
-    if(live)turns.party.push(H[k].full+'：'+replies[k]);
+    turns.party.push(H[k].full+'：'+replies[k]);
   }
 }
-function goOffline(){live=false;note.textContent=''}
 $('form').addEventListener('submit',e=>{e.preventDefault();send()});
-stopBtn.onclick=()=>ctl&&ctl.abort();
+stopBtn.onclick=()=>{if(ctl)ctl.abort();if(curStream)curStream.abort()};
 
 /* ---------- Review ---------- */
 function unlockReview(){
@@ -601,8 +731,8 @@ let fxRun=false,fxParts=[],fxTimer=0;
 function openFinale(){
   const f=$('finale');f.hidden=false;document.body.style.overflow='hidden';
   const cards=$('cards');if(!cards.children.length){
-    const tags={eriri:'哼，生日快乐啦！',setsuna:'便便君，生日快乐！',hanekawa:'生日快乐，便便君。'};
-    ORDER.forEach((k,i)=>{const p=document.createElement('div');p.className='pol';p.style.setProperty('--r',[-7,2,8][i]+'deg');p.style.setProperty('--d',(.3+i*.25)+'s');
+    const tags={eriri:'哼，生日快乐啦！',setsuna:'便便君，生日快乐！',hanekawa:'生日快乐，便便君。',anno:'便便～生日快乐！拍照拍照！'};
+    [...ORDER,'anno'].forEach((k,i)=>{const p=document.createElement('div');p.className='pol';p.style.setProperty('--r',[-7,2,8,-3][i]+'deg');p.style.setProperty('--d',(.3+i*.25)+'s');
       p.appendChild(photo(k));const c=document.createElement('p');c.textContent=tags[k];p.appendChild(c);cards.appendChild(p)})}
   requestAnimationFrame(()=>f.classList.add('on'));
   if(!reduce){startFx();for(let i=0;i<5;i++)setTimeout(()=>firework(),i*350)}
@@ -662,7 +792,7 @@ $('cake').onclick=()=>{
 };
 function typeLetter(){
   const l=$('letter'),out=$('letterText');l.hidden=false;requestAnimationFrame(()=>l.classList.add('on'));
-  const sig='\n\n—— Anonymous Author（双盲评审，不透露姓名）';
+  const sig='\n\n—— Anonymous Author（双盲评审，不透露姓名）\n由千早爱音代笔 ♪';
   if(reduce){out.textContent=LETTER+sig;$('caret').hidden=true;return}
   let i=0;const full=LETTER+sig;
   (function tick(){out.textContent=full.slice(0,i);i+=1;if(i<=full.length)setTimeout(tick,full[i-1]==='\n'?120:45);else $('caret').hidden=true})();
@@ -693,11 +823,10 @@ function stopMusic(){musicOn=false;clearTimeout(musicTimer);if(ac){ac.close();ac
 $('music').onclick=()=>{if(musicOn)stopMusic();else startMusic()};
 
 /* ---------- Boot ---------- */
-buildWho();renderTab();
+buildWho();renderTab();setMode('script');
 (async()=>{
   if(!window.claude||!window.claude.use)return;
-  try{sample=await window.claude.use('sample')}catch(e){sample=null}
-  if(sample){live=true;note.textContent='共同作者已实时连线（由 Claude 扮演）。第一次发消息时，页面会请求使用你的 Claude 额度。'}
+  try{sampleFn=await window.claude.use('sample')}catch(e){sampleFn=null}
 })();
 </script>
 </body>

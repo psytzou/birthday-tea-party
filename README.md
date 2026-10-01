@@ -4,7 +4,7 @@
 
 ### Regret-Optimal Preference Alignment under Non-Stationary Affection
 
-**Zeru “Bianbian”**<sup>†</sup> · Eriri Spencer Sawamura · Setsuna Ogiso · Tsubasa Hanekawa
+**Zeru “Bianbian”**<sup>†</sup> · Eriri Spencer Sawamura · Setsuna Ogiso · Tsubasa Hanekawa · Anon Chihaya<sup>*</sup>
 
 ![arXiv](https://img.shields.io/badge/arXiv-2609.30024-b31b1b)
 ![Venue](https://img.shields.io/badge/Birthday%20Track-Accepted%20(Oral)-c4302b)
@@ -35,6 +35,8 @@ Then open `index.html` in any browser. An internet connection is needed for font
 
 1. Read the paper.
 2. Complete **at least 3 rounds** of the interactive human evaluation in Section 6. You can talk to each co-author alone, or open **☕ 败犬茶话会** to talk to all three at once.
+   - **📜 剧本模式** works out of the box, using a few hundred pre-written lines (`lines.js`).
+   - **✨ 连接 Claude** lets you chat freely with your own Anthropic API key. The key stays in your browser and is sent only to `api.anthropic.com`.
 3. Wait for Reviewer #2.
 4. Click the final decision. Turn your sound on.
 
@@ -59,10 +61,12 @@ Then open `index.html` in any browser. An internet connection is needed for font
 
 ## Credits
 
-- Characters belong to their original creators: *Saekano* (Fumiaki Maruto / Kurehito Misaki), *White Album 2* (Leaf / Aquaplus), *Monogatari* (NisiOisin / VOFAN).
+- Characters belong to their original creators: *Saekano* (Fumiaki Maruto / Kurehito Misaki), *White Album 2* (Leaf / Aquaplus), *Monogatari* (NisiOisin / VOFAN), *BanG Dream! It's MyGO!!!!!* (Bushiroad).
 - Illustrations are fan art from pixiv, used for a personal, non-commercial birthday gift:
   - Eriri: https://www.pixiv.net/artworks/149361125
   - Setsuna: https://www.pixiv.net/artworks/149341177
+  - Tsubasa Hanekawa: https://www.pixiv.net/artworks/150063807
+  - Anon Chihaya: https://www.pixiv.net/artworks/113069520
 - All dialogue, the paper and the data are original and entirely made up.
 
 ---
